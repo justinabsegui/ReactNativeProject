@@ -2,6 +2,7 @@ import { TabActions } from "@react-navigation/native";
 import React, { Component } from "react";
 import { View, Text, TouchableOpacity, StyleSheet, FlatList } from 'react-native';
 import { db, auth } from '../../firebase/config';
+import Post from "../../components/Post";
 
 class Home extends Component {
 
@@ -32,7 +33,7 @@ class Home extends Component {
     render() {
         return (
             <View style={estilosCss().container}>
-           <TouchableOpacity onPress={() => this.props.navigation.navigate('postform')}>
+           <TouchableOpacity onPress={() => this.props.navigation.navigate('PostForm')}>
                 <Text style={estilosCss().touchable}> Añadir post </Text>
             </TouchableOpacity>
             <Text> DNI: {this.state.datosdelusuario?.DNI} </Text>
