@@ -36,8 +36,8 @@ class Home extends Component {
            <TouchableOpacity onPress={() => this.props.navigation.navigate('PostForm')}>
                 <Text style={estilosCss().touchable}> Añadir post </Text>
             </TouchableOpacity>
-            <Text> DNI: {this.state.datosdelusuario?.DNI} </Text>
-            <Text> Edad del usuario: {this.state.datosdelusuario?.edad} </Text>
+            {/* <Text> DNI: {this.state.datosdelusuario?.DNI} </Text>
+            <Text> Edad del usuario: {this.state.datosdelusuario?.edad} </Text> */}
             <FlatList
                 data={this.state.posts}
                 keyExtractor={item => item.id.toString()}
