@@ -17,7 +17,7 @@ class Home extends Component {
 
     componentDidMount() {
         //Traer datos de la db
-        db.collection('Posts').orderBy('createdAt', 'desc').limit(5).onSnapshot(
+        db.collection('Posts').orderBy('createdAt', 'desc').limit(10).onSnapshot(
             docs => {
                 let posteos = [];
                 docs.forEach(doc => {
@@ -64,12 +64,7 @@ const estilosCss = () => StyleSheet.create({
     contadorContainer: {
         marginVertical: 4
     },
-    btnContador: {
-        padding: 7,
-        backgroundColor: 'rgba(0,255,0, 0.5)',
-        marginBottom: 10,
-        borderRadius: 4,
-    },
+    
     textContador: {
         fontWeight: 'bold'
     }

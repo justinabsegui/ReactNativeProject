@@ -6,6 +6,7 @@ class Register extends Component {
     constructor(props) {
         super(props)
         this.state = {
+            name:'',
             email: '',
             password: '',
             dni: '',
@@ -17,6 +18,7 @@ class Register extends Component {
         auth.createUserWithEmailAndPassword(this.state.email, this.state.password)
             .then(response => {
                 db.collection('datosUsuario').add({
+                    name:this.state.name,
                     owner: this.state.email,
                     dni: this.state.dni,
                     edad: this.state.edad,
@@ -33,6 +35,13 @@ class Register extends Component {
         return (
             <View style={styles.container}>
                 <Text style={styles.title}>Registro</Text>
+                <TextInput
+                    style={styles.field}
+                    keyboardType='default'
+                    placeholder='username'
+                    onChangeText={text => this.setState({ name: text })}
+                    value={this.state.name}
+                />
                 <TextInput
                     style={styles.field}
                     keyboardType='default'

@@ -18,7 +18,7 @@ export default function App() {
       <Stack.Navigator>
       <Stack.Screen name="Login" component={Login} />
       <Stack.Screen name="Register" component={Register} />
-      <Stack.Screen name="TabNavigation" component={TabNavigation} />  
+      <Stack.Screen name="TabNavigation" options={ { headerShown: false } }   component={TabNavigation} />  
       <Stack.Screen name="PostForm" component={PostForm} />
       </Stack.Navigator>
     </NavigationContainer>

@@ -6,9 +6,11 @@ class Profile extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            nombre: '',
+            owner: '',
+            name:'',
             dni: '',
             edad: '',
+            
         }
     }
     
@@ -28,7 +30,8 @@ class Profile extends Component {
                 });
 
                 this.setState({
-                    nombre: user.owner,
+                    owner: user.owner,
+                    name: user.name,
                     dni: user.dni,
                     edad: user.edad
                 });
@@ -44,7 +47,8 @@ class Profile extends Component {
 
         return (
             <View>
-                <Text>Nombre del usuario:{this.state.nombre}</Text>
+                <Text>Name:{this.state.name}</Text>
+                <Text>Owner:{this.state.owner}</Text>
                 <Text>DNI:{this.state.dni}</Text>
                 <Text>Edad del usuario:{this.state.edad}</Text>
                 
