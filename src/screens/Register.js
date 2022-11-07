@@ -6,27 +6,36 @@ class Register extends Component {
     constructor(props) {
         super(props)
         this.state = {
+            send: false,
+            nameError: '',
+            passwordError: '',
+            emailError: '',
             name:'',
             email: '',
             password: '',
-            dni: '',
+            bio: '',
             edad: ''
         }
     }
 
     onSubmit() {
+        if (this.state.send == true){
         auth.createUserWithEmailAndPassword(this.state.email, this.state.password)
             .then(response => {
                 db.collection('datosUsuario').add({
                     name:this.state.name,
                     owner: this.state.email,
-                    dni: this.state.dni,
+                    bio: this.state.bio,
                     edad: this.state.edad,
                     createdAt: Date.now()
                 })
                 this.props.navigation.navigate('TabNavigation')
             })
-            .catch(error => console.log(error))
+            .catch(error => {
+                console.log(error);
+                this.setState({ emailError: error.message })
+            })
+        }
 
     }
 
@@ -34,45 +43,70 @@ class Register extends Component {
     render() {
         return (
             <View style={styles.container}>
-                <Text style={styles.title}>Registro</Text>
+                <Text style={styles.title}>Registrar usuario</Text>
+                <Text style={styles.field}>{this.state.nameError}</Text>
                 <TextInput
                     style={styles.field}
                     keyboardType='default'
-                    placeholder='username'
-                    onChangeText={text => this.setState({ name: text })}
+                    placeholder='Username'
+                    onChangeText={text => {
+                        if (text == '') {
+                            this.setState({ nameError: "You need to register a user name!", name: text, send: false })
+                        } else {
+                            this.setState({ nameError: '', name: text, send: true })
+                        }
+                    }}
                     value={this.state.name}
                 />
+                <Text style={styles.field}>{this.state.emailError}</Text>
                 <TextInput
                     style={styles.field}
                     keyboardType='default'
                     placeholder='Email'
-                    onChangeText={text => this.setState({ email: text })}
+                    onChangeText={text => {
+                        if (text == '') {
+                            this.setState({ emailError: "You need to register an email!", email: text, send: false })
+                        } else {
+                            this.setState({ emailError: '', email: text, send: true })
+                        }
+                    }}
                     value={this.state.email}
                 />
+                <Text style={styles.field}>{this.state.passwordError}</Text>
                 <TextInput
                     style={styles.field}
                     keyboardType='default'
-                    placeholder='password'
+                    placeholder='Password'
                     secureTextEntry={true}
-                    onChangeText={text => this.setState({ password: text })}
+                    onChangeText={text => {
+                        if (text == '') {
+                            this.setState({ passwordError: "You need to have a password!", password: text, send: false })
+                        } else if (text.length < 6) {
+                            this.setState({ passwordError: "Password should be at least 6 characters", password: text, send: false })
+                        } else {
+                        this.setState({ passwordError: '', password: text, send: true })}
+                    }
+                    }
                     value={this.state.password}
                 />
                 <TextInput
                     style={styles.field}
                     keyboardType='numeric'
-                    placeholder='dni'
-
-                    onChangeText={text => this.setState({ dni: text })}
-                    value={this.state.dni}
-                />
-                <TextInput
-                    style={styles.field}
-                    keyboardType='numeric'
-                    placeholder='edad'
+                    placeholder='Age'
 
                     onChangeText={text => this.setState({ edad: text })}
                     value={this.state.edad}
                 />
+                <TextInput
+                    style={styles.field}
+                    keyboardType='default'
+                    placeholder='Bio'
+
+                    onChangeText={text => this.setState({ bio: text })}
+                    value={this.state.bio}
+                />
+
+
                 <TouchableOpacity onPress={() => this.onSubmit()}>
                     <Text>Registrarme</Text>
                 </TouchableOpacity>
