@@ -1,6 +1,6 @@
 import { TabActions } from "@react-navigation/native";
 import React, { Component } from "react";
-import { View, Text, TouchableOpacity, StyleSheet, FlatList } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet, FlatList, ScrollView } from 'react-native';
 import { db, auth } from '../../firebase/config';
 import Post from "../../components/Post";
 
@@ -30,9 +30,11 @@ class Home extends Component {
         )
     }
 
+    
     render() {
+        console.log(this.state.posts)
         return (
-            <View style={estilosCss().container}>
+            <ScrollView style={estilosCss().container}>
            <TouchableOpacity onPress={() => this.props.navigation.navigate('PostForm')}>
                 <Text style={estilosCss().touchable}> Añadir post </Text>
             </TouchableOpacity>
@@ -43,7 +45,7 @@ class Home extends Component {
                 keyExtractor={item => item.id.toString()}
                 renderItem={({ item }) => <Post postData={item} />}
             />
-        </View>
+        </ScrollView>
         )
     }
 }

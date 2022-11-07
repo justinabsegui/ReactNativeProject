@@ -54,30 +54,62 @@ class Post extends Component {
             .catch(e => console.log(e));
     }
     
+    // publicarComentario() {
+    //     //Armar el comentario.
+    //     let oneComment = {
+    //         author: auth.currentUser.email,
+    //         createdAt: Date.now(),
+    //         commentText: this.state.comment
+    //     }
+    //     //Actualizar comentario en la base. Puntualmente en este documento.
+    //     //Saber cual es el post que queremos actualizar
+    //     db.collection('Posts').doc(this.props.postData.id).update({
+    //         comments: firebase.firestore.FieldValue.arrayUnion(oneComment)
+    //     })
+    //         .then(() => {
+    //             //Cambiar un estado para limpiar el form
+    //             console.log('Comentario guardado');
+    //             this.setState({
+    //                 comment: ''
+    //             })
+    //         })
+    //         .catch(e => console.log(e))
+    // }
+   
     publicarComentario() {
         //Armar el comentario.
-        let oneComment = {
-            author: auth.currentUser.email,
-            createdAt: Date.now(),
-            commentText: this.state.comment
-        }
-        //Actualizar comentario en la base. Puntualmente en este documento.
-        //Saber cual es el post que queremos actualizar
-        db.collection('Posts').doc(this.props.postData.id).update({
-            comments: firebase.firestore.FieldValue.arrayUnion(oneComment)
-        })
-            .then(() => {
-                //Cambiar un estado para limpiar el form
-                console.log('Comentario guardado');
-                this.setState({
-                    comment: ''
+        db.collection('datosUsuario').where('owner', '==', auth.currentUser.email).onSnapshot(
+            docs => {
+                docs.forEach(doc => {
+                    console.log(doc)
+
+                    const data = doc.data()
+    
+                    let oneComment = {
+                        author: auth.currentUser.email, //aca es lo del comentario
+                        name: data.name,
+                        createdAt: Date.now(),
+                        commentText: this.state.comment,
+                    }
+                    // Actualizar comentario en la base. Puntualmente en este documento.
+                    // Saber cual es el post que queremos actualizar
+                    db.collection('Posts').doc(this.props.postData.id).update({
+                        comments: firebase.firestore.FieldValue.arrayUnion(oneComment)
+                    })
+                        .then(() => {
+                            //Cambiar un estado para limpiar el form
+                            console.log('Comentario guardado');
+                            this.setState({
+                                comment: ''
+                            })
+                        })
+                        .catch(e => console.log(e))
                 })
-            })
-            .catch(e => console.log(e))
+
+            }
+        )
     }
-   
     render() {
-        console.log (this.props.postData);
         return (
             <View style={styles.postContainer}>
                 <Text> Caption: {this.props.postData.data.textoPost}</Text>
@@ -98,7 +130,7 @@ class Post extends Component {
                         <FlatList
                             data={this.props.postData.data.comments}
                             keyExtractor={post => post.createdAt.toString()}
-                            renderItem={({ item }) => <Text> {item.author}: {item.commentText}</Text>}
+                            renderItem={({ item }) => <Text> {item.name}: {item.commentText}</Text>}
                         /> :
                         <Text></Text>
                 }
@@ -140,34 +172,3 @@ const styles = StyleSheet.create({
 
 export default Post;
 
-// publicarComentario() {
-//     //Armar el comentario.
-//     db.collection('datosUsuario').where('owner', '==', auth.currentUser.email).onSnapshot(
-//         doc => {
-//             console.log(doc)
-//             return doc.data()
-//         }
-//     ).then((data) => {
-//             // let oneComment = {
-//             //     author: auth.currentUser.email, //aca es lo del comentario
-//             //     name: data.name,
-//             //     createdAt: Date.now(),
-//             //     commentText: this.state.comment,
-//             // }
-//             //Actualizar comentario en la base. Puntualmente en este documento.
-//             //Saber cual es el post que queremos actualizar
-//     //         db.collection('Posts').doc(this.props.postData.id).update({
-//     //             comments: firebase.firestore.FieldValue.arrayUnion(oneComment)
-//     //         })
-//     //             .then(() => {
-//     //                 //Cambiar un estado para limpiar el form
-//     //                 console.log('Comentario guardado');
-//     //                 this.setState({
-//     //                     comment: ''
-//     //                 })
-//     //             })
-//     //             .catch(e => console.log(e))
-//        }
-
-//      )
-// }
