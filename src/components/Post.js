@@ -2,6 +2,7 @@ import React, { Component, Syle } from "react";
 import { Text, View, TouchableOpacity, StyleSheet, TextInput, FlatList } from 'react-native';
 import { auth, db } from "../firebase/config";
 import firebase from "firebase";
+import Camara from "./Camara";
 
 //ver un posteo likear y comentar
 

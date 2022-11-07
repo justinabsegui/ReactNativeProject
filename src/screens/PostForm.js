@@ -14,7 +14,8 @@ class PostForm extends Component{
         db.collection('Posts').add({
             owner: auth.currentUser.email,
             createdAt: Date.now(),
-            textoPost: this.state.textoPost
+            textoPost: this.state.textoPost,
+            photo: this.state.url,
         })
         .then(()=>{
             console.log('posteado funciona')
