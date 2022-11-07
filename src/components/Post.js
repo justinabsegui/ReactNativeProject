@@ -54,27 +54,6 @@ class Post extends Component {
             .catch(e => console.log(e));
     }
     
-    // publicarComentario() {
-    //     //Armar el comentario.
-    //     let oneComment = {
-    //         author: auth.currentUser.email,
-    //         createdAt: Date.now(),
-    //         commentText: this.state.comment
-    //     }
-    //     //Actualizar comentario en la base. Puntualmente en este documento.
-    //     //Saber cual es el post que queremos actualizar
-    //     db.collection('Posts').doc(this.props.postData.id).update({
-    //         comments: firebase.firestore.FieldValue.arrayUnion(oneComment)
-    //     })
-    //         .then(() => {
-    //             //Cambiar un estado para limpiar el form
-    //             console.log('Comentario guardado');
-    //             this.setState({
-    //                 comment: ''
-    //             })
-    //         })
-    //         .catch(e => console.log(e))
-    // }
    
     publicarComentario() {
         //Armar el comentario.

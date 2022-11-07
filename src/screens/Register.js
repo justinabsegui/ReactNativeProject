@@ -107,10 +107,3 @@ const styles = StyleSheet.create({
 })
 
 export default Register;
-
-/* <TextInput
-                    style={styles.field}
-                    keyboardType='default'
-                    placeholder='Username'
-                    onChangeText={text => this.setState({ user: text })}
-                /> */
