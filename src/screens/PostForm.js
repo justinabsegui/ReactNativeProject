@@ -15,7 +15,7 @@ class PostForm extends Component{
             owner: auth.currentUser.email,
             createdAt: Date.now(),
             textoPost: this.state.textoPost,
-            photo: this.state.url,
+            photo: this.state.url,// estoy en undefined tengo q traer url de la foto
         })
         .then(()=>{
             console.log('posteado funciona')
