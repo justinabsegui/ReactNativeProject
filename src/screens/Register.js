@@ -10,31 +10,34 @@ class Register extends Component {
             nameError: '',
             passwordError: '',
             emailError: '',
-            name:'',
+            name: '',
             email: '',
             password: '',
             bio: '',
             edad: ''
         }
     }
+    verifyEmail(text) {
 
+
+    }
     onSubmit() {
-        if (this.state.send == true){
-        auth.createUserWithEmailAndPassword(this.state.email, this.state.password)
-            .then(response => {
-                db.collection('datosUsuario').add({
-                    name:this.state.name,
-                    owner: this.state.email,
-                    bio: this.state.bio,
-                    edad: this.state.edad,
-                    createdAt: Date.now()
+        if (this.state.send == true) {
+            auth.createUserWithEmailAndPassword(this.state.email, this.state.password)
+                .then(response => {
+                    db.collection('datosUsuario').add({
+                        name: this.state.name,
+                        owner: this.state.email,
+                        bio: this.state.bio,
+                        edad: this.state.edad,
+                        createdAt: Date.now()
+                    })
+                    this.props.navigation.navigate('TabNavigation')
                 })
-                this.props.navigation.navigate('TabNavigation')
-            })
-            .catch(error => {
-                console.log(error);
-                this.setState({ emailError: error.message })
-            })
+                .catch(error => {
+                    console.log(error);
+                    this.setState({ emailError: error.message })
+                })
         }
 
     }
@@ -64,10 +67,21 @@ class Register extends Component {
                     keyboardType='default'
                     placeholder='Email'
                     onChangeText={text => {
+
                         if (text == '') {
                             this.setState({ emailError: "You need to register an email!", email: text, send: false })
                         } else {
-                            this.setState({ emailError: '', email: text, send: true })
+
+                            let re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+
+                            if (re.test(text)) {
+                                this.setState({ emailError: '', email: text, send: true })
+                            }
+                            else {
+                                this.setState({ emailError: 'You need to register a valid email!', email: text, send: false })
+                            } {
+                                this.verifyEmail(text)
+                            }
                         }
                     }}
                     value={this.state.email}
@@ -84,7 +98,8 @@ class Register extends Component {
                         } else if (text.length < 6) {
                             this.setState({ passwordError: "Password should be at least 6 characters", password: text, send: false })
                         } else {
-                        this.setState({ passwordError: '', password: text, send: true })}
+                            this.setState({ passwordError: '', password: text, send: true })
+                        }
                     }
                     }
                     value={this.state.password}
