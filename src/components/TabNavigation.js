@@ -14,7 +14,7 @@ export default function TabNavigation() {
         <Tab.Screen name="Home" component={Home}   
         options={{tabBarIcon: () => <FontAwesome name="home" size={24} color="black" />}}/>
         <Tab.Screen name="NewPost" component={NewPost} 
-        options={{tabBarIcon: () => <MaterialCommunityIcons name="file-image-plus" size={24} color="black" />}}/>
+        options={{tabBarIcon: () => <FontAwesome name="plus-square-o" size={24} color="black" />}}/>
         <Tab.Screen name="Search" component={Search} 
         options={{tabBarIcon: () => <MaterialIcons name="search" size={24} color="black" />}}/>
         <Tab.Screen name="Profile" component={Profile} 

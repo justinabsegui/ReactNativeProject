@@ -35,9 +35,9 @@ class Home extends Component {
         console.log(this.state.posts)
         return (
             <ScrollView style={estilosCss().container}>
-           <TouchableOpacity onPress={() => this.props.navigation.navigate('NewPost')}>
+           {/* <TouchableOpacity onPress={() => this.props.navigation.navigate('NewPost')}>
                 <Text style={estilosCss().touchable}> Añadir post </Text>
-            </TouchableOpacity>
+            </TouchableOpacity> */}
         
             <FlatList
                 data={this.state.posts}
