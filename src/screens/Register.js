@@ -93,8 +93,7 @@ class Register extends Component {
                     style={styles.field}
                     keyboardType='numeric'
                     placeholder='Age'
-
-                    onChangeText={text => this.setState({ edad: text })}
+                    onChangeText={text => this.setState({ edad: number })}
                     value={this.state.edad}
                 />
                 <TextInput

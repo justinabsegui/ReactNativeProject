@@ -1,8 +1,8 @@
 import React, { Component, Syle } from "react";
-import { Text, View, TouchableOpacity, StyleSheet, TextInput, FlatList } from 'react-native';
+import { Text, View, TouchableOpacity, StyleSheet, TextInput, FlatList, Image } from 'react-native';
 import { auth, db } from "../firebase/config";
 import firebase from "firebase";
-import Camara from "./Camara";
+
 
 //ver un posteo likear y comentar
 
@@ -57,42 +57,68 @@ class Post extends Component {
     
    
     publicarComentario() {
-        //Armar el comentario.
-        db.collection('datosUsuario').where('owner', '==', auth.currentUser.email).onSnapshot(
-            docs => {
-                docs.forEach(doc => {
-                    console.log(doc)
-
-                    const data = doc.data()
-    
-                    let oneComment = {
-                        author: auth.currentUser.email, //aca es lo del comentario
-                        name: data.name,
-                        createdAt: Date.now(),
-                        commentText: this.state.comment,
-                    }
-                    // Actualizar comentario en la base. Puntualmente en este documento.
-                    // Saber cual es el post que queremos actualizar
-                    db.collection('Posts').doc(this.props.postData.id).update({
-                        comments: firebase.firestore.FieldValue.arrayUnion(oneComment)
-                    })
-                        .then(() => {
-                            //Cambiar un estado para limpiar el form
-                            console.log('Comentario guardado');
-                            this.setState({
-                                comment: ''
-                            })
-                        })
-                        .catch(e => console.log(e))
+         //Armar el comentario.
+        console.log('Guardando comentario...');
+        let oneComment = {
+            author: auth.currentUser.email,
+            createdAt: Date.now(),
+            commentText: this.state.comment
+        }
+        //Actualizar comentario en la base. Puntualmente en este documento.
+        //Saber cual es el post que queremos actualizar
+        db.collection('Posts').doc(this.props.postData.id).update({
+            comments: firebase.firestore.FieldValue.arrayUnion(oneComment)
+        })
+            .then(() => {
+                //Cambiar un estado para limpiar el form
+                console.log('Comentario guardado');
+                this.setState({
+                    comment: ''
                 })
-
-            }
-        )
+            })
+            .catch(e => console.log(e)) 
+        //Armar el comentario.
+        // db.collection('datosUsuario').where('owner', '==', auth.currentUser.email).onSnapshot(
+        //     docs => {
+        //         docs.forEach(doc => {
+        //             console.log(doc)//aca es donde rompe
+        //             const data = doc.data() 
+    
+        //             let oneComment = {
+        //                 author: auth.currentUser.email, //aca es lo del comentario
+        //                 name: data.name,
+        //                 createdAt: Date.now(),
+        //                 commentText: this.state.comment,
+        //             }
+        //             // Actualizar comentario en la base. Puntualmente en este documento.
+        //             // Saber cual es el post que queremos actualizar
+        //             db.collection('Posts').doc(this.props.postData.id).update({
+        //                 comments: firebase.firestore.FieldValue.arrayUnion(oneComment)
+        //             })
+        //                 .then(() => {
+        //                     //Cambiar un estado para limpiar el form
+        //                     console.log('Comentario guardado');
+        //                     this.setState({
+        //                         comment: ''
+        //                     })
+        //                 })
+        //                 .catch(e => console.log(e))
+        //         })
+        //     }
+        // )
+       
+      
     }
+
     render() {
         return (
             <View style={styles.postContainer}>
-                <Text> Caption: {this.props.postData.data.textoPost}</Text>
+                <Image 
+                    style={styles.photo}
+                    source={{uri: this.props.postData.data.photo}}
+                    resizeMode='cover'
+                />
+                <Text> Caption: {this.props.postData.data.description}</Text>
                 <Text> User: {this.props.postData.data.owner}</Text>
                 <Text>Likes: {this.state.likes}</Text>
                 {
@@ -104,15 +130,20 @@ class Post extends Component {
                             <Text>Me gusta</Text>
                         </TouchableOpacity>
                 }
-                {/* Listar los comentarios ¿Qué componenete usamos? */}
+                {/* Listar los comentarios  */}
                 {
                     this.props.postData.data.comments ?
+                    <React.Fragment>
                         <FlatList
-                            data={this.props.postData.data.comments}
+                            data={this.props.postData.data.comments.slice(-5)}
                             keyExtractor={post => post.createdAt.toString()}
-                            renderItem={({ item }) => <Text> {item.name}: {item.commentText}</Text>}
-                        /> :
-                        <Text></Text>
+                            renderItem={({ item }) => <Text> {item.author}: {item.commentText}</Text>}
+                        /> 
+                        {/* no funciona bien este coso de ver mas comments */}
+                        {/* <TouchableOpacity onPress={() => this.props.navigation.navigate('Comment', {id: this.props.id})}>Más comentarios</TouchableOpacity> */}
+                    </React.Fragment>
+                    :
+                        <Text>No hay comentarios</Text>
                 }
                 {/* Form para nuevo comentario */}
                 <View>
@@ -122,7 +153,7 @@ class Post extends Component {
                         value={this.state.comment}
                     />
                     <TouchableOpacity onPress={() => this.publicarComentario()}>
-                        <Text>Comentar</Text>
+                        <Text style={styles.button} >Comentar</Text>
                     </TouchableOpacity>
                 </View>
             </View>
@@ -131,6 +162,9 @@ class Post extends Component {
 }
 
 const styles = StyleSheet.create({
+    photo:{
+        height:250,
+    },
     postContainer: {
         borderColor: '#ccc',
         borderWidth: 1,

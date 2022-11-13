@@ -1,7 +1,7 @@
-import { Camera } from 'expo-camera'
-import React, { Component } from 'react';
-import { View, StyleSheet, Text, Image, TouchableOpacity } from 'react-native';
-import { storage } from '../firebase/config';
+import React, {Component} from 'react';
+import {Camera } from 'expo-camera';
+import {storage} from '../firebase/config';
+import {View, Text, TouchableOpacity, StyleSheet, Image} from 'react-native';
 
 class Camara extends Component {
     constructor(props) {
@@ -28,7 +28,7 @@ class Camara extends Component {
 
     // Para sacar la foto crearemos un método c/método interno takePicutreAsync() incluido en Camera.
     takePicture() {
-        console.log(this.metodosDeCamara);
+        // console.log(this.metodosDeCamara);
         this.metodosDeCamara.takePictureAsync()
             .then(photo => {
                 // Actualizamos estados para guardar la url temporal de la foto y ocultar la cámara para mostrar el preview de la foto.
@@ -46,10 +46,10 @@ class Camara extends Component {
             .then(res => res.blob()) //obtengo info de foto
             .then(image => {// la guardo en Firebase
                 //Crear el destino y nombre con el que se guarda la foto en Storage
-                const ref = storage.ref(`photos/${Date.now()}.jpg`) //creo archivo 
-                ref.put(image) //con imagen
+                const refStorage = storage.ref(`photos/${Date.now()}.jpg`) //creo archivo 
+                refStorage.put(image) //con imagen
                     .then(() => {
-                        ref.getDownloadURL()// obtengo url de acceso público
+                        refStorage.getDownloadURL()// obtengo url de acceso público
                             .then(url =>  //mando la url pública al posteo para guardarla con los demás datos
                                 this.props.onImageUpload(url))
                     })
@@ -72,15 +72,13 @@ class Camara extends Component {
                                     //estilos, cámara (frontal o trasera), referencia a  "cámara” para usar métodos internos.
                                     // this.metodosDeCamara debe existir dentro del constructor 
                                     style={styles.camera}
-                                    type={Camera.Constants.Type.back}
+                                    type={Camera.Constants.Type.front}
                                     ref={(metodos) => this.metodosDeCamara = metodos}
                                 />
-                                <View style={styles.button}>
                                     {/*   botón que saca la foto con  método takePicture() */}
                                     <TouchableOpacity style={styles.shootButton} onPress={() => this.takePicture()}>
                                         <Text>Shoot</Text>
                                     </TouchableOpacity>
-                                </View>
                             </View>
                                 :
                                 <View style={styles.button}>
@@ -110,7 +108,7 @@ class Camara extends Component {
 
 const styles = StyleSheet.create({
     preview: {
-        width: '100vw',
+        width: '100%',
         height: 300,
     },
     camera: {
