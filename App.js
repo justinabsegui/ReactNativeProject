@@ -9,6 +9,8 @@ import TabNavigation from './src/components/TabNavigation';
 import NewPost from './src/screens/NewPost';
 import Search from './src/screens/Search';
 import Camara from './src/components/Camara';
+import Welcome from './src/screens/Welcome';
+
 const Stack = createNativeStackNavigator();
 
 
@@ -18,6 +20,7 @@ export default function App() {
   return (
     <NavigationContainer>
       <Stack.Navigator>
+      <Stack.Screen name="Welcome" component={Welcome} />
       <Stack.Screen name="Login" component={Login} />
       <Stack.Screen name="Register" component={Register} />
       <Stack.Screen name="TabNavigation" options={ { headerShown: false } }   component={TabNavigation} />  
