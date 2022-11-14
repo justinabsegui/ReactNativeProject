@@ -45,7 +45,7 @@ class Register extends Component {
 
     checkFields() {
         if (this.state.name == '') {
-            this.setState({ nameError: "You need to register a user name!" })
+            this.setState({ nameError: "You need to have a user name!" })
             if (this.state.password == '') {
                 this.setState({ passwordError: "You need to have a password!" })
                 if (this.state.email == '') {

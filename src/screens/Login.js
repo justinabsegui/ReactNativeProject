@@ -38,6 +38,8 @@ class Login extends Component {
                     }
                 }
                 )
+        } else {
+            this.setState({emailError: 'Fill in all fields before logging in'})
         }
     }
     componentDidMount() {
