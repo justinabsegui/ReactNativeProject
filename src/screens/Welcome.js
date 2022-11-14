@@ -12,10 +12,10 @@ class Welcome extends Component {
     render() {
         return (
             <View>
-                <TouchableOpacity onPress={() => this.props.navigation.navigate('Register')}>
+                <TouchableOpacity style={styles.button} onPress={() => this.props.navigation.navigate('Register')}>
                     <Text>Register</Text>
                 </TouchableOpacity>
-                <TouchableOpacity onPress={() => this.props.navigation.navigate('Login')}>
+                <TouchableOpacity style={styles.button} onPress={() => this.props.navigation.navigate('Login')}>
                     <Text>Log in</Text>
                 </TouchableOpacity>
             </View>
@@ -23,7 +23,20 @@ class Welcome extends Component {
     }
 
 }
-
-
+const styles = StyleSheet.create({
+    button: {
+        display: 'flex',
+        justifyContent: 'center',
+        alignContent: 'center',
+        borderColor: '#067dc7',
+        borderWidth: 1,
+        borderRadius: 20,
+        padding: 3,
+        width: '10vw',
+        marginBottom: 3,
+        color: '#140101',
+        backgroundColor: '#0994eb',
+    }
+})
 
 export default Welcome;

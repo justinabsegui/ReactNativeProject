@@ -40,7 +40,7 @@ class Profile extends Component {
     
     logOut() {
         auth.signOut();
-        this.props.navigation.navigate('TabNavigation')
+        this.props.navigation.navigate('Welcome')
     }
     render() {
 
@@ -48,15 +48,20 @@ class Profile extends Component {
             <View>
                 <Text>Name:{this.state.name}</Text>
                 <Text>Owner:{this.state.owner}</Text>
-                <Text>DNI:{this.state.dni}</Text>
+                <Text>Bio:{this.state.bio}</Text>
                 <Text>Edad del usuario:{this.state.edad}</Text>
-                
                 <TouchableOpacity onPress={() => this.logOut()}>
-                    <Text>Logout</Text>
+                    <Text style={styles.button}>Logout</Text>
                 </TouchableOpacity>
             </View >
         );
     }
 }
-
+const styles = StyleSheet.create({
+    button: {
+        color: 'blue',
+        border: 'none',
+        padding: 5
+    }
+})
 export default Profile;
