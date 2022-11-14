@@ -58,7 +58,9 @@ class Camara extends Component {
     }
 
     clearPhoto() {
-        this.setState({ photo: '' });
+        this.setState({ 
+            photo: '', 
+            showCamera: true });
     }
 
     render() {
