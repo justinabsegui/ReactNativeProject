@@ -33,8 +33,12 @@ class Register extends Component {
                     this.props.navigation.navigate('TabNavigation')
                 })
                 .catch(error => {
-                    console.log(error);
-                    this.setState({ nameError: error.message })
+                    if (error.code == 'auth/email-already-in-use') {
+                        this.setState({ emailError: error.message })
+                    }
+                    else {
+                        this.setState({ nameError: error.message })
+                    }
                 })
         }
     }
@@ -57,10 +61,10 @@ class Register extends Component {
         return (
             <View style={styles.container}>
                 <Text style={styles.title}>Registrar usuario</Text>
-                { this.state.nameError !== '' ?
-                <Text style={styles.error}>{this.state.nameError}</Text>
-            :
-                <View/>}
+                {this.state.nameError !== '' ?
+                    <Text style={styles.error}>Error: {this.state.nameError}</Text>
+                    :
+                    <View />}
                 <TextInput
                     style={styles.field}
                     keyboardType='default'
@@ -74,10 +78,10 @@ class Register extends Component {
                     }}
                     value={this.state.name}
                 />
-                 { this.state.emailError !== '' ?
-                <Text style={styles.error}>{this.state.emailError}</Text>
-            :
-                <View/>}
+                {this.state.emailError !== '' ?
+                    <Text style={styles.error}>Error: {this.state.emailError}</Text>
+                    :
+                    <View />}
                 <TextInput
                     style={styles.field}
                     keyboardType='default'
@@ -100,10 +104,10 @@ class Register extends Component {
                     }}
                     value={this.state.email}
                 />
-                 { this.state.passwordError !== '' ?
-                <Text style={styles.error}>{this.state.passwordError}</Text>
-            :
-                <View/>}
+                {this.state.passwordError !== '' ?
+                    <Text style={styles.error}>Error: {this.state.passwordError}</Text>
+                    :
+                    <View />}
                 <TextInput
                     style={styles.field}
                     keyboardType='default'
@@ -121,10 +125,10 @@ class Register extends Component {
                     }
                     value={this.state.password}
                 />
-                { this.state.ageError !== '' ?
-                <Text style={styles.error}>{this.state.ageError}</Text>
-            :
-                <View/>}
+                {this.state.ageError !== '' ?
+                    <Text style={styles.error}>Error: {this.state.ageError}</Text>
+                    :
+                    <View />}
                 <TextInput
                     style={styles.field}
                     keyboardType='numeric'
@@ -155,12 +159,12 @@ class Register extends Component {
 
 
                 <TouchableOpacity onPress={() => this.checkFields()}>
-                    <Text>Registrarme</Text>
+                    <Text style={styles.button}>Registrarme</Text>
                 </TouchableOpacity>
 
                 <TouchableOpacity
                     onPress={() => this.props.navigation.navigate('Login')}>
-                    <Text>Login</Text>
+                    <Text style={styles.button}>Login</Text>
                 </TouchableOpacity>
             </View >
 
@@ -172,23 +176,41 @@ class Register extends Component {
 
 const styles = StyleSheet.create({
     container: {
+        display: 'flex',
+        justifyContent:'center',
+        alignContent: 'center',
+        flexWrap: 'wrap',
         paddingHorizontal: 10,
         marginTop: 10
     },
     title: {
-        marginBottom: 20
+        marginBottom: 20,
+        fontSize: 40,
     },
     field: {
         display: 'flex',
-        justifySelf: 'center',
         borderColor: '#dcdcdc',
         borderWidth: 1,
         borderRadius: 2,
         padding: 3,
         marginBottom: 8,
         width: '20vw',
+    }, 
+    
+    button: {
+        display: 'flex',
+        justifyContent:'center',
+        alignContent: 'center',
+        borderColor: '#067dc7',
+        borderWidth: 1,
+        borderRadius: 20,
+        padding: 3,
+        width: '10vw',
+        marginBottom: 3,
+        color: '#140101',
+        backgroundColor: '#0994eb',
     },
-    error:{
+    error: {
         borderColor: '#e81515',
         borderWidth: 1,
         borderRadius: 2,
