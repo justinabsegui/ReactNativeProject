@@ -10,6 +10,7 @@ class Register extends Component {
             nameError: '',
             passwordError: '',
             emailError: '',
+            ageError: '',
             name: '',
             email: '',
             password: '',
@@ -17,10 +18,7 @@ class Register extends Component {
             edad: ''
         }
     }
-    verifyEmail(text) {
 
-
-    }
     onSubmit() {
         if (this.state.send == true) {
             auth.createUserWithEmailAndPassword(this.state.email, this.state.password)
@@ -36,18 +34,33 @@ class Register extends Component {
                 })
                 .catch(error => {
                     console.log(error);
-                    this.setState({ emailError: error.message })
+                    this.setState({ nameError: error.message })
                 })
         }
-
     }
 
+    checkFields() {
+        if (this.state.name == '') {
+            this.setState({ nameError: "You need to register a user name!" })
+            if (this.state.password == '') {
+                this.setState({ passwordError: "You need to have a password!" })
+                if (this.state.email == '') {
+                    this.setState({ emailError: "You need to register an email!" })
 
+                }
+            }
+        } else {
+            this.onSubmit()
+        }
+    }
     render() {
         return (
             <View style={styles.container}>
                 <Text style={styles.title}>Registrar usuario</Text>
-                <Text style={styles.field}>{this.state.nameError}</Text>
+                { this.state.nameError !== '' ?
+                <Text style={styles.error}>{this.state.nameError}</Text>
+            :
+                <View/>}
                 <TextInput
                     style={styles.field}
                     keyboardType='default'
@@ -61,7 +74,10 @@ class Register extends Component {
                     }}
                     value={this.state.name}
                 />
-                <Text style={styles.field}>{this.state.emailError}</Text>
+                 { this.state.emailError !== '' ?
+                <Text style={styles.error}>{this.state.emailError}</Text>
+            :
+                <View/>}
                 <TextInput
                     style={styles.field}
                     keyboardType='default'
@@ -79,14 +95,15 @@ class Register extends Component {
                             }
                             else {
                                 this.setState({ emailError: 'You need to register a valid email!', email: text, send: false })
-                            } {
-                                this.verifyEmail(text)
                             }
                         }
                     }}
                     value={this.state.email}
                 />
-                <Text style={styles.field}>{this.state.passwordError}</Text>
+                 { this.state.passwordError !== '' ?
+                <Text style={styles.error}>{this.state.passwordError}</Text>
+            :
+                <View/>}
                 <TextInput
                     style={styles.field}
                     keyboardType='default'
@@ -104,11 +121,27 @@ class Register extends Component {
                     }
                     value={this.state.password}
                 />
+                { this.state.ageError !== '' ?
+                <Text style={styles.error}>{this.state.ageError}</Text>
+            :
+                <View/>}
                 <TextInput
                     style={styles.field}
                     keyboardType='numeric'
                     placeholder='Age'
-                    onChangeText={text => this.setState({ edad: this.setState.edad })}
+                    onChangeText={text => {
+                        if (/^-?\d+$/.test(text)) {
+                            this.setState({ ageError: '', edad: text, send: true })
+                        } else {
+                            this.setState({ ageError: "You need to use a number for your age!", edad: text, send: false })
+
+                        } if (text == '') {
+                            this.setState({ ageError: '', edad: text, send: true })
+                        }
+
+                    }
+
+                    }
                     value={this.state.edad}
                 />
                 <TextInput
@@ -121,7 +154,7 @@ class Register extends Component {
                 />
 
 
-                <TouchableOpacity onPress={() => this.onSubmit()}>
+                <TouchableOpacity onPress={() => this.checkFields()}>
                     <Text>Registrarme</Text>
                 </TouchableOpacity>
 
@@ -136,6 +169,7 @@ class Register extends Component {
 
 }
 
+
 const styles = StyleSheet.create({
     container: {
         paddingHorizontal: 10,
@@ -145,12 +179,27 @@ const styles = StyleSheet.create({
         marginBottom: 20
     },
     field: {
+        display: 'flex',
+        justifySelf: 'center',
         borderColor: '#dcdcdc',
         borderWidth: 1,
         borderRadius: 2,
         padding: 3,
-        marginBottom: 8
-
+        marginBottom: 8,
+        width: '20vw',
+    },
+    error:{
+        borderColor: '#e81515',
+        borderWidth: 1,
+        borderRadius: 2,
+        padding: 3,
+        width: '20vw',
+        marginBottom: 3,
+        color: '#140101',
+        backgroundColor: '#ba2929',
+        fontStyle: 'bold',
+        display: 'flex',
+        justifyContent: 'center'
     }
 })
 
