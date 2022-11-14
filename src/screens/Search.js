@@ -82,7 +82,7 @@ class Search extends Component {
                     />
                     :
                     <Text>Sorry, that user does not exist</Text>
-                } */}
+                 */}
             </View>
         )
     }
