@@ -109,13 +109,13 @@ class Post extends Component {
     render() {
         return (
             <View style={styles.postContainer}>
+                <Text> User: {this.props.postData.data.owner}</Text>
                 <Image 
                     style={styles.photo}
                     source={{uri: this.props.postData.data.photo}}
                     resizeMode='cover'
                 />
                 <Text> Caption: {this.props.postData.data.description}</Text>
-                <Text> User: {this.props.postData.data.owner}</Text>
                 <Text>Likes: {this.state.likes}</Text>
                 {
                     this.state.myLike ?
