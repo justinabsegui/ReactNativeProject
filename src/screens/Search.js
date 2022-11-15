@@ -9,6 +9,7 @@ class Search extends Component {
         this.state = {
             users: [],
             filteredUsers: [],
+            filteredMail: [],
             search: false,
             postSearchText: '',
         }
@@ -36,10 +37,17 @@ class Search extends Component {
 
         const filteredUsers = this.state.users.filter(user => user.data.name?.toLowerCase().includes(textToFilter));
 
+        const filteredMail = this.state.users.filter(user => user.data.owner?.toLowerCase().includes(textToFilter));
+
         this.setState({
             filteredUsers: filteredUsers
         });
+
+        this.setState({
+            filteredMail: filteredMail
+        });
     };
+
 
     controlChanges(event) {
         this.setState({ postSearchText: event.target.value });
@@ -82,6 +90,16 @@ class Search extends Component {
                         data={this.state.filteredUsers}
                         keyExtractor={item => item.id.toString()}
                         renderItem={({ item }) => <Text>{item.data.name}</Text>}
+                    />
+                }  
+                {this.state.userErr ?
+                    <Text>El mail no existe</Text>
+                    :
+                    <FlatList
+                        style={styles.list}
+                        data={this.state.filteredMail}
+                        keyExtractor={item => item.id.toString()}
+                        renderItem={({ item }) => <Text>{item.data.owner}</Text>}
                     />
                 }  
             </View>
