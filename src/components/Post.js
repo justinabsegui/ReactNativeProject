@@ -2,6 +2,7 @@ import React, { Component, Syle } from "react";
 import { Text, View, TouchableOpacity, StyleSheet, TextInput, FlatList, Image } from 'react-native';
 import { auth, db } from "../firebase/config";
 import firebase from "firebase";
+import TabNavigation from "./TabNavigation";
 
 
 //ver un posteo likear y comentar
@@ -14,7 +15,7 @@ class Post extends Component {
             myLike: false,
             comment: '',
             vercomentarios: false,
-            vertodos:false,
+            vertodos: false,
         }
     }
     componentDidMount() {
@@ -56,63 +57,76 @@ class Post extends Component {
             })
             .catch(e => console.log(e));
     }
-    
-   
+
+
     publicarComentario() {
-         //Armar el comentario.
+        //Armar el comentario.
         console.log('Guardando comentario...');
         let oneComment = {
             author: auth.currentUser.email,
             createdAt: Date.now(),
             commentText: this.state.comment
         }
-        //Actualizar comentario en la base. Puntualmente en este documento.
-        //Saber cual es el post que queremos actualizar
-        db.collection('Posts').doc(this.props.postData.id).update({
-            comments: firebase.firestore.FieldValue.arrayUnion(oneComment)
-        })
-            .then(() => {
-                //Cambiar un estado para limpiar el form
-                console.log('Comentario guardado');
-                this.setState({
-                    comment: ''
-                })
+        if (oneComment.commentText !== '') {
+            //Actualizar comentario en la base. Puntualmente en este documento.
+            //Saber cual es el post que queremos actualizar
+            db.collection('Posts').doc(this.props.postData.id).update({
+                comments: firebase.firestore.FieldValue.arrayUnion(oneComment)
             })
-            .catch(e => console.log(e)) 
-       
+                .then(() => {
+                    //Cambiar un estado para limpiar el form
+                    console.log('Comentario guardado');
+                    this.setState({
+                        comment: ''
+                    })
+                })
+                .catch(e => console.log(e))
+
+        }
     }
 
-    vercomentarios(){
+    vercomentarios() {
         this.setState({
-            vercomentarios:true,
+            vercomentarios: true,
         })
     }
 
-    ocultarcomentarios(){
+    ocultarcomentarios() {
         this.setState({
-            vercomentarios:false,
+            vercomentarios: false,
             vertodos: false,
         })
     }
-    vertodos(){
+    vertodos() {
         this.setState({
-          vertodos:true,
+            vertodos: true,
         })
     }
 
-    vermenos(){
+    vermenos() {
         this.setState({
-            vercomentarios:true,
+            vercomentarios: true,
             vertodos: false,
         })
     }
+    // verUsuario() {
+    //     this.props.navigation.navigate('Profile');
+
+    // }
+
+
     render() {
         return (
             <View style={styles.postContainer}>
-                <Text> User: {this.props.postData.data.owner}</Text>
-                <Image 
+                <TouchableOpacity onPress={() => {
+                     this.props.navigation.navigate('TabNavigation')
+                    // this.verUsuario(this.props.postData)
+                    }}>
+                    <Text> User: {this.props.postData.data.owner}</Text>
+                </TouchableOpacity>
+                <Image
                     style={styles.photo}
-                    source={{uri: this.props.postData.data.photo}}
+                    source={{ uri: this.props.postData.data.photo }}
                     resizeMode='cover'
                 />
                 <Text> Caption: {this.props.postData.data.description}</Text>
@@ -126,8 +140,8 @@ class Post extends Component {
                             <Text>Me gusta</Text>
                         </TouchableOpacity>
                 }
-               {/* Listar los comentarios  */}
-               {
+                {/* Listar los comentarios  */}
+                {
                     this.props.postData.data.comments ? //si comentarios es true
                         <View>
                             {
@@ -144,10 +158,10 @@ class Post extends Component {
                                             renderItem={({ item }) => <Text> {item.author}: {item.commentText}</Text>}
                                         />
                                         {this.state.vertodos ? //si ver TODOS es true (apreto boton ver TODOS)
-                                           //mostrar boton ver menos
+                                            //mostrar boton ver menos
                                             <TouchableOpacity onPress={() => this.vermenos()}>
-                                            <Text style={styles.button}>Ver menos comentarios</Text>
-                                        </TouchableOpacity>
+                                                <Text style={styles.button}>Ver menos comentarios</Text>
+                                            </TouchableOpacity>
                                             : // ver todos es false, mostrar boton ver todos
                                             <TouchableOpacity onPress={() => this.vertodos()}>
                                                 <Text style={styles.button}>Ver todos los comentarios</Text>
@@ -189,8 +203,8 @@ class Post extends Component {
 }
 
 const styles = StyleSheet.create({
-    photo:{
-        height:250,
+    photo: {
+        height: 250,
     },
     postContainer: {
         borderColor: '#ccc',

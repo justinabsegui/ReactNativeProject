@@ -26,7 +26,9 @@ class Profile extends Component {
 
                 docs.forEach(doc => { //por cadb a documento, quiero un doc y la función que ejecutaré por cada doc
                     const data = doc.data();
-                    if (data.owner === email) {
+                    if (data.owner === this.props.postData.data.owner){
+                        user = data
+                    } else if (data.owner === email) {
                         user = data
                     }
                 });
