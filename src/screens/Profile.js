@@ -1,57 +1,92 @@
 import React, { Component } from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, FlatList } from 'react-native';
+import Post from '../components/Post';
 import { db, auth } from '../firebase/config';
 
 class Profile extends Component {
     constructor(props) {
         super(props)
         this.state = {
+            name: '',
             email: '',
-            name:'',
+            bio: '',
             edad: '',
-            
+            logout: true,
+            posts: [],
+
         }
     }
-    
+
     componentDidMount() {
         const email = auth.currentUser.email;
-        
+
         db.collection('datosUsuario').onSnapshot(
             docs => {//todos datos de la colección
                 let user;
-                
-                docs.forEach(doc => { //por cada documento, quiero un doc y la función que ejecutaré por cada doc
+
+                docs.forEach(doc => { //por cadb a documento, quiero un doc y la función que ejecutaré por cada doc
                     const data = doc.data();
-                    
                     if (data.owner === email) {
                         user = data
                     }
                 });
 
+                console.log(user);
                 this.setState({
-                    owner: user.owner,
+                    email: user.owner,
                     name: user.name,
-                    dni: user.dni,
+                    bio: user.dni,
                     edad: user.edad
                 });
             }
         )
+        db.collection('Posts').onSnapshot(
+            docs => {
+                let posteos = [];
+
+                docs.forEach(doc => {
+                    posteos.push({
+                        id: doc.id,
+                        data: doc.data()
+                    }
+                    )
+                })
+                const userPosts = posteos.filter(post => (post.data.owner === email));
+                this.setState({ posts: userPosts })
+            }
+        )
     }
-    
+
     logOut() {
         auth.signOut();
         this.props.navigation.navigate('Welcome')
     }
+
     render() {
 
         return (
             <View>
-                <Text>Name:{this.state.name}</Text>
-                <Text>Owner:{this.state.owner}</Text>
+                <Text>Username:{this.state.name}</Text>
+                <Text>Email:{this.state.email}</Text>
                 <Text>Bio:{this.state.bio}</Text>
-                <Text>Edad del usuario:{this.state.edad}</Text>
-                <TouchableOpacity onPress={() => this.logOut()}>
-                    <Text style={styles.button}>Logout</Text>
+                <Text>Age:{this.state.edad}</Text>
+
+                {/* <Text>User's Posts: {this.state.posts}</Text> */}
+
+                <FlatList
+                    data={this.state.posts}
+                    keyExtractor={item => item.id.toString()}
+                    renderItem={({ item }) => <Post postData={item} />}
+                />
+
+                <TouchableOpacity onPress={() => {
+                    if (auth.currentUser.email == this.state.email) {
+                        this.logOut()
+                    } else {
+                        this.setState({ logout: false })
+                    }
+                }}>
+                    <Text>Logout</Text>
                 </TouchableOpacity>
             </View >
         );
