@@ -114,7 +114,7 @@ class Post extends Component {
             <View style={styles.postContainer}>
                  <TouchableOpacity 
                     onPress={() => {
-                        this.props.navigation.navigate('ProfileStack', {user: this.props.postData.data.owner})}}>
+                        this.props.navigation.navigate('ProfileStack', {usuario: this.props.postData.data.owner})}}>
                          {/* Pasar props de datos de usuario a Profile */}
                     <Text> User: {this.props.postData.data.owner}</Text>
                 </TouchableOpacity>

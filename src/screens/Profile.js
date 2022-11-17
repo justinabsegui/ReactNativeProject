@@ -18,45 +18,81 @@ class Profile extends Component {
     }
 
     componentDidMount() {
-        if (auth.currentUser.email){ // Chequear que existe auth.currentUser.email
-        const email = auth.currentUser.email;
-       
-        db.collection('datosUsuario').where('owner', '==', this.props.user).onSnapshot(   // No traer todos los datos de la colección, filtrarlos al mismo tiempo que los traemos
-            docs => {//todos datos de la colección
-                let user;
-                // Corregir filter
-                docs.forEach(doc => { 
-                      //    Condicional: si las props están vacias, es tu perfil. Sino, es el de otro usuario (o es el tuyo y hay que comparar el mail con auth.currentUser.email)
-                    const data = doc.data();
-                        user = data
-                });
-            
-            }
-        );
+        if (auth.currentUser.email) { // Chequear que existe auth.currentUser.email
+            const email = auth.currentUser.email;
+            if (this.props.usuario !== undefined) {
+                db.collection('datosUsuario').where('owner', '===', this.props.usuario).onSnapshot(   // No traer todos los datos de la colección, filtrarlos al mismo tiempo que los traemos
+                    docs => {//todos datos de la colección
+                        let user;
+                        // Corregir filter
+                        docs.forEach(doc => {
+                            //    Condicional: si las props están vacias, es tu perfil. Sino, es el de otro usuario (o es el tuyo y hay que comparar el mail con auth.currentUser.email)
+                            const data = doc.data();
+                            user = data
+                        });
 
-        console.log(user);   
-       console.log(user);
-        this.setState({
-            email: user.owner,
-            name: user.name,
-            bio: user.dni,
-            edad: user.edad
-        });
-        db.collection('Posts').where('owner', '==' , ).onSnapshot(
-            docs => {
-                let posteos = [];
+                        this.setState({
+                            email: user.owner,
+                            name: user.name,
+                            bio: user.bio,
+                            edad: user.edad
+                        })
 
-                docs.forEach(doc => {
-                    posteos.push({
-                        id: doc.id,
-                        data: doc.data()
                     }
-                    )
-                })
-                const userPosts = posteos.filter(post => (post.data.owner === email));
-                this.setState({ posts: userPosts })
+                );
+                db.collection('Posts').where('owner', '==', this.props.usuario).onSnapshot(
+                    docs => {
+                        let posteos = [];
+
+                        docs.forEach(doc => {
+                            posteos.push({
+                                id: doc.id,
+                                data: doc.data()
+                            }
+                            )
+                        })
+
+                        this.setState({
+                            posts: posteos,
+                        })
+
+                    }
+                )
+            } else {
+                db.collection('datosUsuario').where('owner', '==', email).onSnapshot(   // No traer todos los datos de la colección, filtrarlos al mismo tiempo que los traemos
+                    docs => {//todos datos de la colección
+                        let user;
+                        docs.forEach(doc => {
+                            //    Condicional: si las props están vacias, es tu perfil. Sino, es el de otro usuario (o es el tuyo y hay que comparar el mail con auth.currentUser.email)
+                            const data = doc.data();
+                            user = data
+                        });
+
+                    }
+                );
+
+                this.setState({
+                    email: user.owner,
+                    name: user.name,
+                    bio: user.bio,
+                    edad: user.edad
+                });
+                db.collection('Posts').where('owner', '==', email).onSnapshot(
+                    docs => {
+                        let posteos = [];
+
+                        docs.forEach(doc => {
+                            posteos.push({
+                                id: doc.id,
+                                data: doc.data()
+                            })
+                        })
+                        this.setState({
+                            posts: posteos,
+                        })
+                    })
             }
-        )}
+        }
     }
 
     logOut() {
