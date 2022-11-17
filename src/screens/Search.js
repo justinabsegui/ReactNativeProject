@@ -12,6 +12,8 @@ class Search extends Component {
             filteredMail: [],
             search: false,
             postSearchText: '',
+            userErr: false,
+            mailErr: false, 
         }
     }
 
@@ -38,6 +40,14 @@ class Search extends Component {
         const filteredUsers = this.state.users.filter(user => user.data.name?.toLowerCase().includes(textToFilter));
 
         const filteredMail = this.state.users.filter(user => user.data.owner?.toLowerCase().includes(textToFilter));
+
+        if (filteredUsers == ''){
+            this.setState({userErr: true})
+        } else {this.setState({userErr: false})}
+        
+        if (filteredMail == ''){
+            this.setState({mailErr: true})
+        } else {this.setState({userErr: false})}
 
         this.setState({
             filteredUsers: filteredUsers
@@ -83,7 +93,7 @@ class Search extends Component {
                     <Text>Clear search</Text>
                 </TouchableOpacity>
                 {this.state.userErr ?
-                    <Text>El usuario no existe</Text>
+                    <Text>El usuario {this.state.postSearchText} no existe</Text>
                     :
                     <FlatList
                         style={styles.list}
@@ -92,8 +102,8 @@ class Search extends Component {
                         renderItem={({ item }) => <Text>{item.data.name}</Text>}
                     />
                 }  
-                {this.state.userErr ?
-                    <Text>El mail no existe</Text>
+                {this.state.mailErr ?
+                    <Text>El mail {this.state.postSearchText} no existe</Text>
                     :
                     <FlatList
                         style={styles.list}

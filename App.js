@@ -10,6 +10,8 @@ import NewPost from './src/screens/NewPost';
 import Search from './src/screens/Search';
 import Camara from './src/components/Camara';
 import Welcome from './src/screens/Welcome';
+import Post from './src/components/Post';
+import Profile from './src/screens/Profile';
 
 const Stack = createNativeStackNavigator();
 
@@ -27,6 +29,9 @@ export default function App() {
       <Stack.Screen name="Search" component={Search} />
       <Stack.Screen name="NewPost" component={NewPost} />
       <Stack.Screen name="Camara" component={Camara} />
+      <Stack.Screen name="ProfileStack" component={Profile} />
+      <Stack.Screen name="Post" component={Post} 
+         options={{tabBarIcon: () => <FontAwesome6 name="user-alt" size={24} color="black" />}}/>
       </Stack.Navigator>
     </NavigationContainer>
   );

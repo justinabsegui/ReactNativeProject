@@ -2,8 +2,6 @@ import React, { Component, Syle } from "react";
 import { Text, View, TouchableOpacity, StyleSheet, TextInput, FlatList, Image } from 'react-native';
 import { auth, db } from "../firebase/config";
 import firebase from "firebase";
-import TabNavigation from "./TabNavigation";
-
 
 //ver un posteo likear y comentar
 
@@ -109,19 +107,15 @@ class Post extends Component {
             vertodos: false,
         })
     }
-    // verUsuario() {
-    //     this.props.navigation.navigate('Profile');
-
-    // }
 
 
     render() {
         return (
             <View style={styles.postContainer}>
-                <TouchableOpacity onPress={() => {
-                     this.props.navigation.navigate('TabNavigation')
-                    // this.verUsuario(this.props.postData)
-                    }}>
+                 <TouchableOpacity 
+                    onPress={() => {
+                        this.props.navigation.navigate('ProfileStack', {user: this.props.postData.data.owner})}}>
+                         {/* Pasar props de datos de usuario a Profile */}
                     <Text> User: {this.props.postData.data.owner}</Text>
                 </TouchableOpacity>
                 <Image

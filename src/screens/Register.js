@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
+import Camara from '../components/Camara';
 import { db, auth } from '../firebase/config';
 
 class Register extends Component {
@@ -15,7 +16,9 @@ class Register extends Component {
             email: '',
             password: '',
             bio: '',
-            edad: ''
+            edad: '',
+            photo: '',
+            showCamera: true,
         }
     }
 
@@ -57,6 +60,14 @@ class Register extends Component {
             this.onSubmit()
         }
     }
+
+    onImageUpload(url) {
+        this.setState({
+            showCamera: false,
+            photo: url
+        });
+    }
+
     render() {
         return (
             <View style={styles.container}>
@@ -156,6 +167,12 @@ class Register extends Component {
                     onChangeText={text => this.setState({ bio: text })}
                     value={this.state.bio}
                 />
+                <Text style={styles.field}>Profile picture</Text>
+                {this.state.showCamera ?
+                    <Camara onImageUpload={url => this.onImageUpload(url)
+                    } />
+                    : <Text style={styles.profilePic}>Profile picture succesfully updated</Text>
+                }
 
 
                 <TouchableOpacity onPress={() => this.checkFields()}>
@@ -177,7 +194,7 @@ class Register extends Component {
 const styles = StyleSheet.create({
     container: {
         display: 'flex',
-        justifyContent:'center',
+        justifyContent: 'center',
         alignContent: 'center',
         flexWrap: 'wrap',
         paddingHorizontal: 10,
@@ -195,11 +212,11 @@ const styles = StyleSheet.create({
         padding: 3,
         marginBottom: 8,
         width: '20vw',
-    }, 
-    
+    },
+
     button: {
         display: 'flex',
-        justifyContent:'center',
+        justifyContent: 'center',
         alignContent: 'center',
         borderColor: '#067dc7',
         borderWidth: 1,
