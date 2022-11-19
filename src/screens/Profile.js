@@ -13,7 +13,7 @@ class Profile extends Component {
             edad: '',
             logout: true,
             posts: [],
-
+            
         }
     }
 

@@ -104,19 +104,25 @@ class Post extends Component {
         })
     }
 
+    otroProfile(user) {
+        this.props.navigation.navigate("OtroProfile", { usuario: user })
+    }
 
     render() {
         return (
             <View style={styles.postContainer}>
-                <TouchableOpacity
-                    onPress={() => {
-                        this.props.navigation.navigate('ProfileStack', { usuario: this.props.postData.data.owner })
-                    }}>
-                    {/* Pasar props de datos de usuario a Profile */}
-                    <Text style={styles.user}> {this.props.postData.data.owner} </Text>
-                    {/* Pasar props de description a Profile */}
-                    <Text style={styles.pie}> {this.props.postData.data.description}</Text>
-                </TouchableOpacity>
+                {this.props.postData.data.owner == auth.currentUser.email
+                    ?
+                    <Text style={styles.user} onPress={() => this.props.navigation.navigate("Profile", {id: this.props.id})} >
+                        {this.props.postData.data.owner}
+                    </Text>
+                    :
+                    <Text style={styles.user} onPress={() => this.otroProfile(this.props.postData.data.owner)} >
+                        {this.props.postData.data.owner}
+                    </Text>
+                }
+
+                <Text style={styles.pie}> {this.props.postData.data.description}</Text>
 
                 <Image
                     style={styles.photo}
@@ -141,7 +147,7 @@ class Post extends Component {
                         <View>
                             {
                                 this.state.vercomentarios ? //apreto ver comentarios (es true)
-                                
+
                                     <View>
                                         <Text style={styles.datos}> Comentarios:</Text>
                                         <FlatList
