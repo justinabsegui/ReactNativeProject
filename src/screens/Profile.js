@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, FlatList } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, FlatList, ScrollView } from 'react-native';
 import Post from '../components/Post';
 import { db, auth } from '../firebase/config';
 
@@ -13,7 +13,7 @@ class Profile extends Component {
             edad: '',
             logout: true,
             posts: [],
-            
+
         }
     }
 
@@ -105,7 +105,7 @@ class Profile extends Component {
     render() {
 
         return (
-            <View>
+            <ScrollView>
                 <Text>Username:{this.state.name}</Text>
                 <Text>Email:{this.state.email}</Text>
                 <Text>Bio:{this.state.bio}</Text>
@@ -128,7 +128,7 @@ class Profile extends Component {
                 }}>
                     <Text>Logout</Text>
                 </TouchableOpacity>
-            </View >
+            </ScrollView >
         );
     }
 }

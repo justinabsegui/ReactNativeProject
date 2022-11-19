@@ -15,6 +15,7 @@ class Post extends Component {
             comment: '',
             vercomentarios: false,
             vertodos: false,
+            borrar: false,
         }
     }
     componentDidMount() {
@@ -108,12 +109,24 @@ class Post extends Component {
         this.props.navigation.navigate("OtroProfile", { usuario: user })
     }
 
+    alertaBorrarMensaje(){
+        this.setState({alertaBorrarMensaje: 'Estas seguro que queres borrar este comentario?', borrar: true})
+    }
+
+    borrarPosteos(){
+        db.collection('Posts').doc(this.props.postData.id).delete()
+    }
+
+    noBorrar(){
+        this.setState({alertaBorrarMensaje: '', borrar: false})
+    }
+
     render() {
         return (
             <View style={styles.postContainer}>
                 {this.props.postData.data.owner == auth.currentUser.email
                     ?
-                    <Text style={styles.user} onPress={() => this.props.navigation.navigate("Profile", {id: this.props.id})} >
+                    <Text style={styles.user} onPress={() => this.props.navigation.navigate("Profile")} >
                         {this.props.postData.data.owner}
                     </Text>
                     :
@@ -185,6 +198,7 @@ class Post extends Component {
                                     <TouchableOpacity onPress={() => this.vercomentarios()}>
                                         <Text style={styles.datos}>Ver los comentarios</Text>
                                     </TouchableOpacity>
+
                             }
                         </View>
                         :
@@ -202,7 +216,30 @@ class Post extends Component {
                         <Text style={styles.comentarr}>Comentar</Text>
                     </TouchableOpacity>
                 </View>
+                { //form para borrar
+                    this.props.postData.data.owner == auth.currentUser.email ?
+                        <>
+                            <TouchableOpacity onPress={() => this.alertaBorrarMensaje()}>
+                                <Text style={styles.comentar}>Borrar posteo</Text>
+                            </TouchableOpacity>
 
+                            <Text>{this.state.alertaBorrarMensaje}</Text>
+                            {this.state.borrar ?
+                                <View>
+                                    <TouchableOpacity onPress={() => this.borrarPosteos()}>
+                                        <Text style={styles.comentar}>Si</Text>
+                                    </TouchableOpacity>
+                                    <TouchableOpacity onPress={() => this.noBorrar()}>
+                                        <Text style={styles.comentar}>No</Text>
+                                    </TouchableOpacity>
+                                </View>
+                                :
+                                <></>
+                            }
+                        </>
+                        :
+                        <></>
+                }
 
             </View>
         )
