@@ -13,7 +13,8 @@ class Profile extends Component {
             edad: '',
             logout: true,
             posts: [],
-
+            borrar: false,
+            alertaBorrarMensaje: ''
         }
     }
 
@@ -102,10 +103,46 @@ class Profile extends Component {
         this.props.navigation.navigate('Login')
     }
 
+    alertaBorrarMensaje(){
+        this.setState({alertaBorrarMensaje: 'Estas seguro que queres borrar este comentario?', borrar: true})
+    }
+
+    borrarPerfil(){
+        db.collection('datosUsuario').doc(this.props.postData.id).delete()
+    }
+
+    noBorrar(){
+        this.setState({alertaBorrarMensaje: '', borrar: false})
+    }
+
     render() {
 
         return (
             <ScrollView>
+                { //form para borrar                
+                    this.props.usuario == auth.currentUser.email ?
+                        <>
+                            <TouchableOpacity onPress={() => this.alertaBorrarMensaje()}>
+                                <Text style={styles.comentarr}>Borrar posteo</Text>
+                            </TouchableOpacity>
+
+                            <Text>{this.state.alertaBorrarMensaje}</Text>
+                            {this.state.borrar ?
+                                <View>
+                                    <TouchableOpacity onPress={() => this.borrarPerfil()}>
+                                        <Text style={styles.comentarr}>Si</Text>
+                                    </TouchableOpacity>
+                                    <TouchableOpacity onPress={() => this.noBorrar()}>
+                                        <Text style={styles.comentarr}>No</Text>
+                                    </TouchableOpacity>
+                                </View>
+                                :
+                                <></>
+                            }
+                        </>
+                        :
+                        <></>
+                }
                 <Text>Username:{this.state.name}</Text>
                 <Text>Email:{this.state.email}</Text>
                 <Text>Bio:{this.state.bio}</Text>
@@ -133,10 +170,88 @@ class Profile extends Component {
     }
 }
 const styles = StyleSheet.create({
-    button: {
-        color: 'blue',
-        border: 'none',
-        padding: 5
-    }
+    photo: {
+        height: 250,
+    },
+    postContainer: {
+        borderRadius: 20,
+        borderColor: 'purple',
+        borderWidth: 1,
+        borderStyle: 'solid',
+        paddingHorizontal: 10,
+        paddingVertical: 5,
+        margin: 15
+    },
+    user: {
+        color: 'purple',
+        display: 'flex',
+        justifyContent: 'center',
+        alignContent: 'center',
+        flexWrap: 'wrap',
+        margin: 10,
+    },
+    datos: {
+        display: 'flex',
+        justifyContent: 'left',
+        alignContent: 'left',
+        flexWrap: 'wrap',
+        marginBottom: 5
+    },
+
+    like: {
+        color: 'red',
+        display: 'flex',
+        justifyContent: 'left',
+        alignContent: 'left',
+    },
+    unlike: {
+        color: 'black',
+        display: 'flex',
+        justifyContent: 'left',
+        alignContent: 'left',
+
+    },
+    pie: {
+        color: 'purple',
+        display: 'flex',
+        justifyContent: 'left',
+        alignContent: 'left',
+        flexWrap: 'wrap',
+        marginBottom: 5,
+    },
+    comentar: {
+        color: 'black',
+        display: 'flex',
+        opacity: 10,
+        justifyContent: 'center',
+        alignContent: 'center',
+        flexWrap: 'wrap',
+        borderColor: 'purple',
+        borderWidth: 1,
+        borderRadius: 20,
+        padding: 6,
+        width: 300,
+        margin: 5,
+        padding: 6,
+    },
+    comentarr: {
+        color: 'white',
+        display: 'flex',
+        opacity: 10,
+        justifyContent: 'center',
+        alignContent: 'center',
+        flexWrap: 'wrap',
+        borderRadius: 20,
+        padding: 6,
+        width: 80,
+        backgroundColor: 'purple',
+    },
+    comments: {
+        display: 'flex',
+        justifyContent: 'left',
+        alignContent: 'left',
+        flexWrap: 'wrap',
+    },
+
 })
 export default Profile;
