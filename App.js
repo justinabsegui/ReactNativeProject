@@ -12,6 +12,7 @@ import Camara from './src/components/Camara';
 import Post from './src/components/Post';
 import Profile from './src/screens/Profile';
 import OtroProfile from './src/screens/OtroProfile';
+// import Comment from './src/screens/Comment';
 
 const Stack = createNativeStackNavigator();
 
@@ -30,6 +31,7 @@ export default function App() {
       <Stack.Screen name="Camara" options={ { headerShown: false } }  component={Camara} />
       <Stack.Screen name="Profile" component={Profile} />
       <Stack.Screen name="OtroProfile" component={OtroProfile} />
+      {/* <Stack.Screen name="Comment" component={Comment} /> */}
       <Stack.Screen name="Post" component={Post} 
       
          options={{tabBarIcon: () => <FontAwesome6 name="user-alt" size={24} color="black" />}}/>
