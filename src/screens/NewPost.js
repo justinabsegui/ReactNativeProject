@@ -64,8 +64,7 @@ class NewPost extends Component {
                     this.state.showCamera ?
                         <Camara onImageUpload={url => this.onImageUpload(url)} /> //metodo para guardar imagen
                         :
-                        <ScrollView>
-                            <Text>Nuevo Post</Text>
+                        <ScrollView style={styles.borde}>
                             <TextInput style={styles.input}
                                 placeholder='Descripción'
                                 keyboardType='text'
@@ -73,9 +72,8 @@ class NewPost extends Component {
                                 value={this.state.description}
                             />
                             {/* <Camara onImageUpload={(url) => this.onImageUpload(url)} /> */}
-                            <TouchableOpacity style={styles.button}
-                                onPress={() => this.createPost(this.state.description, this.state.photo)}>
-                                <Text style={styles.textButton}>Postear</Text>
+                            <TouchableOpacity onPress={() => this.createPost(this.state.description, this.state.photo)}>
+                                <Text style={styles.button}>Postear</Text>
                             </TouchableOpacity>
                         </ScrollView>
                 }
@@ -91,26 +89,28 @@ const styles = StyleSheet.create({
     },
     input: {
         height: 100,
-        paddingVertical: 15,
-        paddingHorizontal: 10,
-        borderWidth: 1,
-        borderColor: '#ccc',
-        borderStyle: 'solid',
-        borderRadius: 6,
-        marginVertical: 10,
+        padding:20,
     },
     button: {
-        backgroundColor: '#28A745',
-        paddingHorizontal: 10,
-        paddingVertical: 6,
-        textAlign: 'center',
-        borderRadius: 4,
+        color:'white',
+        display: 'flex',
+        justifyContent: 'center',
+        alignContent: 'center',
+        alignItems:'center',
+        flexWrap: 'wrap',
+        borderColor: 'purple',
         borderWidth: 1,
-        borderStyle: 'solid',
-        borderColor: '#28A745'
+        borderRadius: 20,
+        padding: 10,
+        width: 80,
+        margin: 5,
+        backgroundColor: 'purple',
     },
-    textButton: {
-        color: '#fff'
+    borde:{
+        borderColor: 'purple',
+        borderWidth: 1,
+        borderRadius: 20,
     }
+    
 })
 export default NewPost;

@@ -97,7 +97,7 @@ class Profile extends Component {
 
     logOut() {
         auth.signOut();
-        this.props.navigation.navigate('Welcome')
+        this.props.navigation.navigate('Login')
     }
 
     render() {

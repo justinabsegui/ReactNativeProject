@@ -71,7 +71,7 @@ class Register extends Component {
     render() {
         return (
             <View style={styles.container}>
-                <Text style={styles.title}>Registrar usuario</Text>
+                <Text style={styles.title}>Crear una cuenta</Text>
                 {this.state.nameError !== '' ?
                     <Text style={styles.error}>Error: {this.state.nameError}</Text>
                     :
@@ -201,31 +201,36 @@ const styles = StyleSheet.create({
         marginTop: 10
     },
     title: {
-        marginBottom: 20,
-        fontSize: 40,
-    },
-    field: {
-        display: 'flex',
-        borderColor: '#dcdcdc',
-        borderWidth: 1,
-        borderRadius: 2,
-        padding: 3,
-        marginBottom: 8,
-        width: '20vw',
-    },
-
-    button: {
         display: 'flex',
         justifyContent: 'center',
         alignContent: 'center',
-        borderColor: '#067dc7',
+        marginBottom: 20,
+        fontSize: 30,
+        color:'purple',
+        margin: 40,
+    },
+    field: {
+        display: 'flex',
+        borderColor: 'purple',
         borderWidth: 1,
         borderRadius: 20,
-        padding: 3,
-        width: '10vw',
-        marginBottom: 3,
-        color: '#140101',
-        backgroundColor: '#0994eb',
+        padding: 10,
+        margin: 5,
+        width: 300,
+    },
+    button: {
+        color:'white',
+        display: 'flex',
+        justifyContent: 'center',
+        alignContent: 'center',
+        flexWrap: 'wrap',
+        borderColor: 'purple',
+        borderWidth: 1,
+        borderRadius: 20,
+        padding: 10,
+        width: 90,
+        margin: 5,
+        backgroundColor: 'purple',
     },
     error: {
         borderColor: '#e81515',

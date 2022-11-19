@@ -73,24 +73,24 @@ class Search extends Component {
 
     render() {
         return (
-            <View style={styles.container}>
-                <TextInput
+            <View >
+                <TextInput style={styles.container}
                     placeholder='Search'
                     keyboardType='default'
                     onChangeText={text => this.setState({ postSearchText: text })}
                     value={this.state.postSearchText}
                     onChange={(event) => this.controlChanges(event)}
-                    style={styles.input}
+                    
                 />
                 {this.state.postSearchText == '' ?
                     <Text>El campo no puede estar vacio</Text>
                     :
-                    <TouchableOpacity onPress={(event) => this.preventSubmit(event)} style={styles.button}>
+                    <TouchableOpacity onPress={(event) => this.preventSubmit(event)} >
                         <Text style={styles.textButton}>Enviar</Text>
                     </TouchableOpacity>
                 }
                 <TouchableOpacity onPress={() => this.clear()}>
-                    <Text>Clear search</Text>
+                    <Text style={styles.textButton}>Clear search</Text>
                 </TouchableOpacity>
                 {this.state.userErr ?
                     <Text>El usuario {this.state.postSearchText} no existe</Text>
@@ -123,32 +123,47 @@ const styles = StyleSheet.create({
         backgroundColor: 'white',
         alignItems: 'center',
         textAlign: 'center',
-        width: '100%',
-    },
-    input: {
+        color: 'black',
+        borderColor: 'purple',
+        borderWidth: 1,
+        borderRadius: 20,
         width: 300,
         height: 44,
         padding: 10,
-        borderWidth: 1,
-        borderColor: '#00ADB5',
-        marginTop: 10,
-        marginBottom: 10,
-        borderRadius: 5,
     },
+   
     list: {
         width: '100%',
         height: '100%',
     },
     button: {
-        backgroundColor: '#00ADB5',
+        color:'white',
+        display: 'flex',
+        justifyContent: 'center',
+        alignContent: 'center',
+        flexWrap: 'wrap',
+        borderWidth: 1,
+        borderRadius: 20,
         padding: 10,
-        margin: 10,
-        borderRadius: 5,
+        width: 40,
+        margin: 5,
+        backgroundColor: 'purple',
     },
     textButton: {
         color: 'black',
-        textAlign: 'center',
-        fontWeight: 'bold',
+        display: 'flex',
+        opacity: 10,
+        justifyContent: 'center',
+        alignContent: 'center',
+        flexWrap: 'wrap',
+        borderColor: 'purple',
+        backgroundColor: 'purple',
+        borderWidth: 1,
+        borderRadius: 20,
+        padding: 6,
+        width: 100,
+        margin: 5,
+        padding: 6,
     },
 
 })

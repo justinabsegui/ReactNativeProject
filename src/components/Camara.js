@@ -78,12 +78,12 @@ class Camara extends Component {
                                     ref={(metodos) => this.metodosDeCamara = metodos}
                                 />
                                     {/*   botón que saca la foto con  método takePicture() */}
-                                    <TouchableOpacity style={styles.shootButton} onPress={() => this.takePicture()}>
-                                        <Text>Shoot</Text>
+                                    <TouchableOpacity onPress={() => this.takePicture()}>
+                                        <Text style={styles.shootButton}>Shoot</Text>
                                     </TouchableOpacity>
                             </View>
                                 :
-                                <View style={styles.button}>
+                                <View>
                                     <Image
                                         style={styles.preview}
                                         source={{ uri: this.state.photo }}
@@ -91,11 +91,11 @@ class Camara extends Component {
                                     />
                                     {/* botones aceptar o borrar foto  */}
                                     <TouchableOpacity onPress={() => this.savePhoto()}>
-                                        <Text>Aceptar</Text>
+                                        <Text style={styles.button}>Aceptar</Text>
                                     </TouchableOpacity>
 
                                     <TouchableOpacity onPress={() => this.clearPhoto()}>
-                                        <Text>Descartar imagen</Text>
+                                        <Text style={styles.button}>Descartar imagen</Text>
                                     </TouchableOpacity>
                                 </View>
                          
@@ -118,15 +118,32 @@ const styles = StyleSheet.create({
         height: 300,
     },
     shootButton: {
-        flex: 0,
-        borderRadius: 5,
-        alignSelf: 'center',
-        margin: 20
+        color:'white',
+        display: 'flex',
+        justifyContent: 'center',
+        alignContent: 'center',
+        flexWrap: 'wrap',
+        borderColor: 'purple',
+        borderWidth: 1,
+        borderRadius: 20,
+        padding: 10,
+        width: 80,
+        margin: 5,
+        backgroundColor: 'purple',
     },
     button: {
+        color:'white',
+        display: 'flex',
+        justifyContent: 'center',
+        alignContent: 'center',
+        flexWrap: 'wrap',
+        borderColor: 'purple',
+        borderWidth: 1,
+        borderRadius: 20,
         padding: 10,
-        margin: 10,
-        borderRadius: 5,
+        width: 80,
+        margin: 5,
+        backgroundColor: 'purple',
     },
 })
 

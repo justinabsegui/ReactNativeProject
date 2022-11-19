@@ -3,6 +3,7 @@ import { Text, View, TouchableOpacity, StyleSheet, TextInput, FlatList, Image } 
 import { auth, db } from "../firebase/config";
 import firebase from "firebase";
 
+
 //ver un posteo likear y comentar
 
 class Post extends Component {
@@ -24,7 +25,6 @@ class Post extends Component {
             })
         }
     }
-
     likear() {
         //Agregar mi email a un array
         db.collection('Posts').doc(this.props.postData.id).update({
@@ -55,8 +55,6 @@ class Post extends Component {
             })
             .catch(e => console.log(e));
     }
-
-
     publicarComentario() {
         //Armar el comentario.
         console.log('Guardando comentario...');
@@ -79,10 +77,8 @@ class Post extends Component {
                     })
                 })
                 .catch(e => console.log(e))
-
         }
     }
-
     vercomentarios() {
         this.setState({
             vercomentarios: true,
@@ -112,26 +108,31 @@ class Post extends Component {
     render() {
         return (
             <View style={styles.postContainer}>
-                 <TouchableOpacity 
+                <TouchableOpacity
                     onPress={() => {
-                        this.props.navigation.navigate('ProfileStack', {usuario: this.props.postData.data.owner})}}>
-                         {/* Pasar props de datos de usuario a Profile */}
-                    <Text> User: {this.props.postData.data.owner}</Text>
+                        this.props.navigation.navigate('ProfileStack', { usuario: this.props.postData.data.owner })
+                    }}>
+                    {/* Pasar props de datos de usuario a Profile */}
+                    <Text style={styles.user}> {this.props.postData.data.owner} </Text>
+                    {/* Pasar props de description a Profile */}
+                    <Text style={styles.pie}> {this.props.postData.data.description}</Text>
                 </TouchableOpacity>
+
                 <Image
                     style={styles.photo}
                     source={{ uri: this.props.postData.data.photo }}
                     resizeMode='cover'
                 />
-                <Text> Caption: {this.props.postData.data.description}</Text>
-                <Text>Likes: {this.state.likes}</Text>
+                <Text style={styles.datos}>Cantidad de likes: {this.state.likes}</Text>
+
+                {/* poner el corazonnn */}
                 {
                     this.state.myLike ?
                         <TouchableOpacity onPress={() => this.unlike()}>
-                            <Text>Quitar like</Text>
+                            <Text style={styles.unlike}> Ya no me gusta</Text>
                         </TouchableOpacity> :
                         <TouchableOpacity onPress={() => this.likear()}>
-                            <Text>Me gusta</Text>
+                            <Text style={styles.like}>Me gusta</Text>
                         </TouchableOpacity>
                 }
                 {/* Listar los comentarios  */}
@@ -139,58 +140,64 @@ class Post extends Component {
                     this.props.postData.data.comments ? //si comentarios es true
                         <View>
                             {
-                                this.state.vercomentarios ? //si ver comentarios es true (apreto boton ver comentarios)
+                                this.state.vercomentarios ? //apreto ver comentarios (es true)
+                                
                                     <View>
+                                        <Text style={styles.datos}> Comentarios:</Text>
                                         <FlatList
-                                            data={
-                                                this.state.vertodos ? // ver todos es true
-                                                    this.props.postData.data.comments
-                                                    : //me devuelve todos los comments
-                                                    this.props.postData.data.comments.slice(-4)  // me devuelve 4 y tengo boton ver todos
+                                            data={this.state.vertodos ? // apreto ver todos (es true)
+                                                this.props.postData.data.comments //me devuelve todos los comments
+                                                :
+                                                this.props.postData.data.comments.slice(-4)  // me devuelve 4 y tengo boton ver todos
                                             }
                                             keyExtractor={post => post.createdAt.toString()}
-                                            renderItem={({ item }) => <Text> {item.author}: {item.commentText}</Text>}
+                                            renderItem={({ item }) => <Text style={styles.comments}> {item.author}: {item.commentText}</Text>}
+
                                         />
-                                        {this.state.vertodos ? //si ver TODOS es true (apreto boton ver TODOS)
+
+                                        {this.state.vertodos ? //si apreto boton ver TODOS (es true)
                                             //mostrar boton ver menos
                                             <TouchableOpacity onPress={() => this.vermenos()}>
-                                                <Text style={styles.button}>Ver menos comentarios</Text>
+                                                <Text style={styles.datos}>Ver menos comentarios</Text>
                                             </TouchableOpacity>
-                                            : // ver todos es false, mostrar boton ver todos
+
+                                            : //si no apreto boton ver TODOS (es false)
+                                            //mostrar boton ver todos
                                             <TouchableOpacity onPress={() => this.vertodos()}>
-                                                <Text style={styles.button}>Ver todos los comentarios</Text>
+                                                <Text style={styles.datos}>Ver todos los comentarios</Text>
                                             </TouchableOpacity>
                                         }
+
                                         {/* always opcion de ocultarcomentarios */}
                                         <TouchableOpacity onPress={() => this.ocultarcomentarios()}>
-                                            <Text style={styles.button}>Ocultar los comentarios</Text>
+                                            <Text style={styles.datos}>Ocultar los comentarios</Text>
                                         </TouchableOpacity>
+
                                     </View>
 
                                     : // si no apreto ver comentarios me muestra el boton
                                     <TouchableOpacity onPress={() => this.vercomentarios()}>
-                                        <Text style={styles.button}>Ver los comentarios</Text>
+                                        <Text style={styles.datos}>Ver los comentarios</Text>
                                     </TouchableOpacity>
                             }
-                            <View>
-
-                            </View>
                         </View>
                         :
                         <Text> No hay comentarios</Text>
                 }
-
                 {/* Form para nuevo comentario */}
                 <View>
-                    <TextInput keyboardType='default'
+                    <TextInput style={styles.comentar}
+                        keyboardType='default'
                         placeholder='Escribí tu comentario'
                         onChangeText={(text) => { this.setState({ comment: text }) }}
                         value={this.state.comment}
                     />
                     <TouchableOpacity onPress={() => this.publicarComentario()}>
-                        <Text style={styles.button} >Comentar</Text>
+                        <Text style={styles.comentarr}>Comentar</Text>
                     </TouchableOpacity>
                 </View>
+
+
             </View>
         )
     }
@@ -201,22 +208,85 @@ const styles = StyleSheet.create({
         height: 250,
     },
     postContainer: {
-        borderColor: '#ccc',
+        borderRadius: 20,
+        borderColor: 'purple',
         borderWidth: 1,
         borderStyle: 'solid',
         paddingHorizontal: 10,
         paddingVertical: 5,
-        marginBottom: 15,
-        marginHorizontal: 10,
+        margin: 15
     },
-    closeButton: {
-        backgroundColor: '#DC3545',
-        color: '#fff',
-        padding: 5,
-        borderRadius: 4,
+    user: {
+        color: 'purple',
+        display: 'flex',
+        justifyContent: 'center',
+        alignContent: 'center',
+        flexWrap: 'wrap',
+        margin: 10,
+    },
+    datos: {
+        display: 'flex',
+        justifyContent: 'left',
+        alignContent: 'left',
+        flexWrap: 'wrap',
+        marginBottom: 5
+    },
+
+    like: {
+        color: 'red',
+        display: 'flex',
+        justifyContent: 'left',
+        alignContent: 'left',
+    },
+    unlike: {
+        color: 'black',
+        display: 'flex',
+        justifyContent: 'left',
+        alignContent: 'left',
+
+    },
+    pie: {
+        color: 'purple',
+        display: 'flex',
+        justifyContent: 'left',
+        alignContent: 'left',
+        flexWrap: 'wrap',
+        marginBottom: 5,
+    },
+    comentar: {
+        color: 'black',
+        display: 'flex',
+        opacity: 10,
+        justifyContent: 'center',
+        alignContent: 'center',
+        flexWrap: 'wrap',
+        borderColor: 'purple',
+        borderWidth: 1,
+        borderRadius: 20,
+        padding: 6,
+        width: 300,
         margin: 5,
-        alignSelf: 'flex-end'
-    }
+        padding: 6,
+    },
+    comentarr: {
+        color: 'white',
+        display: 'flex',
+        opacity: 10,
+        justifyContent: 'center',
+        alignContent: 'center',
+        flexWrap: 'wrap',
+        borderRadius: 20,
+        padding: 6,
+        width: 80,
+        backgroundColor: 'purple',
+    },
+    comments: {
+        display: 'flex',
+        justifyContent: 'left',
+        alignContent: 'left',
+        flexWrap: 'wrap',
+    },
+
 })
 
 export default Post;

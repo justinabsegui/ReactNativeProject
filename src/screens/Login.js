@@ -1,3 +1,4 @@
+import { WhiteBalance } from 'expo-camera';
 import React, { Component } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
 import { auth } from '../firebase/config';
@@ -54,7 +55,8 @@ class Login extends Component {
         return (
 
             <View style={styles.container}>
-                <Text style={styles.title}>Logueo</Text>
+                <Text style={styles.title}>Iniciar sesión</Text>
+
                 {this.state.emailError !== '' ?
                     <Text style={styles.error}>Error: {this.state.emailError}</Text>
                     :
@@ -86,13 +88,16 @@ class Login extends Component {
                     }}
                     value={this.state.password}
                 />
-                <TouchableOpacity onPress={() => this.onSubmit()}>
-                    <Text style={styles.button}>Login</Text>
-                </TouchableOpacity>
 
-                <TouchableOpacity onPress={() => this.props.navigation.navigate('Register')}>
-                    <Text style={styles.button}>Register</Text>
-                </TouchableOpacity>
+                <View style={styles.cont}>
+                    <TouchableOpacity onPress={() => this.onSubmit()}>
+                        <Text style={styles.button}>Ingresar</Text>
+                    </TouchableOpacity>
+                    <Text> ¿Aún no tienes cuenta? </Text>
+                    <TouchableOpacity onPress={() => this.props.navigation.navigate('Register')}>
+                        <Text style={styles.button2}> Registrarme</Text>
+                    </TouchableOpacity>
+                </View>
             </View>
 
         )
@@ -106,35 +111,59 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignContent: 'center',
         flexWrap: 'wrap',
-        paddingHorizontal: 10,
-        marginTop: 10
+        margin: 10
     },
     title: {
-        marginBottom: 20,
-        fontSize: 40,
-    },
-    field: {
-        display: 'flex',
-        borderColor: '#dcdcdc',
-        borderWidth: 1,
-        borderRadius: 2,
-        padding: 3,
-        marginBottom: 8,
-        width: '20vw',
-    },
-
-    button: {
         display: 'flex',
         justifyContent: 'center',
         alignContent: 'center',
-        borderColor: '#067dc7',
+        marginBottom: 20,
+        fontSize: 30,
+        color:'purple',
+        margin: 40,
+    },
+    field: {
+        display: 'flex',
+        borderColor: 'purple',
         borderWidth: 1,
         borderRadius: 20,
-        padding: 3,
-        width: '10vw',
-        marginBottom: 3,
-        color: '#140101',
-        backgroundColor: '#0994eb',
+        padding: 10,
+        margin: 5,
+        width: 300,
+    },
+
+    button: {
+        color:'white',
+        display: 'flex',
+        justifyContent: 'center',
+        alignContent: 'center',
+        flexWrap: 'wrap',
+        borderColor: 'purple',
+        borderWidth: 1,
+        borderRadius: 20,
+        padding: 10,
+        width: 80,
+        margin: 5,
+        backgroundColor: 'purple',
+    },
+
+    button2: {
+        color:'white',
+        display: 'flex',
+        justifyContent: 'center',
+        alignContent: 'center',
+        flexWrap: 'wrap',
+        borderColor: 'purple',
+        borderWidth: 1,
+        borderRadius: 20,
+        padding: 7.9,
+        width: 100,
+        margin:5,  
+        backgroundColor: 'purple',
+    },
+    cont: {
+       alignItems: 'center',
+
     },
     error: {
         borderColor: '#e81515',

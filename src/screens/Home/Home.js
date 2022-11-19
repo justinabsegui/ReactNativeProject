@@ -35,10 +35,6 @@ class Home extends Component {
         console.log(this.state.posts)
         return (
             <ScrollView style={estilosCss().container}>
-           {/* <TouchableOpacity onPress={() => this.props.navigation.navigate('NewPost')}>
-                <Text style={estilosCss().touchable}> Añadir post </Text>
-            </TouchableOpacity> */}
-        
             <FlatList
                 data={this.state.posts}
                 keyExtractor={item => item.id.toString()}
@@ -52,22 +48,7 @@ const estilosCss = () => StyleSheet.create({
     container: {
         textAlign: 'center',
         padding: 10,
-    },
-    touchable: {
-        padding: 4,
-        backgroundColor: '#ccc',
-        marginBottom: 10,
-        borderRadius: 4,
-    },
-    text: {
-        fontWeight: 'bold'
-    },
-    contadorContainer: {
-        marginVertical: 4
-    },
-    
-    textContador: {
-        fontWeight: 'bold'
+
     }
 })
 export default Home;
