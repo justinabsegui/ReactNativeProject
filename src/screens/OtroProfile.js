@@ -22,14 +22,13 @@ class OtroProfile extends Component {
             const email = auth.currentUser.email;
             console.log(this.props.route.params.usuario);
 
-            db.collection('datosUsuario').where('owner', '===', this.props.route.params.usuario).onSnapshot(   // No traer todos los datos de la colección, filtrarlos al mismo tiempo que los traemos
+            db.collection('datosUsuario').where('owner', '==', this.props.route.params.usuario).onSnapshot(   // No traer todos los datos de la colección, filtrarlos al mismo tiempo que los traemos
                 docs => {//todos datos de la colección
                     let user = '';
                     // Corregir filter
                     docs.forEach(doc => {
                         //    Condicional: si las props están vacias, es tu perfil. Sino, es el de otro usuario (o es el tuyo y hay que comparar el mail con auth.currentUser.email)
-                        const data = doc.data();
-                        user = data
+                        user = doc.data();
                     });
 
                     this.setState({

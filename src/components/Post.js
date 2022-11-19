@@ -126,7 +126,7 @@ class Post extends Component {
             <View style={styles.postContainer}>
                 {this.props.postData.data.owner == auth.currentUser.email
                     ?
-                    <Text style={styles.user} onPress={() => this.props.navigation.navigate("Profile", {usuario: this.props.postData.data.owner})} >
+                    <Text style={styles.user} onPress={() => this.props.navigation.navigate("Profile")} >
                         {this.props.postData.data.owner}
                     </Text>
                     :
