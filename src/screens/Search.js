@@ -41,21 +41,12 @@ class Search extends Component {
         const filteredMail = this.state.users.filter(user => user.data.owner?.toLowerCase().includes(textToFilter));
 
         if (filteredUsers == ''){
-            this.setState({userErr: true})
-        } else {this.setState({userErr: false})}
+            this.setState({userErr: true, filteredUsers: ''})
+        } else {this.setState({userErr: false, filteredUsers: filteredUsers})}
         
         if (filteredMail == ''){
-            this.setState({mailErr: true})
-        } else {this.setState({mailErr: false})}
-
-        this.setState({
-            filteredUsers: filteredUsers,
-            filteredMail: filteredMail
-        });
-    };
-
-    controlChanges(event) {
-        this.setState({ searchText: event.target.value });
+            this.setState({mailErr: true, filteredMail: ''})
+        } else {this.setState({mailErr: false, filteredMail: filteredMail})}
     };
 
     clear() {
@@ -86,14 +77,16 @@ class Search extends Component {
                     } else {
                         this.setState({ emptySearch: '', searchText: text});
                         this.preventSubmit();
+                        console.log(this.state.filteredUsers);
+                        console.log(this.state.filteredMail);
                     }
                }}
                     value={this.state.searchText}
-                    onChange={(event) => this.controlChanges(event)}
+            
                 />
                 
                 <TouchableOpacity onPress={() => this.clear()}>
-                    <Text style={styles.textButton}>Clear search</Text>
+                    <Text style={styles.textButton}>Borrar búsqueda</Text>
                 </TouchableOpacity>
                 {this.state.userErr ?
                     <Text>El usuario {this.state.searchText} no existe</Text>
