@@ -10,10 +10,10 @@ class Search extends Component {
             users: [],
             filteredUsers: [],
             filteredMail: [],
-            search: false,
-            postSearchText: '',
+            searchText: '',
             userErr: false,
             mailErr: false, 
+            emptySearch: '', 
         }
     }
 
@@ -32,10 +32,9 @@ class Search extends Component {
         )
     }
 
-    preventSubmit(event) {
-        event.preventDefault();
+    preventSubmit() {
         
-        let textToFilter = this.state.postSearchText.toLowerCase();
+        let textToFilter = this.state.searchText.toLowerCase()
 
         const filteredUsers = this.state.users.filter(user => user.data.name?.toLowerCase().includes(textToFilter));
 
@@ -47,70 +46,87 @@ class Search extends Component {
         
         if (filteredMail == ''){
             this.setState({mailErr: true})
-        } else {this.setState({userErr: false})}
+        } else {this.setState({mailErr: false})}
 
         this.setState({
-            filteredUsers: filteredUsers
-        });
-
-        this.setState({
+            filteredUsers: filteredUsers,
             filteredMail: filteredMail
         });
     };
 
-
     controlChanges(event) {
-        this.setState({ postSearchText: event.target.value });
+        this.setState({ searchText: event.target.value });
     };
 
     clear() {
         this.setState({
             result: [],
-            search: false,
-            postSearchText: '',
+            searchText: '',
+            userErr: false,
+            mailErr: false,
+
         })
     };
 
     render() {
         return (
             <View >
+                 {this.state.emptySearch !== '' ?
+                    <Text style={styles.error}>{this.state.emptySearch}</Text>
+                    :
+                    <></>}
                 <TextInput style={styles.container}
                     placeholder='Search'
                     keyboardType='default'
-                    onChangeText={text => this.setState({ postSearchText: text })}
-                    value={this.state.postSearchText}
+                    onChangeText={text => {
+                        
+                        if (text == '') {
+                        this.setState({ emptySearch: "Ingrese datos de búsqueda", 
+                        searchText: text, userErr: false, mailErr: false});
+                    } else {
+                        this.setState({ emptySearch: '', searchText: text});
+                        this.preventSubmit();
+                    }
+               }}
+                    value={this.state.searchText}
                     onChange={(event) => this.controlChanges(event)}
-                    
                 />
-                {this.state.postSearchText == '' ?
-                    <Text>El campo no puede estar vacio</Text>
-                    :
-                    <TouchableOpacity onPress={(event) => this.preventSubmit(event)} >
-                        <Text style={styles.textButton}>Enviar</Text>
-                    </TouchableOpacity>
-                }
+                
                 <TouchableOpacity onPress={() => this.clear()}>
                     <Text style={styles.textButton}>Clear search</Text>
                 </TouchableOpacity>
                 {this.state.userErr ?
-                    <Text>El usuario {this.state.postSearchText} no existe</Text>
+                    <Text>El usuario {this.state.searchText} no existe</Text>
                     :
+                    this.state.searchText != ''?
+                    <View>
+                    <Text>Nombres de usuario</Text>
                     <FlatList
                         style={styles.list}
                         data={this.state.filteredUsers}
                         keyExtractor={item => item.id.toString()}
                         renderItem={({ item }) => <Text>{item.data.name}</Text>}
                     />
+                    </View>
+                    :
+                    <></>
+                    
                 }  
                 {this.state.mailErr ?
-                    <Text>El mail {this.state.postSearchText} no existe</Text>
+                    <Text>El mail {this.state.searchText} no existe</Text>
                     :
+                    this.state.searchText != ''?
+                    <View>
+                    <Text>Mails de usuario</Text>
                     <FlatList
                         style={styles.list}
                         data={this.state.filteredMail}
                         keyExtractor={item => item.id.toString()}
                         renderItem={({ item }) => <Text>{item.data.owner}</Text>}
                     />
+                    </View>
+                    :
+                    <></>
                 }  
             </View>
         )
