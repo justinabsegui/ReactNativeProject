@@ -17,7 +17,7 @@ class Register extends Component {
             password: '',
             bio: '',
             edad: '',
-            photo: '',
+            profilePic: '',
             showCamera: true,
         }
     }
@@ -31,9 +31,11 @@ class Register extends Component {
                         owner: this.state.email,
                         bio: this.state.bio,
                         edad: this.state.edad,
+                        profilePic: this.state.profilePic,
                         createdAt: Date.now()
                     })
-                    this.props.navigation.navigate('TabNavigation')
+                    this.props.navigation.navigate('TabNavigation');
+                    this.setState({showCamera: false})
                 })
                 .catch(error => {
                     if (error.code == 'auth/email-already-in-use') {
@@ -64,7 +66,7 @@ class Register extends Component {
     onImageUpload(url) {
         this.setState({
             showCamera: false,
-            photo: url
+            profilePic: url
         });
     }
 
@@ -167,11 +169,11 @@ class Register extends Component {
                     onChangeText={text => this.setState({ bio: text })}
                     value={this.state.bio}
                 />
-                <Text style={styles.field}>Profile picture</Text>
+                <Text>Profile picture</Text>
                 {this.state.showCamera ?
                     <Camara onImageUpload={url => this.onImageUpload(url)
                     } />
-                    : <Text style={styles.profilePic}>Profile picture succesfully updated</Text>
+                    : <Text style={styles.profilePic}>Profile picture succesfully saved</Text>
                 }
 
 
@@ -180,7 +182,10 @@ class Register extends Component {
                 </TouchableOpacity>
 
                 <TouchableOpacity
-                    onPress={() => this.props.navigation.navigate('Login')}>
+                    onPress={() => {
+                    this.props.navigation.navigate('Login');
+                    this.setState({showCamera: false})
+                    }}>
                     <Text style={styles.button}>Login</Text>
                 </TouchableOpacity>
             </View >

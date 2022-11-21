@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, FlatList, ScrollView } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, FlatList, ScrollView, Image } from 'react-native';
 import Post from '../components/Post';
 import { db, auth } from '../firebase/config';
 
@@ -11,6 +11,7 @@ class Profile extends Component {
             email: '',
             bio: '',
             edad: '',
+            profilePic: '',
             logout: true,
             posts: [],
             borrar: false,
@@ -29,15 +30,16 @@ class Profile extends Component {
                         // Corregir filter
                         docs.forEach(doc => {
                             //    Condicional: si las props están vacias, es tu perfil. Sino, es el de otro usuario (o es el tuyo y hay que comparar el mail con auth.currentUser.email)
-                            const data = doc.data();
-                            user = data
+                            user = doc.data();
+                           
                         });
 
                         this.setState({
                             email: user.owner,
                             name: user.name,
                             bio: user.bio,
-                            edad: user.edad
+                            edad: user.edad, 
+                            profilePic: user.profilePic
                         })
 
                     }
@@ -66,15 +68,16 @@ class Profile extends Component {
                         let user = '';
                         docs.forEach(doc => {
                             //    Condicional: si las props están vacias, es tu perfil. Sino, es el de otro usuario (o es el tuyo y hay que comparar el mail con auth.currentUser.email)
-                            const data = doc.data();
-                            user = data
+                            user =  doc.data();
+        
                         });
 
                         this.setState({
                             email: user.owner,
                             name: user.name,
                             bio: user.bio,
-                            edad: user.edad
+                            edad: user.edad,
+                            profilePic: user.profilePic
                         });
 
                     }
@@ -143,17 +146,24 @@ class Profile extends Component {
                         :
                         <></>
                 }
+                
+                <Image style={styles.profilePic}
+                    source={{uri: this.state.profilePic}}
+                    resizeMode='contain'
+                ></Image>
                 <Text>Username:{this.state.name}</Text>
                 <Text>Email:{this.state.email}</Text>
                 <Text>Bio:{this.state.bio}</Text>
                 <Text>Age:{this.state.edad}</Text>
+                
+
 
                 {/* <Text>User's Posts: {this.state.posts}</Text> */}
 
                 <FlatList
                     data={this.state.posts}
                     keyExtractor={item => item.id.toString()}
-                    renderItem={({ item }) => <Post postData={item} />}
+                    renderItem={({ item }) => <Post postData={item.data} />}
                 />
 
                 <TouchableOpacity onPress={() => {
@@ -170,8 +180,17 @@ class Profile extends Component {
     }
 }
 const styles = StyleSheet.create({
-    photo: {
-        height: 250,
+    profilePic: {
+        height: 100,
+        display: 'flex',
+        justifyContent: 'center',
+        alignContent: 'center',
+        flexWrap: 'wrap',
+        borderColor: 'purple',
+        borderWidth: 1,
+        borderRadius: 20,
+        width: 90,
+        margin: 5,
     },
     postContainer: {
         borderRadius: 20,

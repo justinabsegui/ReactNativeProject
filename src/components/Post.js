@@ -19,23 +19,23 @@ class Post extends Component {
         }
     }
     componentDidMount() {
-        if (this.props.postData.data.likes) {
+        if (this.props.postData.likes) {
             this.setState({
-                likes: this.props.postData.data.likes.length,
-                myLike: this.props.postData.data.likes.includes(auth.currentUser.email),
+                likes: this.props.postData.likes.length,
+                myLike: this.props.postData.likes.includes(auth.currentUser.email),
             })
         }
     }
     likear() {
         //Agregar mi email a un array
-        db.collection('Posts').doc(this.props.postData.id).update({
+        db.collection('Posts').doc(this.props.id).update({
             likes: firebase.firestore.FieldValue.arrayUnion(auth.currentUser.email)
         })
             .then(() => {
                 console.log('likeado...');
                 //Cambiar el estado de likes y de mylike.
                 this.setState({
-                    likes: this.props.postData.data.likes.length,
+                    likes: this.props.postData.likes.length,
                     myLike: true
                 })
             })
@@ -43,14 +43,14 @@ class Post extends Component {
     }
     unlike() {
         //Quitar mi email a un array
-        db.collection('Posts').doc(this.props.postData.id).update({
+        db.collection('Posts').doc(this.props.id).update({
             likes: firebase.firestore.FieldValue.arrayRemove(auth.currentUser.email)
         })
             .then(() => {
                 console.log('quitando like...');
                 //Cambiar el estado de likes y de mylike.
                 this.setState({
-                    likes: this.props.postData.data.likes.length,
+                    likes: this.props.postData.likes.length,
                     myLike: false
                 })
             })
@@ -67,7 +67,7 @@ class Post extends Component {
         if (oneComment.commentText !== '') {
             //Actualizar comentario en la base. Puntualmente en este documento.
             //Saber cual es el post que queremos actualizar
-            db.collection('Posts').doc(this.props.postData.id).update({
+            db.collection('Posts').doc(this.props.id).update({
                 comments: firebase.firestore.FieldValue.arrayUnion(oneComment)
             })
                 .then(() => {
@@ -105,8 +105,8 @@ class Post extends Component {
         })
     }
 
-    otroProfile(user) {
-        this.props.navigation.navigate("OtroProfile", { usuario: user })
+    otroProfile(usuario) {
+        this.props.navigation.navigate("OtroProfile", { user: usuario })
     }
 
     alertaBorrarMensaje(){
@@ -114,7 +114,7 @@ class Post extends Component {
     }
 
     borrarPosteos(){
-        db.collection('Posts').doc(this.props.postData.id).delete()
+        db.collection('Posts').doc(this.props.id).delete()
     }
 
     noBorrar(){
@@ -124,22 +124,22 @@ class Post extends Component {
     render() {
         return (
             <View style={styles.postContainer}>
-                {this.props.postData.data.owner == auth.currentUser.email
+                {this.props.user == auth.currentUser.email
                     ?
                     <Text style={styles.user} onPress={() => this.props.navigation.navigate("Profile")} >
-                        {this.props.postData.data.owner}
+                        {this.props.user}
                     </Text>
                     :
-                    <Text style={styles.user} onPress={() => this.otroProfile(this.props.postData.data.owner)} >
-                        {this.props.postData.data.owner}
+                    <Text style={styles.user} onPress={() => this.otroProfile(this.props.user)} >
+                        {this.props.user}
                     </Text>
                 }
 
-                <Text style={styles.pie}> {this.props.postData.data.description}</Text>
+                <Text style={styles.pie}> {this.props.postData.description}</Text>
 
                 <Image
                     style={styles.photo}
-                    source={{ uri: this.props.postData.data.photo }}
+                    source={{ uri: this.props.postData.photo }}
                     resizeMode='cover'
                 />
                 <Text style={styles.datos}>Cantidad de likes: {this.state.likes}</Text>
@@ -156,7 +156,7 @@ class Post extends Component {
                 }
                 {/* Listar los comentarios  */}
                 {
-                    this.props.postData.data.comments ? //si comentarios es true
+                    this.props.postData.comments ? //si comentarios es true
                         <View>
                             {
                                 this.state.vercomentarios ? //apreto ver comentarios (es true)
@@ -165,9 +165,9 @@ class Post extends Component {
                                         <Text style={styles.datos}> Comentarios:</Text>
                                         <FlatList
                                             data={this.state.vertodos ? // apreto ver todos (es true)
-                                                this.props.postData.data.comments //me devuelve todos los comments
+                                                this.props.postData.comments //me devuelve todos los comments
                                                 :
-                                                this.props.postData.data.comments.slice(-4)  // me devuelve 4 y tengo boton ver todos
+                                                this.props.postData.comments.slice(-4)  // me devuelve 4 y tengo boton ver todos
                                             }
                                             keyExtractor={post => post.createdAt.toString()}
                                             renderItem={({ item }) => <Text style={styles.comments}> {item.author}: {item.commentText}</Text>}
@@ -217,7 +217,7 @@ class Post extends Component {
                     </TouchableOpacity>
                 </View>
                 { //form para borrar
-                    this.props.postData.data.owner == auth.currentUser.email ?
+                    this.props.postData.owner == auth.currentUser.email ?
                         <>
                             <TouchableOpacity onPress={() => this.alertaBorrarMensaje()}>
                                 <Text style={styles.comentar}>Borrar posteo</Text>
