@@ -7,7 +7,7 @@ import Login from './src/screens/Login';
 import Register from './src/screens/Register';
 import TabNavigation from './src/components/TabNavigation';
 import NewPost from './src/screens/NewPost';
-import Search from './src/screens/Search';
+// import Search from './src/screens/Search';
 import Camara from './src/components/Camara';
 import Post from './src/components/Post';
 import Profile from './src/screens/Profile';
@@ -21,16 +21,16 @@ export default function App() {
   const Stack = createNativeStackNavigator();
 
   return (
-    <NavigationContainer>
+    <NavigationContainer >
       <Stack.Navigator>
-      <Stack.Screen name="Login" options={ { headerShown: false } }  component={Login} />
-      <Stack.Screen name="Register" component={Register} />
+      <Stack.Screen name="Login" options={ {  headerTitle: "WE POST IT"} }  component={Login} />
+      <Stack.Screen name="Register" options={ { headerTitle: "REGISTRATE EN WE POST IT" } } component={Register} />
       <Stack.Screen name="TabNavigation" options={ { headerShown: false } }   component={TabNavigation} />  
-      <Stack.Screen name="Search" component={Search} />
-      <Stack.Screen name="NewPost" component={NewPost} />
-      <Stack.Screen name="Camara" options={ { headerShown: false } }  component={Camara} />
-      <Stack.Screen name="Profile" component={Profile} />
-      <Stack.Screen name="OtroProfile" component={OtroProfile} />
+      {/* <Stack.Screen name="Search" component={Search} /> */}
+      {/* <Stack.Screen name="NewPost" component={NewPost} /> */}
+      <Stack.Screen name="Camara" options={ { headerTitle: 'MOMENTO DE FOTO' } }  component={Camara} />
+      {/* <Stack.Screen name="Profile" component={Profile} /> */}
+      <Stack.Screen name="OtroProfile" options={ { headerTitle: 'VISITANDO PERFILES' } } component={OtroProfile} />
       {/* <Stack.Screen name="Comment" component={Comment} /> */}
       <Stack.Screen name="Post" component={Post} 
       

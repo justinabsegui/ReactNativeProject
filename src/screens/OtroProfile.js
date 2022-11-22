@@ -63,50 +63,60 @@ class OtroProfile extends Component {
         }
     }
 
-    logOut() {
-        auth.signOut();
-        this.props.navigation.navigate('Login')
-    }
-
     render() {
 
         return (
             <View>
-                 <Image style={styles.profilePic}
-                    source={{uri: this.state.profilePic}}
-                    resizeMode='contain'
-                ></Image>
-                <Text>Username:{this.state.name}</Text>
-                <Text>Email:{this.state.email}</Text>
-                <Text>Bio:{this.state.bio}</Text>
-                <Text>Age:{this.state.edad}</Text>
-                {/* <Text>User's Posts: {this.state.posts}</Text> */}
+                <View style={styles.contenedor}>
+                    <Image style={styles.profilePic}
+                        source={{ uri: this.state.profilePic }}
+                        resizeMode='contain'>
+                    </Image>
+                    <Text style={styles.usuario}>{this.state.name}</Text>
+                    {/* <Text>Email:{this.state.email}</Text> */}
+                </View >
 
+                <Text style={styles.info}>Bio:{this.state.bio}</Text>
+                {/* <Text>Age:{this.state.edad}</Text> */}
+                <Text style={styles.info}>Posteos de {this.state.name}:</Text>
                 <FlatList
                     data={this.state.posts}
                     keyExtractor={item => item.id.toString()}
                     renderItem={({ item }) => <Post postData={item.data} />}
                 />
+            </View>
 
-                <TouchableOpacity onPress={() => {
-                    if (auth.currentUser.email == this.state.email) {
-                        this.logOut()
-                    } else {
-                        this.setState({ logout: false })
-                    }
-                }}>
-                    <Text>Logout</Text>
-                </TouchableOpacity>
-            </View >
+            
         );
     }
 }
 const styles = StyleSheet.create({
-    button: {
-        color: 'blue',
-        border: 'none',
-        padding: 5
-    }, 
+    contenedor:{
+        display: 'flex',
+        flexWrap: 'wrap',
+        flexDirection: 'row',
+        alignContent:"flex-start",
+        justifyContent:'space-around',
+        margin:5,
+    },
+    usuario:{
+        display: 'flex',
+        justifyContent: 'center',
+        alignContent: 'center',
+        marginBottom: 20,
+        fontSize: 30,
+        color:'purple',
+        margin: 40,
+    },
+    info: {
+        color: 'purple',
+        display: 'flex',
+        justifyContent: 'left',
+        alignContent: 'left',
+        flexWrap: 'wrap',
+        marginBottom: 5,
+        marginLeft:50,
+    },
     profilePic: {
         height: 100,
         display: 'flex',

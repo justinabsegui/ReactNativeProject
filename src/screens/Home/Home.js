@@ -34,7 +34,7 @@ class Home extends Component {
     render() {
         console.log(this.state.posts)
         return (
-            <ScrollView style={estilosCss().container}>
+            <ScrollView>
             <FlatList
                 data={this.state.posts}
                 keyExtractor={item => item.id.toString()}
@@ -44,11 +44,10 @@ class Home extends Component {
         )
     }
 }
-const estilosCss = () => StyleSheet.create({
+const styles = () => StyleSheet.create({
     container: {
         textAlign: 'center',
         padding: 10,
-
-    }
+    },
 })
 export default Home;

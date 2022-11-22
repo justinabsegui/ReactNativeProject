@@ -146,41 +146,68 @@ class Profile extends Component {
                         :
                         <></>
                 }
-                
+                <View style={styles.contenedor}>
                 <Image style={styles.profilePic}
                     source={{uri: this.state.profilePic}}
                     resizeMode='contain'
                 ></Image>
-                <Text>Username:{this.state.name}</Text>
-                <Text>Email:{this.state.email}</Text>
-                <Text>Bio:{this.state.bio}</Text>
-                <Text>Age:{this.state.edad}</Text>
-                
-
-
-                {/* <Text>User's Posts: {this.state.posts}</Text> */}
-
-                <FlatList
-                    data={this.state.posts}
-                    keyExtractor={item => item.id.toString()}
-                    renderItem={({ item }) => <Post postData={item.data} />}
-                />
-
-                <TouchableOpacity onPress={() => {
+                    <Text style={styles.usuario}>{this.state.name}</Text>
+                </View>
+                    <Text style={styles.info}>Email:{this.state.email}</Text>
+                    <Text style={styles.info}>Bio:{this.state.bio}</Text>
+                    <Text style={styles.info}>Age:{this.state.edad}</Text>
+                    
+                {/* logout */}
+                    <TouchableOpacity onPress={() => {
                     if (auth.currentUser.email == this.state.email) {
                         this.logOut()
                     } else {
                         this.setState({ logout: false })
                     }
                 }}>
-                    <Text>Logout</Text>
+                    <Text style={styles.logout}>Logout</Text>
                 </TouchableOpacity>
+
+                {/* mis posteos */}
+                    <Text style={styles.info}>Mis posteos: </Text>
+                
+                <FlatList
+                    data={this.state.posts}
+                    keyExtractor={item => item.id.toString()}
+                    renderItem={({ item }) => <Post postData={item.data} />}
+                />
             </ScrollView >
         );
     }
 }
 const styles = StyleSheet.create({
-    profilePic: {
+    contenedor:{
+        display: 'flex',
+        flexWrap: 'wrap',
+        flexDirection: 'row',
+        alignContent:"flex-start",
+        justifyContent:'space-around',
+        margin:5,
+    },
+    usuario:{
+        display: 'flex',
+        justifyContent: 'center',
+        alignContent: 'center',
+        marginBottom: 20,
+        fontSize: 30,
+        color:'purple',
+        margin: 40,
+    },
+    info: {
+        color: 'purple',
+        display: 'flex',
+        justifyContent: 'left',
+        alignContent: 'left',
+        flexWrap: 'wrap',
+        marginBottom: 5,
+        marginLeft:50,
+    },
+   profilePic: {
         height: 100,
         display: 'flex',
         justifyContent: 'center',
@@ -192,85 +219,22 @@ const styles = StyleSheet.create({
         width: 90,
         margin: 5,
     },
-    postContainer: {
-        borderRadius: 20,
-        borderColor: 'purple',
-        borderWidth: 1,
-        borderStyle: 'solid',
-        paddingHorizontal: 10,
-        paddingVertical: 5,
-        margin: 15
-    },
-    user: {
-        color: 'purple',
-        display: 'flex',
-        justifyContent: 'center',
-        alignContent: 'center',
-        flexWrap: 'wrap',
-        margin: 10,
-    },
-    datos: {
-        display: 'flex',
-        justifyContent: 'left',
-        alignContent: 'left',
-        flexWrap: 'wrap',
-        marginBottom: 5
-    },
-
-    like: {
-        color: 'red',
-        display: 'flex',
-        justifyContent: 'left',
-        alignContent: 'left',
-    },
-    unlike: {
-        color: 'black',
-        display: 'flex',
-        justifyContent: 'left',
-        alignContent: 'left',
-
-    },
-    pie: {
-        color: 'purple',
-        display: 'flex',
-        justifyContent: 'left',
-        alignContent: 'left',
-        flexWrap: 'wrap',
-        marginBottom: 5,
-    },
-    comentar: {
-        color: 'black',
-        display: 'flex',
-        opacity: 10,
-        justifyContent: 'center',
-        alignContent: 'center',
-        flexWrap: 'wrap',
-        borderColor: 'purple',
-        borderWidth: 1,
-        borderRadius: 20,
-        padding: 6,
-        width: 300,
-        margin: 5,
-        padding: 6,
-    },
-    comentarr: {
+    logout: {
         color: 'white',
         display: 'flex',
-        opacity: 10,
-        justifyContent: 'center',
-        alignContent: 'center',
         flexWrap: 'wrap',
+        opacity: 10,
+        marginLeft:50,
+        marginTop:25,
+        marginBottom:25,
+        justifyContent: 'center',
+        alignItems: 'flex-start',
         borderRadius: 20,
         padding: 6,
         width: 80,
         backgroundColor: 'purple',
     },
-    comments: {
-        display: 'flex',
-        justifyContent: 'left',
-        alignContent: 'left',
-        flexWrap: 'wrap',
-    },
+
 
 })
 export default Profile;

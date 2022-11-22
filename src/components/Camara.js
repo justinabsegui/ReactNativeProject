@@ -83,13 +83,14 @@ class Camara extends Component {
                                     </TouchableOpacity>
                             </View>
                                 :
-                                <View>
+                                <View styles={styles.botones}>
                                     <Image
                                         style={styles.preview}
                                         source={{ uri: this.state.photo }}
                                         resizeMode='cover'
                                     />
                                     {/* botones aceptar o borrar foto  */}
+                                    <View styles={styles.comentar}>
                                     <TouchableOpacity onPress={() => this.savePhoto()}>
                                         <Text style={styles.button}>Aceptar</Text>
                                     </TouchableOpacity>
@@ -97,6 +98,7 @@ class Camara extends Component {
                                     <TouchableOpacity onPress={() => this.clearPhoto()}>
                                         <Text style={styles.button}>Descartar imagen</Text>
                                     </TouchableOpacity>
+                                    </View>
                                 </View>
                          
                     :
@@ -109,31 +111,34 @@ class Camara extends Component {
 
 
 const styles = StyleSheet.create({
-    preview: {
-        width: '100%',
-        height: 300,
-    },
     camera: {
         width: '100%',
-        height: 300,
+        height: 710,
     },
-    shootButton: {
-        color:'white',
+    preview: {
+        width: '100%',
+        height: 710,
+    },
+    botones:{
         display: 'flex',
-        justifyContent: 'center',
-        alignContent: 'center',
         flexWrap: 'wrap',
-        borderColor: 'purple',
-        borderWidth: 1,
-        borderRadius: 20,
-        padding: 10,
-        width: 80,
-        margin: 5,
-        backgroundColor: 'purple',
+        flexDirection: 'row',
+        alignContent:"flex-start",
+        justifyContent:'space-around',
+        margin:10,
     },
     button: {
+        color: 'white',
+        opacity: 10,
+        borderRadius: 20,
+        padding: 6,
+        width: "40%",
+        backgroundColor: 'purple',
+        margin: 5,
+    },
+    shootButton: {
+        flex: 1,
         color:'white',
-        display: 'flex',
         justifyContent: 'center',
         alignContent: 'center',
         flexWrap: 'wrap',
@@ -141,10 +146,10 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         borderRadius: 20,
         padding: 10,
-        width: 80,
         margin: 5,
         backgroundColor: 'purple',
     },
+    
 })
 
 export default Camara;

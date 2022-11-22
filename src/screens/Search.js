@@ -12,8 +12,8 @@ class Search extends Component {
             filteredMail: [],
             searchText: '',
             userErr: false,
-            mailErr: false, 
-            emptySearch: '', 
+            mailErr: false,
+            emptySearch: '',
         }
     }
 
@@ -33,20 +33,20 @@ class Search extends Component {
     }
 
     preventSubmit() {
-        
+
         let textToFilter = this.state.searchText.toLowerCase()
 
         const filteredUsers = this.state.users.filter(user => user.data.name?.toLowerCase().includes(textToFilter));
 
         const filteredMail = this.state.users.filter(user => user.data.owner?.toLowerCase().includes(textToFilter));
 
-        if (filteredUsers == ''){
-            this.setState({userErr: true, filteredUsers: ''})
-        } else {this.setState({userErr: false, filteredUsers: filteredUsers})}
-        
-        if (filteredMail == ''){
-            this.setState({mailErr: true, filteredMail: ''})
-        } else {this.setState({mailErr: false, filteredMail: filteredMail})}
+        if (filteredUsers == '') {
+            this.setState({ userErr: true, filteredUsers: '' })
+        } else { this.setState({ userErr: false, filteredUsers: filteredUsers }) }
+
+        if (filteredMail == '') {
+            this.setState({ mailErr: true, filteredMail: '' })
+        } else { this.setState({ mailErr: false, filteredMail: filteredMail }) }
     };
 
     clear() {
@@ -62,65 +62,70 @@ class Search extends Component {
     render() {
         return (
             <View >
-                 {this.state.emptySearch !== '' ?
+                {this.state.emptySearch !== '' ?
                     <Text style={styles.error}>{this.state.emptySearch}</Text>
                     :
                     <></>}
-                <TextInput style={styles.container}
-                    placeholder='Search'
+                <TextInput style={styles.search}
+                    placeholder='Ingrese datos de búsqueda'
                     keyboardType='default'
                     onChangeText={text => {
-                        
+
                         if (text == '') {
-                        this.setState({ emptySearch: "Ingrese datos de búsqueda", 
-                        searchText: text, userErr: false, mailErr: false});
-                    } else {
-                        this.setState({ emptySearch: '', searchText: text});
-                        this.preventSubmit();
-                        console.log(this.state.filteredUsers);
-                        console.log(this.state.filteredMail);
-                    }
-               }}
+                            this.setState({
+                                emptySearch: "Ingrese datos de búsqueda",
+                                searchText: text, userErr: false, mailErr: false
+                            });
+                        } else {
+                            this.setState({ emptySearch: '', searchText: text });
+                            this.preventSubmit();
+                            console.log(this.state.filteredUsers);
+                            console.log(this.state.filteredMail);
+                            <TouchableOpacity onPress={() => this.clear()}>
+                            <Text style={styles.textButton}>Borrar búsqueda</Text>
+                        </TouchableOpacity>
+                        }
+                    }}
                     value={this.state.searchText}
-            
+
                 />
-                
+
                 <TouchableOpacity onPress={() => this.clear()}>
                     <Text style={styles.textButton}>Borrar búsqueda</Text>
                 </TouchableOpacity>
                 {this.state.userErr ?
-                    <Text>El usuario {this.state.searchText} no existe</Text>
+                    <Text style={styles.info}>El usuario {this.state.searchText} no existe</Text>
                     :
-                    this.state.searchText != ''?
-                    <View>
-                    <Text>Nombres de usuario</Text>
-                    <FlatList
-                        style={styles.list}
-                        data={this.state.filteredUsers}
-                        keyExtractor={item => item.id.toString()}
-                        renderItem={({ item }) => <Text>{item.data.name}</Text>}
-                    />
-                    </View>
-                    :
-                    <></>
-                    
-                }  
+                    this.state.searchText != '' ?
+                        <View>
+                            <Text style={styles.info}>Nombres de usuario similares: </Text>
+                            <FlatList
+                                style={styles.list}
+                                data={this.state.filteredUsers}
+                                keyExtractor={item => item.id.toString()}
+                                renderItem={({ item }) => <Text>{item.data.name}</Text>}
+                            />
+                        </View>
+                        :
+                        <></>
+
+                }
                 {this.state.mailErr ?
                     <Text>El mail {this.state.searchText} no existe</Text>
                     :
-                    this.state.searchText != ''?
-                    <View>
-                    <Text>Mails de usuario</Text>
-                    <FlatList
-                        style={styles.list}
-                        data={this.state.filteredMail}
-                        keyExtractor={item => item.id.toString()}
-                        renderItem={({ item }) => <Text>{item.data.owner}</Text>}
-                    />
-                    </View>
-                    :
-                    <></>
-                }  
+                    this.state.searchText != '' ?
+                        <View>
+                            <Text style={styles.info}>Mails relacionados:</Text> 
+                            <FlatList
+                                style={styles.list}
+                                data={this.state.filteredMail}
+                                keyExtractor={item => item.id.toString()}
+                                renderItem={({ item }) => <Text>{item.data.owner}</Text>}
+                            />
+                        </View>
+                        :
+                        <></>
+                }
             </View>
         )
     }
@@ -140,13 +145,34 @@ const styles = StyleSheet.create({
         height: 44,
         padding: 10,
     },
-   
+    search:{
+        color: 'black',
+        opacity: 10,
+        borderColor: 'purple',
+        borderWidth: 1,
+        borderRadius: 20,
+        marginLeft: 50,
+        marginTop:50,
+        marginBottom:25,
+        padding: 6,
+        width: 300,
+    },
+    info: {
+        color: 'purple',
+        opacity: 50,
+        borderRadius: 20,
+        padding: 6,
+        width: 400,
+        marginLeft: 20,
+    },
     list: {
         width: '100%',
         height: '100%',
+        margin: 30,
+    
     },
     button: {
-        color:'white',
+        color: 'white',
         display: 'flex',
         justifyContent: 'center',
         alignContent: 'center',
@@ -159,20 +185,13 @@ const styles = StyleSheet.create({
         backgroundColor: 'purple',
     },
     textButton: {
-        color: 'black',
-        display: 'flex',
+        color: 'white',
         opacity: 10,
-        justifyContent: 'center',
-        alignContent: 'center',
-        flexWrap: 'wrap',
-        borderColor: 'purple',
-        backgroundColor: 'purple',
-        borderWidth: 1,
         borderRadius: 20,
         padding: 6,
-        width: 100,
-        margin: 5,
-        padding: 6,
+        width: 200,
+        backgroundColor: 'purple',
+        marginLeft: 100,
     },
 
 })

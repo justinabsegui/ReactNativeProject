@@ -11,17 +11,12 @@ class Comment extends Component {
         this.state = {
             comentarios: [],
             opinion:""
-            
         }
     }
-  
     componentDidMount(){
       console.log(this.props)
-      db.collection("Posts")
-      .doc(this.props.route.params.id)
-      .onSnapshot(
+      db.collection("Posts").doc(this.props.route.params.id).limit(10).onSnapshot(
         docs => {
-
           this.setState({
             id:docs.id,
             comentarios: docs.data().comentarios,
@@ -31,9 +26,7 @@ class Comment extends Component {
       )
     }
     comentar(text){
-      db.collection("Posts")
-      .doc(this.props.route.params.id)
-      .update({
+      db.collection("Posts").doc(this.props.route.params.id).update({
         comentarios: firebase.firestore.FieldValue.arrayUnion({
           owner: auth.currentUser.email,
           cretedAt: Date.now(),

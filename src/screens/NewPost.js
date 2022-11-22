@@ -27,30 +27,10 @@ class NewPost extends Component {
                     description: '',
                     showCamera: true,
                 })
-                this.props.navigation.navigate('Home')
+                this.props.navigation.navigate('TabNavigation')
             })
             .catch(e => console.log(e))
     }
-    // onSubmit(){
-    //     // console.log('Posteando...');
-    //     db.collection('Posts').add({
-    //         owner: auth.currentUser.email,
-    //         // description: this.state.description,
-    //         photo: this.state.url,// estoy en undefined tengo q traer url de la foto
-    //         createdAt: Date.now(),
-    //         description: this.state.description,
-
-    //     })
-    //     .then(()=>{
-    //         // console.log('posteado funciona')
-    //         this.setState({
-    //             description: ''
-    //         })
-    //         this.props.navigation.pop();
-    //     })
-    //     .catch( e => console.log(e))
-    //     //this.props.navigation.navigate('Profile')
-    // }
     onImageUpload(url) {
         this.setState({
             showCamera: false,
@@ -92,19 +72,15 @@ const styles = StyleSheet.create({
         padding:20,
     },
     button: {
-        color:'white',
-        display: 'flex',
         justifyContent: 'center',
-        alignContent: 'center',
-        alignItems:'center',
-        flexWrap: 'wrap',
-        borderColor: 'purple',
-        borderWidth: 1,
+        alignItems: 'center',
+        color: 'white',
+        opacity: 10,
         borderRadius: 20,
         padding: 10,
         width: 80,
-        margin: 5,
         backgroundColor: 'purple',
+        margin: 5,
     },
     borde:{
         borderColor: 'purple',

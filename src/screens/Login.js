@@ -1,6 +1,6 @@
 import { WhiteBalance } from 'expo-camera';
 import React, { Component } from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, Image} from 'react-native';
 import { auth } from '../firebase/config';
 
 class Login extends Component {
@@ -55,6 +55,11 @@ class Login extends Component {
         return (
 
             <View style={styles.container}>
+                 <Image
+                    style={styles.photo}
+                    source={require ('../../assets/postit.png')}
+                    resizeMode='cover'
+                />
                 <Text style={styles.title}>Iniciar sesión</Text>
 
                 {this.state.emailError !== '' ?
@@ -106,6 +111,9 @@ class Login extends Component {
 }
 
 const styles = StyleSheet.create({
+    photo:{
+        height:400
+    },
     container: {
         display: 'flex',
         justifyContent: 'center',
