@@ -298,7 +298,6 @@ const styles = StyleSheet.create({
         flexWrap: 'wrap',
         flexDirection: 'row',
         alignContent:"flex-start",
-        justifyContent:'space-around',
         margin:10,
     },
     comentar: {
