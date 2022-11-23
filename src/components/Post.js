@@ -110,16 +110,16 @@ class Post extends Component {
         this.props.navigation.navigate("OtroProfile", { user: usuario })
     }
 
-    alertaBorrarMensaje(){
-        this.setState({alertaBorrarMensaje: 'Estas seguro que queres borrar este comentario?', borrar: true})
+    alertaBorrarMensaje() {
+        this.setState({ alertaBorrarMensaje: 'Estas seguro que queres borrar este comentario?', borrar: true })
     }
 
-    borrarPosteos(){
+    borrarPosteos() {
         db.collection('Posts').doc(this.props.id).delete()
     }
 
-    noBorrar(){
-        this.setState({alertaBorrarMensaje: '', borrar: false})
+    noBorrar() {
+        this.setState({ alertaBorrarMensaje: '', borrar: false })
     }
 
     render() {
@@ -146,17 +146,17 @@ class Post extends Component {
 
                 {/* poner el corazonnn */}
                 <View style={styles.likes}>
-                {this.state.myLike ?
+                    {this.state.myLike ?
                         <TouchableOpacity style={styles.cora} onPress={() => this.unlike()}>
                             <FontAwesome name="heart" size={24} color="red" />
-                          
-                        </TouchableOpacity> 
+
+                        </TouchableOpacity>
                         :
                         <TouchableOpacity style={styles.cora} onPress={() => this.likear()}>
-                             <Feather name="heart" size={24} color="black" />
+                            <Feather name="heart" size={24} color="black" />
                         </TouchableOpacity>
-                }
-                <Text style={styles.cora}>Cantidad de likes: {this.state.likes}</Text>
+                    }
+                    <Text style={styles.cora}>Cantidad de likes: {this.state.likes}</Text>
                 </View>
                 {/* Form para nuevo comentario */}
                 <View style={styles.comentarios}>
@@ -170,7 +170,7 @@ class Post extends Component {
                         <Text style={styles.comentarr}>Comentar</Text>
                     </TouchableOpacity>
                 </View>{
-                
+
                 /* Listar los comentarios  */}
                 {
                     this.props.postData.comments ? //si comentarios es true
@@ -187,7 +187,16 @@ class Post extends Component {
                                                 this.props.postData.comments.slice(-4)  // me devuelve 4 y tengo boton ver todos
                                             }
                                             keyExtractor={post => post.createdAt.toString()}
-                                            renderItem={({ item }) => <Text style={styles.comments}> {item.author}: {item.commentText}</Text>}
+                                            renderItem={({ item }) => <Text onPress={() => {
+                                                item.author == auth.currentUser.email
+                                                ?
+                                                this.props.navigation.navigate("Profile")
+                                                :
+                                                this.otroProfile(item.author);
+                                                {console.log(item.author)}
+
+                                            }} 
+                                            style={styles.comments}> {item.author}: {item.commentText}</Text>}
 
                                         />
 
@@ -221,7 +230,7 @@ class Post extends Component {
                         :
                         <Text style={styles.botonverc}> No hay comentarios</Text>
                 }
-                
+
                 { //form para borrar
                     this.props.postData.owner == auth.currentUser.email ?
                         <>
@@ -255,7 +264,7 @@ class Post extends Component {
 const styles = StyleSheet.create({
     photo: {
         height: 250,
-        width:'100%'
+        width: '100%'
     },
     postContainer: {
         borderRadius: 20,
@@ -287,18 +296,18 @@ const styles = StyleSheet.create({
         display: 'flex',
         flexWrap: 'wrap',
         flexDirection: 'row',
-        alignContent:"flex-start",
-        margin:10,
+        alignContent: "flex-start",
+        margin: 10,
     },
     cora: {
-        margin:10,
+        margin: 10,
     },
     comentarios: {
         display: 'flex',
         flexWrap: 'wrap',
         flexDirection: 'row',
-        alignContent:"flex-start",
-        margin:10,
+        alignContent: "flex-start",
+        margin: 10,
     },
     comentar: {
         color: 'black',
@@ -318,15 +327,15 @@ const styles = StyleSheet.create({
         backgroundColor: 'purple',
         margin: 5,
     },
-    botonverc:{
+    botonverc: {
         color: 'purple',
         opacity: 50,
         borderRadius: 20,
         padding: 6,
         width: 200,
-        marginLeft:15,
+        marginLeft: 15,
     }
-    
+
 
 })
 

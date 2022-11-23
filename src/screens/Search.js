@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, FlatList } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, FlatList, ScrollView } from 'react-native';
 import { db, auth } from '../firebase/config';
 
 
@@ -59,9 +59,13 @@ class Search extends Component {
         })
     };
 
+    otroProfile(usuario) {
+        this.props.navigation.navigate("OtroProfile", { user: usuario })
+    }
+
     render() {
         return (
-            <View >
+            <ScrollView >
                 {this.state.emptySearch !== '' ?
                     <Text style={styles.error}>{this.state.emptySearch}</Text>
                     :
@@ -103,7 +107,18 @@ class Search extends Component {
                                 style={styles.list}
                                 data={this.state.filteredUsers}
                                 keyExtractor={item => item.id.toString()}
-                                renderItem={({ item }) => <Text>{item.data.name}</Text>}
+                                renderItem={({ item }) => 
+                                <Text
+
+                               onPress={() => {
+                                    item.data.name == auth.currentUser.email
+                                    ?
+                                    this.props.navigation.navigate("Profile")
+                                    :
+                                    this.otroProfile(item.data.name);
+
+                                }} 
+                                style={styles.comments} >{item.data.name}</Text>}
                             />
                         </View>
                         :
@@ -120,13 +135,24 @@ class Search extends Component {
                                 style={styles.list}
                                 data={this.state.filteredMail}
                                 keyExtractor={item => item.id.toString()}
-                                renderItem={({ item }) => <Text>{item.data.owner}</Text>}
+                                renderItem={({ item }) => 
+                                <Text
+
+                               onPress={() => {
+                                    item.data.owner == auth.currentUser.email
+                                    ?
+                                    this.props.navigation.navigate("Profile")
+                                    :
+                                    this.otroProfile(item.data.owner);
+
+                                }} 
+                                style={styles.comments} >{item.data.owner}</Text>}
                             />
                         </View>
                         :
                         <></>
                 }
-            </View>
+            </ScrollView>
         )
     }
 }
