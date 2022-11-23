@@ -155,8 +155,8 @@ class Post extends Component {
                         <TouchableOpacity style={styles.cora} onPress={() => this.likear()}>
                             <Feather name="heart" size={24} color="black" />
                         </TouchableOpacity>
-                    }
-                    <Text style={styles.cora}>Cantidad de likes: {this.state.likes}</Text>
+                }
+                <Text style={styles.cora}>{this.state.likes} likes</Text>
                 </View>
                 {/* Form para nuevo comentario */}
                 <View style={styles.comentarios}>
@@ -221,8 +221,10 @@ class Post extends Component {
                                     </View>
 
                                     : // si no apreto ver comentarios me muestra el boton
-                                    <TouchableOpacity onPress={() => this.vercomentarios()}>
-                                        <Text style={styles.botonverc}>Ver los comentarios</Text>
+                                    <TouchableOpacity onPress={() => {
+                                        console.log(this.props.postData.comments.length);
+                                        this.vercomentarios()}}>
+                                        <Text style={styles.botonverc}>Ver los {this.props.postData.comments.lenght} comentarios</Text>
                                     </TouchableOpacity>
 
                             }

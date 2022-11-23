@@ -106,11 +106,11 @@ class Register extends Component {
                         } else {
 
                             let re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-
-                            if (re.test(text)) {
+                            
+                            if (re.test(text)) { // Comprueba si el mail tiene formato válido de mail
                                 this.setState({ emailError: '', email: text, send: true })
                             }
-                            else {
+                            else { // Si no es un mail válido salta el error
                                 this.setState({ emailError: 'You need to register a valid email!', email: text, send: false })
                             }
                         }
