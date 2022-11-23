@@ -75,10 +75,15 @@ class OtroProfile extends Component {
                     <Text style={styles.usuario}>{this.state.name}</Text>
                     {/* <Text>Email:{this.state.email}</Text> */}
                 </View >
-
-                <Text style={styles.info}>Bio:{this.state.bio}</Text>
-                {/* <Text>Age:{this.state.edad}</Text> */}
-                <Text style={styles.info}>Posteos de {this.state.name}:</Text>
+                <View style={styles.contenedor2}>
+                    <Text style={styles.infoTitle}>Bio</Text>
+                    <Text style={styles.info}>{this.state.bio}</Text>
+                </View>
+                <View style={styles.contenedor2}>
+                    <Text style={styles.infoTitle}>Edad</Text>
+                    <Text style={styles.info}>{this.state.edad}</Text>
+                </View>
+                <Text style={styles.usuario}>Publicaciones</Text>
                 <FlatList
                     data={this.state.posts}
                     keyExtractor={item => item.id.toString()}
@@ -86,36 +91,55 @@ class OtroProfile extends Component {
                 />
             </View>
 
-            
+
         );
     }
 }
 const styles = StyleSheet.create({
-    contenedor:{
+    contenedor: {
         display: 'flex',
-        flexWrap: 'wrap',
         flexDirection: 'row',
-        alignContent:"flex-start",
-        justifyContent:'space-around',
-        margin:5,
+        alignContent: "flex-start",
+        flexWrap: 'wrap',
+        justifyContent: 'space-around',
+        margin: 5,
     },
-    usuario:{
+    contenedor2: {
+        display: 'flex',
+        flexDirection: 'row',
+        alignContent: "flex-start",
+        justifyContent: 'center',
+        justifySelf: 'left',
+        margin: 5,
+    },
+    usuario: {
         display: 'flex',
         justifyContent: 'center',
         alignContent: 'center',
         marginBottom: 20,
         fontSize: 30,
-        color:'purple',
+        color: 'purple',
         margin: 40,
     },
-    info: {
+    
+    infoTitle: {
         color: 'purple',
         display: 'flex',
         justifyContent: 'left',
         alignContent: 'left',
         flexWrap: 'wrap',
         marginBottom: 5,
-        marginLeft:50,
+        marginLeft: 50,
+        fontStyle: 'bold'
+    },
+    info: {
+        color: 'black',
+        display: 'flex',
+        justifyContent: 'left',
+        alignContent: 'left',
+        flexWrap: 'wrap',
+        marginBottom: 5,
+        marginLeft: 10,
     },
     profilePic: {
         height: 100,

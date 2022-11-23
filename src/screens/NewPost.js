@@ -25,9 +25,8 @@ class NewPost extends Component {
             .then(() => {
                 this.setState({
                     description: '',
-                    showCamera: true,
                 })
-                this.props.navigation.navigate('TabNavigation')
+                this.props.navigation.navigate('Home')
             })
             .catch(e => console.log(e))
     }

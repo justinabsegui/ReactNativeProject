@@ -111,7 +111,7 @@ class Post extends Component {
     }
 
     alertaBorrarMensaje() {
-        this.setState({ alertaBorrarMensaje: 'Estas seguro que queres borrar este comentario?', borrar: true })
+        this.setState({ alertaBorrarMensaje: 'Estas seguro que queres borrar esta publicación?', borrar: true })
     }
 
     borrarPosteos() {
@@ -156,7 +156,7 @@ class Post extends Component {
                             <Feather name="heart" size={24} color="black" />
                         </TouchableOpacity>
                 }
-                <Text style={styles.cora}>{this.state.likes} likes</Text>
+                <Text style={styles.cora}>{this.state.likes} Me Gusta</Text>
                 </View>
                 {/* Form para nuevo comentario */}
                 <View style={styles.comentarios}>

@@ -28,19 +28,19 @@ class Login extends Component {
                 .catch(error => {
                     console.log(error);
                     if (error.code == 'auth/invalid-email') {
-                        this.setState({ emailError: error.message })
+                        this.setState({ emailError: "El mail es inválido." })
                     } else if (error.code == 'auth/user-not-found') {
-                        this.setState({ emailError: error.message })
+                        this.setState({ emailError: "El usuario no fue encontrado."})
                     }
                     else if (error.code == 'auth/wrong-password') {
-                        this.setState({ passwordError: error.message })
+                        this.setState({ passwordError: "La contraseña ingresada es incorrecta." })
                     } else{
                         this.setState({ emailError: error.message })
                     }
                 }
                 )
         } else {
-            this.setState({emailError: 'Fill in all fields before logging in'})
+            this.setState({emailError: 'Complete todos los campos antes de iniciar sesión.'})
         }
     }
     componentDidMount() {
@@ -84,9 +84,9 @@ class Login extends Component {
                     secureTextEntry={true}
                     onChangeText={text => {
                         if (text == '') {
-                            this.setState({ passwordError: "Password missing", password: text, send: false })
+                            this.setState({ passwordError: "Ingrese su contraseña.", password: text, send: false })
                         } else if (text.length < 6) {
-                            this.setState({ passwordError: "Password are at least 6 characters", password: text, send: false })
+                            this.setState({ passwordError: "Las contraseñas son mayores a 6 caracteres.", password: text, send: false })
                         } else {
                             this.setState({ passwordError: '', password: text, send: true })
                         }
