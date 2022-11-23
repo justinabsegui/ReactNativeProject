@@ -39,7 +39,7 @@ class Register extends Component {
                 })
                 .catch(error => {
                     if (error.code == 'auth/email-already-in-use') {
-                        this.setState({ emailError: error.message })
+                        this.setState({ emailError: "este mail está asociado a otra cuenta." })
                     }
                     else {
                         this.setState({ nameError: error.message })
@@ -50,11 +50,11 @@ class Register extends Component {
 
     checkFields() {
         if (this.state.name == '') {
-            this.setState({ nameError: "You need to have a user name!" })
+            this.setState({ nameError: "debe ingresar un nombre de usuario." })
             if (this.state.password == '') {
-                this.setState({ passwordError: "You need to have a password!" })
+                this.setState({ passwordError: 'debe ingresar una contraseña.' })
                 if (this.state.email == '') {
-                    this.setState({ emailError: "You need to register an email!" })
+                    this.setState({ emailError: 'debe ingresar un mail.' })
 
                 }
             }
@@ -84,7 +84,7 @@ class Register extends Component {
                     placeholder='Username'
                     onChangeText={text => {
                         if (text == '') {
-                            this.setState({ nameError: "You need to register a user name!", name: text, send: false })
+                            this.setState({ nameError: "debe ingresar un nombre de usuario.", name: text, send: false })
                         } else {
                             this.setState({ nameError: '', name: text, send: true })
                         }
@@ -102,7 +102,7 @@ class Register extends Component {
                     onChangeText={text => {
 
                         if (text == '') {
-                            this.setState({ emailError: "You need to register an email!", email: text, send: false })
+                            this.setState({ emailError: "debe ingresar un mail.", email: text, send: false })
                         } else {
 
                             let re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -111,7 +111,7 @@ class Register extends Component {
                                 this.setState({ emailError: '', email: text, send: true })
                             }
                             else { // Si no es un mail válido salta el error
-                                this.setState({ emailError: 'You need to register a valid email!', email: text, send: false })
+                                this.setState({ emailError: 'debe ingresar un mail válido.', email: text, send: false })
                             }
                         }
                     }}
@@ -128,9 +128,9 @@ class Register extends Component {
                     secureTextEntry={true}
                     onChangeText={text => {
                         if (text == '') {
-                            this.setState({ passwordError: "You need to have a password!", password: text, send: false })
+                            this.setState({ passwordError: "debe ingresar una contraseña.", password: text, send: false })
                         } else if (text.length < 6) {
-                            this.setState({ passwordError: "Password should be at least 6 characters", password: text, send: false })
+                            this.setState({ passwordError: "la contraseña es muy corta.", password: text, send: false })
                         } else {
                             this.setState({ passwordError: '', password: text, send: true })
                         }
@@ -150,12 +150,13 @@ class Register extends Component {
                         if (/^-?\d+$/.test(text)) {
                             this.setState({ ageError: '', edad: text, send: true })
                         } else {
-                            this.setState({ ageError: "You need to use a number for your age!", edad: text, send: false })
+                            this.setState({ ageError: "debe usar números para su edad.", edad: text, send: false })
 
                         } if (text == '') {
                             this.setState({ ageError: '', edad: text, send: true })
+                        } if (text > 118){
+                            this.setState({ ageError: "introduzca una edad válida.", edad: text, send: false })
                         }
-
                     }
 
                     }
@@ -169,11 +170,10 @@ class Register extends Component {
                     onChangeText={text => this.setState({ bio: text })}
                     value={this.state.bio}
                 />
-                <Text>Profile picture</Text>
                 {this.state.showCamera ?
                     <Camara onImageUpload={url => this.onImageUpload(url)
                     } />
-                    : <Text style={styles.profilePic}>Profile picture succesfully saved</Text>
+                    : <Text style={styles.profilePic}>Foto de perfil guardada exitosamente</Text>
                 }
 
 
@@ -204,7 +204,21 @@ const styles = StyleSheet.create({
         flexWrap: 'wrap',
         paddingHorizontal: 10,
         marginTop: 10
-    },
+    }, 
+    profilePic: {
+        borderColor: '#069e10',
+        borderWidth: 5,
+        borderRadius: 20,
+        padding: 5,
+        width: 300,
+        margin: 10,
+        color: 'black',
+        backgroundColor: '#069e10',
+        fontStyle: 'bold',
+        display: 'flex',
+        justifyContent: 'center'
+    }
+    ,
     title: {
         display: 'flex',
         justifyContent: 'center',
@@ -227,6 +241,7 @@ const styles = StyleSheet.create({
         color:'white',
         display: 'flex',
         justifyContent: 'center',
+        justifySelf: 'center',
         alignContent: 'center',
         flexWrap: 'wrap',
         borderColor: 'purple',
@@ -238,12 +253,12 @@ const styles = StyleSheet.create({
         backgroundColor: 'purple',
     },
     error: {
-        borderColor: '#e81515',
-        borderWidth: 1,
-        borderRadius: 2,
-        padding: 3,
-        width: '20vw',
-        marginBottom: 3,
+        borderColor: '#ba2929',
+        borderWidth: 5,
+        borderRadius: 20,
+        padding: 5,
+        width: 300,
+        margin: 10,
         color: '#140101',
         backgroundColor: '#ba2929',
         fontStyle: 'bold',

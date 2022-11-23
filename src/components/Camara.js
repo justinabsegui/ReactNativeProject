@@ -79,7 +79,7 @@ class Camara extends Component {
                                 />
                                     {/*   botón que saca la foto con  método takePicture() */}
                                     <TouchableOpacity onPress={() => this.takePicture()}>
-                                        <Text style={styles.shootButton}>Shoot</Text>
+                                        <Text style={styles.shootButton}>Sacar foto</Text>
                                     </TouchableOpacity>
                             </View>
                                 :
@@ -137,7 +137,7 @@ const styles = StyleSheet.create({
         margin: 5,
     },
     shootButton: {
-        flex: 1,
+        display: 'flex',
         color:'white',
         justifyContent: 'center',
         alignContent: 'center',
