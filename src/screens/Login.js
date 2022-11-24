@@ -15,6 +15,14 @@ class Login extends Component {
         }
     }
 
+    componentDidMount(){
+        auth.onAuthStateChanged( user => {
+            if(user){
+                this.setState({login: true})
+                this.props.navigation.navigate('TabNavigation')
+            }
+        })
+    }
     onSubmit() {
         if (this.state.send == true) {
             //Colocar el método de registración de Firebase
@@ -43,14 +51,7 @@ class Login extends Component {
             this.setState({emailError: 'Complete todos los campos antes de iniciar sesión.'})
         }
     }
-    componentDidMount() {
-        if (auth.currentUser) {
-            auth.onAuthStateChanged(user => {
-                console.log(user)
-            })
-            this.props.navigation.navigate('TabNavigation')
-        }
-    }
+    
     render() {
         return (
 
