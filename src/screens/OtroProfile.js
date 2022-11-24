@@ -141,7 +141,7 @@ const styles = StyleSheet.create({
         marginLeft: 10,
     },
     profilePic: {
-        height: 200,
+        height: 100,
         display: 'flex',
         justifyContent: 'center',
         alignContent: 'center',
@@ -149,7 +149,7 @@ const styles = StyleSheet.create({
         borderColor: 'purple',
         borderWidth: 1,
         borderRadius: 200,
-        width: 90,
+        width: 100,
         margin: 5,
     }
 })

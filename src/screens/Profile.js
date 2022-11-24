@@ -196,7 +196,7 @@ class Profile extends Component {
                 </View>
 
                 {/* mis posteos */}
-                <Text style={styles.usuario}>Publicaciones</Text>
+                <Text style={styles.usuario}>Mis publicaciones</Text>
 
                 <FlatList
                     data={this.state.posts}
