@@ -18,7 +18,6 @@ class Login extends Component {
     componentDidMount() {
         auth.onAuthStateChanged(user => {
             if (user) {
-                this.setState({ login: true })
                 this.props.navigation.navigate('TabNavigation')
             }
         })
