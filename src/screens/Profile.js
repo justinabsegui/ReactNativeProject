@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, FlatList, ScrollView, Image } from 'react-native';
 import Post from '../components/Post';
 import { db, auth } from '../firebase/config';
-import Camara from '../components/Camara';
+import { FontAwesome, FontAwesome5, MaterialIcons } from '@expo/vector-icons';
 
 class Profile extends Component {
     constructor(props) {
@@ -17,7 +17,6 @@ class Profile extends Component {
             newName: '',
             newBio: '',
             newPassword: '',
-            checkNewPassword: '',
             newProfilePic: '',
             showCamera: false,
             logout: true,
@@ -116,32 +115,33 @@ class Profile extends Component {
         });
     }
 
-    guardarCambios(){
+    guardarCambios() {
         const user = auth.currentUser;
-        if (this.state.newName != ''){
-            this.setState({name: newName})
-        } if (this.state.newBio != ''){
-            this.setState({bio: newBio})
-        } if (this.state.newProfilePic != ''){
-            this.setState({profilePic: newProfilePic})
-        }  if (this.state.newPassword != '' && this.state.newPassword === this.state.checkNewPassword){
+        if (this.state.newName != '') {
+            this.setState({ name: newName })
+        } if (this.state.newBio != '') {
+            this.setState({ bio: newBio })
+        } if (this.state.newProfilePic != '') {
+            this.setState({ profilePic: newProfilePic })
+        } if (this.state.newPassword != '') {
             user.updatePassword(this.state.newPassword).then(() => {
-              }).catch((error) => {
-               this.setState({passwordError: error})
-              })} else {
-                  this.setState({passwordError: 'ingrese su nueva contraseña dos veces'})
-                }
-              db.collection('datosUsuario')
-              .doc(this.props.usuario.id)
-              .update({
-                         name: this.state.name,
-                         profilePic: this.state.profilePic,
-                         bio: this.state.bio,
-                     })
-                     .then(()=>{
-                         this.setState({editProfile: false})
-                     })
-              
+            }).catch((error) => {
+                this.setState({ passwordError: error })
+            })
+        } else {
+            this.setState({ passwordError: 'ingrese su nueva contraseña dos veces' })
+        }
+        db.collection('datosUsuario')
+            .doc(this.props.usuario.id)
+            .update({
+                name: this.state.name,
+                profilePic: this.state.profilePic,
+                bio: this.state.bio,
+            })
+            .then(() => {
+                this.setState({ editProfile: false })
+            })
+
     }
 
     logOut() {
@@ -191,133 +191,120 @@ class Profile extends Component {
 
         return (
             <ScrollView>
-                    
-                        <>
-                            <TouchableOpacity onPress={() => this.alertaBorrarMensaje()}>
-                                <Text style={styles.comentarr}>Eliminar perfil</Text>
-                            </TouchableOpacity>
 
-                            <Text>{this.state.alertaBorrarMensaje}</Text>
-                            {this.state.borrar ?
-                                <View>
-                                    <TouchableOpacity onPress={() => this.borrarPerfil()}>
-                                        <Text style={styles.comentarr}>Si</Text>
-                                    </TouchableOpacity>
-                                    <TouchableOpacity onPress={() => this.noBorrar()}>
-                                        <Text style={styles.comentarr}>No</Text>
-                                    </TouchableOpacity>
-                                </View>
-                                :
-                                <></>
-                            }
-                        </>
-   
-                
 
-               { this.state.editProfile = false ?
-                <TouchableOpacity onPress={() => this.setState({ editProfile: true })}>
-                    <Text style={styles.comentarr}>Editar perfil</Text>
-                </TouchableOpacity>
-                :
-                <></>}        
                 <View style={styles.contenedor}>
-                
-                
+
+
                     <Image style={styles.profilePic}
-                    source={{uri: this.state.profilePic}}
-                    resizeMode='contain'
-                ></Image>
-                    { this.state.editProfile  ?
-                      <TextInput
-                      style={styles.field}
-                      keyboardType='default'
-                      placeholder='Nuevo nombre de usuario'
-                      value={this.state.newName}
-                  />
-            :
-          
-        <Text style={styles.usuario}>{this.state.name}</Text>
-          
-                }
-                    
+                        source={{ uri: this.state.profilePic }}
+                        resizeMode='cover'
+                    ></Image>
+                    {this.state.editProfile ?
+                        <TextInput
+                            style={styles.field}
+                            keyboardType='default'
+                            placeholder='Nuevo nombre de usuario'
+                            value={this.state.newName}
+                        />
+                        :
+
+                        <Text style={styles.usuario}>{this.state.name}</Text>
+
+                    }
+
                 </View>
-                { this.state.editProfile ?
-            <View>
-            {this.state.passwordError !== '' ?
-            <Text style={styles.error}>Error: {this.state.passwordError}</Text>
-            :
-            <></>}
-        <TextInput
-            style={styles.field}
-            keyboardType='default'
-            placeholder='Nueva contraseña'
-            secureTextEntry={true}
-            onChangeText={text => {
-                if (text.length < 6) {
-                    this.setState({ passwordError: "la nueva contraseña es muy corta.", newPassword: text })
-                } else {
-                    this.setState({ passwordError: '', newPassword: text})
-                }
-            }
-            }
-            value={this.state.newPassword}
-        /> 
-        <TextInput
-            style={styles.field}
-            keyboardType='default'
-            placeholder='Comprobar nueva contraseña'
-            secureTextEntry={true}
-            onChangeText={text => {
-                if (text !== this.state.newPassword) {
-                    this.setState({ passwordError: "Las contraseñas no coinciden", checkNewPassword: text})
-                } else {
-                    this.setState({ passwordError: '', checkNewPassword: text})
-                }
-            }
-            }
-            value={this.state.checkNewPassword}
-        /></View>
-               
-    
-                :
+                {this.state.editProfile ?
+                    <View>
+                        {this.state.passwordError !== '' ?
+                            <Text style={styles.error}>Error: {this.state.passwordError}</Text>
+                            :
+                            <></>}
+                        <TextInput
+                            style={styles.field}
+                            keyboardType='default'
+                            placeholder='Nueva contraseña'
+                            secureTextEntry={true}
+                            onChangeText={text => {
+                                if (text.length < 6) {
+                                    this.setState({ passwordError: "la nueva contraseña es muy corta.", newPassword: text })
+                                } else {
+                                    this.setState({ passwordError: '', newPassword: text })
+                                }
+                            }
+                            }
+                            value={this.state.newPassword}
+                        />
+                    </View>
+
+
+                    :
                     <></>}
-                
-                    <Text style={styles.info}>Email:{this.state.email}</Text>
-                   
-                    { this.state.editProfile ?
+
+                <Text style={styles.info}>Email:   {this.state.email}</Text>
+                <Text style={styles.info}>Age:   {this.state.edad}</Text>
+
+                {this.state.editProfile ?
                     <TextInput
-                    style={styles.field}
-                    keyboardType='default'
-                    placeholder='Nueva Bio'
-                    onChangeText={text => this.setState({ newBio: text })}
-                    value={this.state.newBio}
-                />
-            :
-            <Text style={styles.info}>Bio:{this.state.bio}</Text>
+                        style={styles.field}
+                        keyboardType='default'
+                        placeholder='Nueva Bio'
+                        onChangeText={text => this.setState({ newBio: text })}
+                        value={this.state.newBio}
+                    />
+                    :
+                    <Text style={styles.info}>Bio:   {this.state.bio}</Text>
                 }
-                    <Text style={styles.info}>Age:{this.state.edad}</Text>
-                    
-                { this.state.editProfile ?
-                <TouchableOpacity onPress={() => this.guardarCambios() }>
-                    <Text style={styles.logout}>Guardar cambios</Text>
-                </TouchableOpacity>
-                :
-                <></>}
+     
 
-                {/* logout */ }
-        <TouchableOpacity onPress={() => {
-            if (auth.currentUser.email == this.state.email) {
-                this.logOut()
-            } else {
-                this.setState({ logout: false })
-            }
-        }}>
-            <Text style={styles.logout}>Logout</Text>
-        </TouchableOpacity>
+                {this.state.editProfile ?
+                    <TouchableOpacity onPress={() => this.guardarCambios()}>
+                        <Text style={styles.logout}>Guardar cambios</Text>
+                    </TouchableOpacity>
+                    :
+                    <></>}
 
-        {/* mis posteos */ }
-                    <Text style={styles.info}>Mis posteos: </Text>
-                
+                {/* logout */}
+                <View style={styles.botones}> <>
+                    <TouchableOpacity onPress={() => this.alertaBorrarMensaje()}>
+                        <FontAwesome5 name="trash" size={24} color="black" />
+                    </TouchableOpacity>
+
+                    <Text>{this.state.alertaBorrarMensaje}</Text>
+                    {this.state.borrar ?
+                        <View>
+                            <TouchableOpacity onPress={() => this.borrarPerfil()}>
+                                <Text style={styles.comentarr}>Si</Text>
+                            </TouchableOpacity>
+                            <TouchableOpacity onPress={() => this.noBorrar()}>
+                                <Text style={styles.comentarr}>No</Text>
+                            </TouchableOpacity>
+                        </View>
+                        :
+                        <></>
+                    }
+                </>
+
+                    {this.state.editProfile == false ?
+                        <TouchableOpacity onPress={() => this.setState({ editProfile: true })}>
+                            <FontAwesome name="gear" size={24} color="black" />
+                        </TouchableOpacity>
+                        :
+                        <></>}
+                    <TouchableOpacity onPress={() => {
+                        if (auth.currentUser.email == this.state.email) {
+                            this.logOut()
+                        } else {
+                            this.setState({ logout: false })
+                        }
+                    }}>
+                        <MaterialIcons name="logout" size={24} color="black" />
+                    </TouchableOpacity>
+                </View>
+
+                {/* mis posteos */}
+                <Text style={styles.info}>Mis posteos: </Text>
+
                 <FlatList
                     data={this.state.posts}
                     keyExtractor={item => item.id.toString()}
@@ -352,7 +339,9 @@ const styles = StyleSheet.create({
         alignContent: 'left',
         flexWrap: 'wrap',
         marginBottom: 5,
-        marginLeft: 50,
+        marginLeft: 20,
+        marginRight: 20,
+        padding: 6,
     },
     profilePic: {
         height: 100,
@@ -362,7 +351,7 @@ const styles = StyleSheet.create({
         flexWrap: 'wrap',
         borderColor: 'purple',
         borderWidth: 1,
-        borderRadius: 20,
+        borderRadius: 200,
         width: 90,
         margin: 5,
     },
@@ -371,8 +360,6 @@ const styles = StyleSheet.create({
         display: 'flex',
         flexWrap: 'wrap',
         opacity: 10,
-        marginLeft: 50,
-        marginTop: 25,
         marginBottom: 25,
         justifyContent: 'center',
         alignItems: 'flex-start',
@@ -381,7 +368,22 @@ const styles = StyleSheet.create({
         width: 80,
         backgroundColor: 'purple',
     },
+    comentarr: {
+        color: 'white',
+        opacity: 10,
+        borderRadius: 20,
+        padding: 6,
+        width: 140,
+        backgroundColor: 'purple',
+        margin: 5,
+    },
+    botones: {
+        display: 'flex',
+        flexWrap: 'wrap',
+        flexDirection: 'row',
+        justifyContent: 'space-around', 
 
+    }
 
 })
 export default Profile;

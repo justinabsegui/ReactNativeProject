@@ -50,7 +50,6 @@ class NewPost extends Component {
                                 onChangeText={(text) => this.setState({ description: text })}
                                 value={this.state.description}
                             />
-                            {/* <Camara onImageUpload={(url) => this.onImageUpload(url)} /> */}
                             <TouchableOpacity onPress={() => this.createPost(this.state.description, this.state.photo)}>
                                 <Text style={styles.button}>Postear</Text>
                             </TouchableOpacity>

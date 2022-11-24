@@ -224,7 +224,7 @@ class Post extends Component {
                                     <TouchableOpacity onPress={() => {
                                         console.log(this.props.postData.comments.length);
                                         this.vercomentarios()}}>
-                                        <Text style={styles.botonverc}>Ver los {this.props.postData.comments.lenght} comentarios</Text>
+                                        <Text style={styles.botonverc}>Ver los {this.props.postData.comments.length} comentarios</Text>
                                     </TouchableOpacity>
 
                             }
@@ -334,7 +334,7 @@ const styles = StyleSheet.create({
         opacity: 50,
         borderRadius: 20,
         padding: 6,
-        width: 200,
+        width: 300,
         marginLeft: 15,
     }
 

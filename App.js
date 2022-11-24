@@ -24,9 +24,7 @@ export default function App() {
       <Stack.Screen name="TabNavigation" options={ { headerShown: false } }   component={TabNavigation} /> 
       <Stack.Screen name="Camara" options={ { headerTitle: 'MOMENTO DE FOTO' } }  component={Camara} />
       <Stack.Screen name="OtroProfile" options={ { headerTitle: 'VISITANDO PERFILES' } } component={OtroProfile} />
-      <Stack.Screen name="Post" component={Post} 
-      
-         options={{tabBarIcon: () => <FontAwesome6 name="user-alt" size={24} color="black" />}}/>
+      <Stack.Screen name="Post" component={Post} options={{tabBarIcon: () => <FontAwesome6 name="user-alt" size={24} color="black" />}}/>
 
       </Stack.Navigator>
     </NavigationContainer>
