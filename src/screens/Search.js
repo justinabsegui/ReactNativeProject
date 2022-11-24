@@ -28,6 +28,7 @@ class Search extends Component {
                 });
 
                 this.setState({ users: info });
+                console.log(this.state.users);
             }
         )
     }
@@ -126,7 +127,7 @@ class Search extends Component {
 
                 }
                 {this.state.mailErr ?
-                    <Text>El mail {this.state.searchText} no existe</Text>
+                    <Text style={styles.info}>El mail {this.state.searchText} no existe</Text>
                     :
                     this.state.searchText != '' ?
                         <View>

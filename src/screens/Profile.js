@@ -12,6 +12,7 @@ class Profile extends Component {
             email: '',
             bio: '',
             edad: '',
+            id: '',
             profilePic: '',
             editProfile: false,
             newName: '',
@@ -31,21 +32,22 @@ class Profile extends Component {
             const email = auth.currentUser.email;
                 db.collection('datosUsuario').where('owner', '==', email).onSnapshot(   // No traer todos los datos de la colección, filtrarlos al mismo tiempo que los traemos
                     docs => {//todos datos de la colección
-                        let user = '';
+                        let info = '';
+                        let id = ''
                         docs.forEach(doc => {
-                            //    Condicional: si las props están vacias, es tu perfil. Sino, es el de otro usuario (o es el tuyo y hay que comparar el mail con auth.currentUser.email)
-                            user = doc.data();
-
-                        });
-
+                            info = doc.data() ;
+                            id = doc.id     })
+                        ;
+                        console.log(info);
+                        console.log(id);
                         this.setState({
-                            email: user.owner,
-                            name: user.name,
-                            bio: user.bio,
-                            edad: user.edad,
-                            profilePic: user.profilePic
+                            email: info.owner,
+                            id: id,
+                            name: info.name,
+                            bio: info.bio,
+                            edad: info.edad,
+                            profilePic: info.profilePic
                         });
-
                     }
                 );
 
@@ -66,13 +68,6 @@ class Profile extends Component {
             }
         }
 
-    onImageUpload(url) {
-        this.setState({
-            showCamera: false,
-            newProfilePic: url
-        });
-    }
-
     guardarCambios() {
         const user = auth.currentUser;
         if (this.state.newName !== '') {
@@ -86,7 +81,7 @@ class Profile extends Component {
             })
         } 
         db.collection('datosUsuario')
-            .doc(user.getIdTokenResult)
+            .doc(this.state.id)
             .update({
                 name: this.state.name,
                 bio: this.state.bio,

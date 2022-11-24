@@ -26,6 +26,7 @@ class Register extends Component {
         if (this.state.send == true) {
             auth.createUserWithEmailAndPassword(this.state.email, this.state.password)
                 .then(response => {
+                    this.savePhoto()
                     db.collection('datosUsuario').add({
                         name: this.state.name,
                         owner: this.state.email,

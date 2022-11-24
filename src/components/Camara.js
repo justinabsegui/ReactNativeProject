@@ -41,8 +41,15 @@ class Camara extends Component {
     }
 
     //Para guardar la foto creamos un método savePhoto() dentro de nuestro componente
+
+    clearPhoto() {
+        this.setState({
+            photo: '',
+            showCamera: true
+        });
+    }
     savePhoto() {
-        fetch(this.state.photo) // obtener la foto desde su ubicación temporal dentro del dispositivo
+        fetch(this.state.profilePic) // obtener la foto desde su ubicación temporal dentro del dispositivo
             .then(res => res.blob()) //obtengo info de foto
             .then(image => {// la guardo en Firebase
                 //Crear el destino y nombre con el que se guarda la foto en Storage
@@ -55,13 +62,6 @@ class Camara extends Component {
                     })
             })
             .catch(e => console.log(e))
-    }
-
-    clearPhoto() {
-        this.setState({
-            photo: '',
-            showCamera: true
-        });
     }
 
     render() {

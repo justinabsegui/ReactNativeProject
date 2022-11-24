@@ -24,7 +24,7 @@ class NewPost extends Component {
         })
             .then(() => {
                 this.setState({
-                    description: '',
+                    description: '', photo: '', showCamera: true
                 })
                 this.props.navigation.navigate('Home')
             })
@@ -36,11 +36,12 @@ class NewPost extends Component {
             photo: url
         });
     }
+    
     render() {
         return (
             <ScrollView style={styles.formContainer}>
-                {
-                    this.state.showCamera ?
+
+                    {this.state.showCamera ?
                         <Camara onImageUpload={url => this.onImageUpload(url)} /> //metodo para guardar imagen
                         :
                         <ScrollView style={styles.borde}>

@@ -28,8 +28,8 @@ class Post extends Component {
             })
         }
     }
-    likear() {
-        //Agregar mi email a un array
+
+    likear() { 
         db.collection('Posts').doc(this.props.id).update({
             likes: firebase.firestore.FieldValue.arrayUnion(auth.currentUser.email)
         })
@@ -137,7 +137,7 @@ class Post extends Component {
                     </Text>
                 }
 
-                <Text style={styles.pie}> {this.props.postData.description}</Text>
+                <Text style={styles.pie}>{this.props.postData.description}</Text>
 
                 <Image
                     style={styles.photo}
@@ -183,7 +183,6 @@ class Post extends Component {
                                                     this.props.navigation.navigate("Profile")
                                                     :
                                                     this.otroProfile(item.author);
-                                                { console.log(item.author) }
 
                                             }}
                                                 style={styles.comments}> {item.author}: {item.commentText}</Text>}
