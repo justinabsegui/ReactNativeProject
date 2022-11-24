@@ -1,8 +1,9 @@
 import React, { Component, Syle } from "react";
 import { Text, View, TouchableOpacity, StyleSheet, TextInput, FlatList, Image } from 'react-native';
-import { FontAwesome, Feather } from '@expo/vector-icons';
+import { FontAwesome, Feather, FontAwesome5 } from '@expo/vector-icons';
 import { auth, db } from "../firebase/config";
 import firebase from "firebase";
+
 
 
 //ver un posteo likear y comentar
@@ -158,18 +159,7 @@ class Post extends Component {
                 }
                 <Text style={styles.cora}>{this.state.likes} Me Gusta</Text>
                 </View>
-                {/* Form para nuevo comentario */}
-                <View style={styles.comentarios}>
-                    <TextInput style={styles.comentar}
-                        keyboardType='default'
-                        placeholder='Escribí tu comentario'
-                        onChangeText={(text) => { this.setState({ comment: text }) }}
-                        value={this.state.comment}
-                    />
-                    <TouchableOpacity onPress={() => this.publicarComentario()}>
-                        <Text style={styles.comentarr}>Comentar</Text>
-                    </TouchableOpacity>
-                </View>{
+               {
 
                 /* Listar los comentarios  */}
                 {
@@ -226,18 +216,32 @@ class Post extends Component {
                                         this.vercomentarios()}}>
                                         <Text style={styles.botonverc}>Ver los {this.props.postData.comments.length} comentarios</Text>
                                     </TouchableOpacity>
+                                    
 
                             }
                         </View>
                         :
                         <Text style={styles.botonverc}> No hay comentarios</Text>
+                            
                 }
+             {/* Form para nuevo comentario */}
+             <View style={styles.comentarios}>
+                    <TextInput style={styles.comentar}
+                        keyboardType='default'
+                        placeholder='Escribí tu comentario'
+                        onChangeText={(text) => { this.setState({ comment: text }) }}
+                        value={this.state.comment}
+                    />
+                    <TouchableOpacity onPress={() => this.publicarComentario()}>
+                        <Text style={styles.comentarr}>Comentar</Text>
+                    </TouchableOpacity>
+                </View>
 
                 { //form para borrar
                     this.props.postData.owner == auth.currentUser.email ?
                         <>
                             <TouchableOpacity onPress={() => this.alertaBorrarMensaje()}>
-                                <Text style={styles.comentar}>Borrar posteo</Text>
+                            <FontAwesome5 name="trash" size={24} color="black" style={styles.tacho}/>
                             </TouchableOpacity>
 
                             <Text>{this.state.alertaBorrarMensaje}</Text>
@@ -318,7 +322,7 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         borderRadius: 20,
         padding: 6,
-        width: 200,
+        width: 300,
     },
     comentarr: {
         color: 'white',
@@ -336,6 +340,10 @@ const styles = StyleSheet.create({
         padding: 6,
         width: 300,
         marginLeft: 15,
+    },
+    tacho: {
+        marginLeft: 200,
+        marginTop: 20,
     }
 
 
