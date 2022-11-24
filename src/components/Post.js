@@ -326,7 +326,7 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         borderRadius: 20,
         padding: 6,
-        width: 300,
+        width: 250,
     },
     comentarr: {
         color: 'white',
@@ -346,7 +346,7 @@ const styles = StyleSheet.create({
         marginLeft: 15,
     },
     tacho: {
-        marginLeft: 50,
+        marginLeft: 160,
         marginBottom: 20,
     }
 
