@@ -1,7 +1,7 @@
-import React, {Component} from 'react';
-import {Camera } from 'expo-camera';
-import {storage} from '../firebase/config';
-import {View, Text, TouchableOpacity, StyleSheet, Image} from 'react-native';
+import React, { Component } from 'react';
+import { Camera } from 'expo-camera';
+import { storage } from '../firebase/config';
+import { View, Text, TouchableOpacity, StyleSheet, Image } from 'react-native';
 
 class Camara extends Component {
     constructor(props) {
@@ -58,9 +58,10 @@ class Camara extends Component {
     }
 
     clearPhoto() {
-        this.setState({ 
-            photo: '', 
-            showCamera: true });
+        this.setState({
+            photo: '',
+            showCamera: true
+        });
     }
 
     render() {
@@ -77,20 +78,20 @@ class Camara extends Component {
                                     type={Camera.Constants.Type.front}
                                     ref={(metodos) => this.metodosDeCamara = metodos}
                                 />
-                                    {/*   botón que saca la foto con  método takePicture() */}
-                                    <TouchableOpacity onPress={() => this.takePicture()}>
-                                        <Text style={styles.shootButton}>Sacar foto</Text>
-                                    </TouchableOpacity>
+                                {/*   botón que saca la foto con  método takePicture() */}
+                                <TouchableOpacity onPress={() => this.takePicture()}>
+                                    <Text style={styles.shootButton}>Sacar foto</Text>
+                                </TouchableOpacity>
                             </View>
-                                :
-                                <View styles={styles.botones}>
-                                    <Image
-                                        style={styles.preview}
-                                        source={{ uri: this.state.photo }}
-                                        resizeMode='cover'
-                                    />
-                                    {/* botones aceptar o borrar foto  */}
-                                    <View styles={styles.comentar}>
+                            :
+                            <View styles={styles.botones}>
+                                <Image
+                                    style={styles.preview}
+                                    source={{ uri: this.state.photo }}
+                                    resizeMode='cover'
+                                />
+                                {/* botones aceptar o borrar foto  */}
+                                <View styles={styles.comentar}>
                                     <TouchableOpacity onPress={() => this.savePhoto()}>
                                         <Text style={styles.button}>Aceptar</Text>
                                     </TouchableOpacity>
@@ -98,11 +99,11 @@ class Camara extends Component {
                                     <TouchableOpacity onPress={() => this.clearPhoto()}>
                                         <Text style={styles.button}>Descartar imagen</Text>
                                     </TouchableOpacity>
-                                    </View>
                                 </View>
-                         
-                    :
-                    <Text>No tengo permisos</Text>
+                            </View>
+
+                        :
+                        <Text>No tengo permisos</Text>
                 }
             </View>
         )
@@ -119,13 +120,13 @@ const styles = StyleSheet.create({
         width: '100%',
         height: 710,
     },
-    botones:{
+    botones: {
         display: 'flex',
         flexWrap: 'wrap',
         flexDirection: 'row',
-        alignContent:"flex-start",
-        justifyContent:'space-around',
-        margin:10,
+        alignContent: "flex-start",
+        justifyContent: 'space-around',
+        margin: 10,
     },
     button: {
         color: 'white',
@@ -138,7 +139,7 @@ const styles = StyleSheet.create({
     },
     shootButton: {
         display: 'flex',
-        color:'white',
+        color: 'white',
         justifyContent: 'center',
         alignContent: 'center',
         flexWrap: 'wrap',
@@ -149,7 +150,7 @@ const styles = StyleSheet.create({
         margin: 5,
         backgroundColor: 'purple',
     },
-    
+
 })
 
 export default Camara;

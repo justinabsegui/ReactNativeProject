@@ -67,7 +67,7 @@ const styles = StyleSheet.create({
     },
     input: {
         height: 100,
-        padding:20,
+        padding: 20,
     },
     button: {
         justifyContent: 'center',
@@ -80,11 +80,11 @@ const styles = StyleSheet.create({
         backgroundColor: 'purple',
         margin: 5,
     },
-    borde:{
+    borde: {
         borderColor: 'purple',
         borderWidth: 1,
         borderRadius: 20,
     }
-    
+
 })
 export default NewPost;

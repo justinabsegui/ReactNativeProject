@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, FlatList, ScrollView, Image } from 'react-native';
 import Post from '../components/Post';
 import { db, auth } from '../firebase/config';
-import { FontAwesome, FontAwesome5, MaterialIcons } from '@expo/vector-icons';
+import { FontAwesome, MaterialIcons } from '@expo/vector-icons';
 
 class Profile extends Component {
     constructor(props) {
@@ -21,8 +21,6 @@ class Profile extends Component {
             showCamera: false,
             logout: true,
             posts: [],
-            borrar: false,
-            alertaBorrarMensaje: '',
             passwordError: '',
         }
     }
@@ -149,17 +147,6 @@ class Profile extends Component {
         this.props.navigation.navigate('Login')
     }
 
-    alertaBorrarMensaje() {
-        this.setState({ alertaBorrarMensaje: 'Está seguro que desea eliminar su perfil?', borrar: true })
-    }
-
-    borrarPerfil() {
-        db.collection('datosUsuario').doc(this.props.postData.id).delete()
-    }
-
-    noBorrar() {
-        this.setState({ alertaBorrarMensaje: '', borrar: false })
-    }
 
     guardarCambios() {
         const user = auth.currentUser;
@@ -255,7 +242,7 @@ class Profile extends Component {
                     :
                     <Text style={styles.info}>Bio:   {this.state.bio}</Text>
                 }
-     
+
 
                 {this.state.editProfile ?
                     <TouchableOpacity onPress={() => this.guardarCambios()}>
@@ -265,26 +252,7 @@ class Profile extends Component {
                     <></>}
 
                 {/* logout */}
-                <View style={styles.botones}> <>
-                    <TouchableOpacity onPress={() => this.alertaBorrarMensaje()}>
-                        <FontAwesome5 name="trash" size={24} color="black" />
-                    </TouchableOpacity>
-
-                    <Text>{this.state.alertaBorrarMensaje}</Text>
-                    {this.state.borrar ?
-                        <View>
-                            <TouchableOpacity onPress={() => this.borrarPerfil()}>
-                                <Text style={styles.comentarr}>Si</Text>
-                            </TouchableOpacity>
-                            <TouchableOpacity onPress={() => this.noBorrar()}>
-                                <Text style={styles.comentarr}>No</Text>
-                            </TouchableOpacity>
-                        </View>
-                        :
-                        <></>
-                    }
-                </>
-
+                <View style={styles.botones}>
                     {this.state.editProfile == false ?
                         <TouchableOpacity onPress={() => this.setState({ editProfile: true })}>
                             <FontAwesome name="gear" size={24} color="black" />
@@ -381,7 +349,7 @@ const styles = StyleSheet.create({
         display: 'flex',
         flexWrap: 'wrap',
         flexDirection: 'row',
-        justifyContent: 'space-around', 
+        justifyContent: 'space-around',
 
     }
 

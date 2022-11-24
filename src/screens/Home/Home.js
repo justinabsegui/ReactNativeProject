@@ -12,8 +12,8 @@ class Home extends Component {
             datosdelusuario: {},
             posts: [],
         }
-        
-        };
+
+    };
 
     componentDidMount() {
         //Traer datos de la db
@@ -21,26 +21,26 @@ class Home extends Component {
             docs => {
                 let posteos = [];
                 docs.forEach(doc => {
-                        const id = doc.id;
-                        const data = doc.data();
-                        posteos.push({ data, id });
+                    const id = doc.id;
+                    const data = doc.data();
+                    posteos.push({ data, id });
                 });
                 this.setState({ posts: posteos })
             }
         )
     }
 
-    
+
     render() {
         console.log(this.state.posts)
         return (
             <ScrollView>
-            <FlatList
-                data={this.state.posts}
-                keyExtractor={item => item.id.toString()}
-                renderItem={({ item }) => <Post postData={item.data} id={item.id} user={item.data.owner} navigation={this.props.navigation}/>}
-            />
-        </ScrollView>
+                <FlatList
+                    data={this.state.posts}
+                    keyExtractor={item => item.id.toString()}
+                    renderItem={({ item }) => <Post postData={item.data} id={item.id} user={item.data.owner} navigation={this.props.navigation} />}
+                />
+            </ScrollView>
         )
     }
 }

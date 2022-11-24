@@ -121,7 +121,7 @@ const styles = StyleSheet.create({
         color: 'purple',
         margin: 40,
     },
-    
+
     infoTitle: {
         color: 'purple',
         display: 'flex',

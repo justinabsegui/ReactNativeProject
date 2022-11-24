@@ -1,6 +1,6 @@
 import { WhiteBalance } from 'expo-camera';
 import React, { Component } from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, Image} from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, Image } from 'react-native';
 import { auth } from '../firebase/config';
 
 class Login extends Component {
@@ -15,10 +15,10 @@ class Login extends Component {
         }
     }
 
-    componentDidMount(){
-        auth.onAuthStateChanged( user => {
-            if(user){
-                this.setState({login: true})
+    componentDidMount() {
+        auth.onAuthStateChanged(user => {
+            if (user) {
+                this.setState({ login: true })
                 this.props.navigation.navigate('TabNavigation')
             }
         })
@@ -38,27 +38,27 @@ class Login extends Component {
                     if (error.code == 'auth/invalid-email') {
                         this.setState({ emailError: "El mail es inválido." })
                     } else if (error.code == 'auth/user-not-found') {
-                        this.setState({ emailError: "El usuario no fue encontrado."})
+                        this.setState({ emailError: "El usuario no fue encontrado." })
                     }
                     else if (error.code == 'auth/wrong-password') {
                         this.setState({ passwordError: "La contraseña ingresada es incorrecta." })
-                    } else{
+                    } else {
                         this.setState({ emailError: error.message })
                     }
                 }
                 )
         } else {
-            this.setState({emailError: 'Complete todos los campos antes de iniciar sesión.'})
+            this.setState({ emailError: 'Complete todos los campos antes de iniciar sesión.' })
         }
     }
-    
+
     render() {
         return (
 
             <View style={styles.container}>
-                 <Image
+                <Image
                     style={styles.photo}
-                    source={require ('../../assets/postit.png')}
+                    source={require('../../assets/postit.png')}
                     resizeMode='cover'
                 />
                 <Text style={styles.title}>Iniciar sesión</Text>
@@ -112,8 +112,8 @@ class Login extends Component {
 }
 
 const styles = StyleSheet.create({
-    photo:{
-        height:400
+    photo: {
+        height: 400
     },
     container: {
         display: 'flex',
@@ -128,7 +128,7 @@ const styles = StyleSheet.create({
         alignContent: 'center',
         marginBottom: 20,
         fontSize: 30,
-        color:'purple',
+        color: 'purple',
         margin: 40,
     },
     field: {
@@ -142,7 +142,7 @@ const styles = StyleSheet.create({
     },
 
     button: {
-        color:'white',
+        color: 'white',
         display: 'flex',
         justifyContent: 'center',
         alignContent: 'center',
@@ -157,7 +157,7 @@ const styles = StyleSheet.create({
     },
 
     button2: {
-        color:'white',
+        color: 'white',
         display: 'flex',
         justifyContent: 'center',
         alignContent: 'center',
@@ -167,11 +167,11 @@ const styles = StyleSheet.create({
         borderRadius: 20,
         padding: 7.9,
         width: 100,
-        margin:5,  
+        margin: 5,
         backgroundColor: 'purple',
     },
     cont: {
-       alignItems: 'center',
+        alignItems: 'center',
 
     },
     error: {

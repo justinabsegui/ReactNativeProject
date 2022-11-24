@@ -156,10 +156,10 @@ class Post extends Component {
                         <TouchableOpacity style={styles.cora} onPress={() => this.likear()}>
                             <Feather name="heart" size={24} color="black" />
                         </TouchableOpacity>
-                }
-                <Text style={styles.cora}>{this.state.likes} Me Gusta</Text>
+                    }
+                    <Text style={styles.cora}>{this.state.likes} Me Gusta</Text>
                 </View>
-               {
+                {
 
                 /* Listar los comentarios  */}
                 {
@@ -179,14 +179,14 @@ class Post extends Component {
                                             keyExtractor={post => post.createdAt.toString()}
                                             renderItem={({ item }) => <Text onPress={() => {
                                                 item.author == auth.currentUser.email
-                                                ?
-                                                this.props.navigation.navigate("Profile")
-                                                :
-                                                this.otroProfile(item.author);
-                                                {console.log(item.author)}
+                                                    ?
+                                                    this.props.navigation.navigate("Profile")
+                                                    :
+                                                    this.otroProfile(item.author);
+                                                { console.log(item.author) }
 
-                                            }} 
-                                            style={styles.comments}> {item.author}: {item.commentText}</Text>}
+                                            }}
+                                                style={styles.comments}> {item.author}: {item.commentText}</Text>}
 
                                         />
 
@@ -213,19 +213,20 @@ class Post extends Component {
                                     : // si no apreto ver comentarios me muestra el boton
                                     <TouchableOpacity onPress={() => {
                                         console.log(this.props.postData.comments.length);
-                                        this.vercomentarios()}}>
+                                        this.vercomentarios()
+                                    }}>
                                         <Text style={styles.botonverc}>Ver los {this.props.postData.comments.length} comentarios</Text>
                                     </TouchableOpacity>
-                                    
+
 
                             }
                         </View>
                         :
                         <Text style={styles.botonverc}> No hay comentarios</Text>
-                            
+
                 }
-             {/* Form para nuevo comentario */}
-             <View style={styles.comentarios}>
+                {/* Form para nuevo comentario */}
+                <View style={styles.comentarios}>
                     <TextInput style={styles.comentar}
                         keyboardType='default'
                         placeholder='Escribí tu comentario'
@@ -241,7 +242,7 @@ class Post extends Component {
                     this.props.postData.owner == auth.currentUser.email ?
                         <>
                             <TouchableOpacity onPress={() => this.alertaBorrarMensaje()}>
-                            <FontAwesome5 name="trash" size={24} color="black" style={styles.tacho}/>
+                                <FontAwesome5 name="trash" size={24} color="black" style={styles.tacho} />
                             </TouchableOpacity>
 
                             <Text>{this.state.alertaBorrarMensaje}</Text>

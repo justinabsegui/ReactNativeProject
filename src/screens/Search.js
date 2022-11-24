@@ -86,8 +86,8 @@ class Search extends Component {
                             console.log(this.state.filteredUsers);
                             console.log(this.state.filteredMail);
                             <TouchableOpacity onPress={() => this.clear()}>
-                            <Text style={styles.textButton}>Borrar búsqueda</Text>
-                        </TouchableOpacity>
+                                <Text style={styles.textButton}>Borrar búsqueda</Text>
+                            </TouchableOpacity>
                         }
                     }}
                     value={this.state.searchText}
@@ -107,18 +107,18 @@ class Search extends Component {
                                 style={styles.list}
                                 data={this.state.filteredUsers}
                                 keyExtractor={item => item.id.toString()}
-                                renderItem={({ item }) => 
-                                <Text
+                                renderItem={({ item }) =>
+                                    <Text
 
-                               onPress={() => {
-                                    item.data.name == auth.currentUser.email
-                                    ?
-                                    this.props.navigation.navigate("Profile")
-                                    :
-                                    this.otroProfile(item.data.name);
+                                        onPress={() => {
+                                            item.data.name == auth.currentUser.email
+                                                ?
+                                                this.props.navigation.navigate("Profile")
+                                                :
+                                                this.otroProfile(item.data.name);
 
-                                }} 
-                                style={styles.comments} >{item.data.name}</Text>}
+                                        }}
+                                        style={styles.comments} >{item.data.name}</Text>}
                             />
                         </View>
                         :
@@ -130,23 +130,23 @@ class Search extends Component {
                     :
                     this.state.searchText != '' ?
                         <View>
-                            <Text style={styles.info}>Mails relacionados:</Text> 
+                            <Text style={styles.info}>Mails relacionados:</Text>
                             <FlatList
                                 style={styles.list}
                                 data={this.state.filteredMail}
                                 keyExtractor={item => item.id.toString()}
-                                renderItem={({ item }) => 
-                                <Text
+                                renderItem={({ item }) =>
+                                    <Text
 
-                               onPress={() => {
-                                    item.data.owner == auth.currentUser.email
-                                    ?
-                                    this.props.navigation.navigate("Profile")
-                                    :
-                                    this.otroProfile(item.data.owner);
+                                        onPress={() => {
+                                            item.data.owner == auth.currentUser.email
+                                                ?
+                                                this.props.navigation.navigate("Profile")
+                                                :
+                                                this.otroProfile(item.data.owner);
 
-                                }} 
-                                style={styles.comments} >{item.data.owner}</Text>}
+                                        }}
+                                        style={styles.comments} >{item.data.owner}</Text>}
                             />
                         </View>
                         :
@@ -171,15 +171,15 @@ const styles = StyleSheet.create({
         height: 44,
         padding: 10,
     },
-    search:{
+    search: {
         color: 'black',
         opacity: 10,
         borderColor: 'purple',
         borderWidth: 1,
         borderRadius: 20,
         marginLeft: 50,
-        marginTop:50,
-        marginBottom:25,
+        marginTop: 50,
+        marginBottom: 25,
         padding: 6,
         width: 300,
     },
@@ -195,7 +195,7 @@ const styles = StyleSheet.create({
         width: '100%',
         height: '100%',
         margin: 30,
-    
+
     },
     button: {
         color: 'white',

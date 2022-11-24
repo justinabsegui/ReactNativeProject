@@ -35,7 +35,7 @@ class Register extends Component {
                         createdAt: Date.now()
                     })
                     this.props.navigation.navigate('TabNavigation');
-                    this.setState({showCamera: false})
+                    this.setState({ showCamera: false })
                 })
                 .catch(error => {
                     if (error.code == 'auth/email-already-in-use') {
@@ -106,7 +106,7 @@ class Register extends Component {
                         } else {
 
                             let re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-                            
+
                             if (re.test(text)) { // Comprueba si el mail tiene formato válido de mail
                                 this.setState({ emailError: '', email: text, send: true })
                             }
@@ -154,7 +154,7 @@ class Register extends Component {
 
                         } if (text == '') {
                             this.setState({ ageError: '', edad: text, send: true })
-                        } if (text > 118){
+                        } if (text > 118) {
                             this.setState({ ageError: "introduzca una edad válida.", edad: text, send: false })
                         }
                     }
@@ -183,8 +183,8 @@ class Register extends Component {
 
                 <TouchableOpacity
                     onPress={() => {
-                    this.props.navigation.navigate('Login');
-                    this.setState({showCamera: false})
+                        this.props.navigation.navigate('Login');
+                        this.setState({ showCamera: false })
                     }}>
                     <Text style={styles.button}>Login</Text>
                 </TouchableOpacity>
@@ -204,7 +204,7 @@ const styles = StyleSheet.create({
         flexWrap: 'wrap',
         paddingHorizontal: 10,
         marginTop: 10
-    }, 
+    },
     profilePic: {
         borderColor: '#069e10',
         borderWidth: 5,
@@ -225,7 +225,7 @@ const styles = StyleSheet.create({
         alignContent: 'center',
         marginBottom: 20,
         fontSize: 30,
-        color:'purple',
+        color: 'purple',
         margin: 40,
     },
     field: {
@@ -238,7 +238,7 @@ const styles = StyleSheet.create({
         width: 300,
     },
     button: {
-        color:'white',
+        color: 'white',
         display: 'flex',
         justifyContent: 'center',
         justifySelf: 'center',

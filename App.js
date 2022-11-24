@@ -19,12 +19,12 @@ export default function App() {
   return (
     <NavigationContainer >
       <Stack.Navigator>
-      <Stack.Screen name="Login" options={ {  headerTitle: "WE POST IT"} }  component={Login} />
-      <Stack.Screen name="Register" options={ { headerTitle: "REGISTRATE EN WE POST IT" } } component={Register} />
-      <Stack.Screen name="TabNavigation" options={ { headerShown: false } }   component={TabNavigation} /> 
-      <Stack.Screen name="Camara" options={ { headerTitle: 'MOMENTO DE FOTO' } }  component={Camara} />
-      <Stack.Screen name="OtroProfile" options={ { headerTitle: 'VISITANDO PERFILES' } } component={OtroProfile} />
-      <Stack.Screen name="Post" component={Post} options={{tabBarIcon: () => <FontAwesome6 name="user-alt" size={24} color="black" />}}/>
+        <Stack.Screen name="Login" options={{ headerTitle: "WE POST IT" }} component={Login} />
+        <Stack.Screen name="Register" options={{ headerTitle: "REGISTRATE EN WE POST IT" }} component={Register} />
+        <Stack.Screen name="TabNavigation" options={{ headerShown: false }} component={TabNavigation} />
+        <Stack.Screen name="Camara" options={{ headerTitle: 'MOMENTO DE FOTO' }} component={Camara} />
+        <Stack.Screen name="OtroProfile" options={{ headerTitle: 'VISITANDO PERFILES' }} component={OtroProfile} />
+        <Stack.Screen name="Post" component={Post} options={{ tabBarIcon: () => <FontAwesome6 name="user-alt" size={24} color="black" /> }} />
 
       </Stack.Navigator>
     </NavigationContainer>
