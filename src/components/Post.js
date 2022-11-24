@@ -163,7 +163,7 @@ class Post extends Component {
 
                 /* Listar los comentarios  */}
                 {
-                    this.props.postData.comments ? //si comentarios es true
+                    this.props.postData.comments.length > 0 ? //si comentarios es true
                         <View>
                             {
                                 this.state.vercomentarios ? //apreto ver comentarios (es true)
@@ -212,7 +212,6 @@ class Post extends Component {
 
                                     : // si no apreto ver comentarios me muestra el boton
                                     <TouchableOpacity onPress={() => {
-                                        console.log(this.props.postData.comments.length);
                                         this.vercomentarios()
                                     }}>
                                         <Text style={styles.botonverc}>Ver los {this.props.postData.comments.length} comentarios</Text>
@@ -222,8 +221,10 @@ class Post extends Component {
                             }
                         </View>
                         :
-                        <Text style={styles.botonverc}> No hay comentarios</Text>
-
+                        <View style={styles.botonverc}>
+                            <Text style={styles.botonverc}> Aún no hay comentarios.</Text>
+                            <Text style={styles.botonverc}> Sé el primero en opinar!</Text>
+                        </View>
                 }
                 {/* Form para nuevo comentario */}
                 <View style={styles.comentarios}>
@@ -308,6 +309,9 @@ const styles = StyleSheet.create({
     },
     cora: {
         margin: 10,
+        display: 'flex',
+        justifyContent: 'center',
+        alignContent: 'center',
     },
     comentarios: {
         display: 'flex',
@@ -343,8 +347,8 @@ const styles = StyleSheet.create({
         marginLeft: 15,
     },
     tacho: {
-        marginLeft: 200,
-        marginTop: 20,
+        marginLeft: 50,
+        marginBottom: 20,
     }
 
 

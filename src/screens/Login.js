@@ -99,7 +99,7 @@ class Login extends Component {
                     <TouchableOpacity onPress={() => this.onSubmit()}>
                         <Text style={styles.button}>Ingresar</Text>
                     </TouchableOpacity>
-                    <Text> ¿Aún no tienes cuenta? </Text>
+                    <Text style={styles.info}>¿Aún no tienes cuenta? </Text>
                     <TouchableOpacity onPress={() => this.props.navigation.navigate('Register')}>
                         <Text style={styles.button2}> Registrarme</Text>
                     </TouchableOpacity>
@@ -130,6 +130,14 @@ const styles = StyleSheet.create({
         fontSize: 30,
         color: 'purple',
         margin: 40,
+    },
+    info: {
+        display: 'flex',
+        justifyContent: 'center',
+        alignContent: 'center',
+        marginTop: 20,
+        marginBottom: 20,
+        fontSize: 20,
     },
     field: {
         display: 'flex',

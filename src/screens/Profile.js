@@ -22,52 +22,13 @@ class Profile extends Component {
             logout: true,
             posts: [],
             passwordError: '',
+            send: false,
         }
     }
 
     componentDidMount() {
         if (auth.currentUser.email) { // Chequear que existe auth.currentUser.email
             const email = auth.currentUser.email;
-            if (this.props.usuario !== undefined) {
-                db.collection('datosUsuario').where('owner', '===', this.props.usuario).onSnapshot(   // No traer todos los datos de la colección, filtrarlos al mismo tiempo que los traemos
-                    docs => {//todos datos de la colección
-                        let user = '';
-                        // Corregir filter
-                        docs.forEach(doc => {
-                            //    Condicional: si las props están vacias, es tu perfil. Sino, es el de otro usuario (o es el tuyo y hay que comparar el mail con auth.currentUser.email)
-                            user = doc.data();
-
-                        });
-
-                        this.setState({
-                            email: user.owner,
-                            name: user.name,
-                            bio: user.bio,
-                            edad: user.edad,
-                            profilePic: user.profilePic
-                        })
-
-                    }
-                );
-                db.collection('Posts').where('owner', '==', this.props.usuario).onSnapshot(
-                    docs => {
-                        let posteos = [];
-
-                        docs.forEach(doc => {
-                            posteos.push({
-                                id: doc.id,
-                                data: doc.data()
-                            }
-                            )
-                        })
-
-                        this.setState({
-                            posts: posteos,
-                        })
-
-                    }
-                )
-            } else {
                 db.collection('datosUsuario').where('owner', '==', email).onSnapshot(   // No traer todos los datos de la colección, filtrarlos al mismo tiempo que los traemos
                     docs => {//todos datos de la colección
                         let user = '';
@@ -104,7 +65,6 @@ class Profile extends Component {
                     })
             }
         }
-    }
 
     onImageUpload(url) {
         this.setState({
@@ -119,16 +79,14 @@ class Profile extends Component {
             this.setState({ name: this.state.newName })
         } if (this.state.newBio !== '') {
             this.setState({ bio: this.state.newBio })
-        } if (this.state.newPassword !== '') {
+        } if (this.state.newPassword !== '' && this.state.send == true) {
             user.updatePassword(this.state.newPassword).then(() => {
             }).catch((error) => {
                 this.setState({ passwordError: error })
             })
-        } else {
-            this.setState({ passwordError: 'ingrese su nueva contraseña dos veces' })
-        }
+        } 
         db.collection('datosUsuario')
-            .doc(this.props.usuario.id)
+            .doc(user.getIdTokenResult)
             .update({
                 name: this.state.name,
                 bio: this.state.bio,
@@ -144,43 +102,6 @@ class Profile extends Component {
         this.props.navigation.navigate('Login')
     }
 
-    alertaBorrarMensaje() {
-        this.setState({ alertaBorrarMensaje: 'Está seguro que desea eliminar su perfil?', borrar: true })
-    }
-
-    borrarPerfil() {
-        db.collection('datosUsuario').doc(auth.currentUser.getIdToken).delete()
-    }
-
-    noBorrar() {
-        this.setState({ alertaBorrarMensaje: '', borrar: false })
-    }
-
-    guardarCambios() {
-        const user = auth.currentUser;
-        if (this.state.newName != '') {
-            this.setState({ name: newName })
-        } if (this.state.newBio != '') {
-            this.setState({ bio: newBio })
-        } if (this.state.newPassword != '' && this.state.newPassword === this.state.checkNewPassword) {
-            user.updatePassword(this.state.newPassword).then(() => {
-            }).catch((error) => {
-                this.setState({ passwordError: error })
-            })
-        } else {
-            this.setState({ passwordError: 'ingrese su nueva contraseña dos veces.' })
-        }
-        db.collection('datosUsuario')
-            .doc(user.id)
-            .update({
-                name: this.state.name,
-                bio: this.state.bio,
-            })
-            .then(() => {
-                this.setState({ editProfile: false })
-            })
-
-    }
 
     render() {
 
@@ -200,6 +121,7 @@ class Profile extends Component {
                             style={styles.field}
                             keyboardType='default'
                             placeholder='Nuevo nombre de usuario'
+                            onChangeText={text => this.setState({ newName: text })}
                             value={this.state.newName}
                         />
                         :
@@ -222,9 +144,9 @@ class Profile extends Component {
                             secureTextEntry={true}
                             onChangeText={text => {
                                 if (text.length < 6) {
-                                    this.setState({ passwordError: "la nueva contraseña es muy corta.", newPassword: text })
+                                    this.setState({ passwordError: "la nueva contraseña es muy corta.", newPassword: text, send: false })
                                 } else {
-                                    this.setState({ passwordError: '', newPassword: text })
+                                    this.setState({ passwordError: '', newPassword: text, send: true })
                                 }
                             }
                             }
@@ -237,7 +159,7 @@ class Profile extends Component {
                     <></>}
 
                 <Text style={styles.info}>Email:   {this.state.email}</Text>
-                <Text style={styles.info}>Age:   {this.state.edad}</Text>
+                <Text style={styles.info}>Edad:   {this.state.edad}</Text>
 
                 {this.state.editProfile ?
                     <TextInput
@@ -254,7 +176,7 @@ class Profile extends Component {
 
                 {this.state.editProfile ?
                     <TouchableOpacity onPress={() => this.guardarCambios()}>
-                        <Text style={styles.logout}>Guardar cambios</Text>
+                        <Text style={styles.cambios}>Guardar cambios</Text>
                     </TouchableOpacity>
                     :
                     <></>}
@@ -279,7 +201,7 @@ class Profile extends Component {
                 </View>
 
                 {/* mis posteos */}
-                <Text style={styles.info}>Mis posteos: </Text>
+                <Text style={styles.usuario}>Publicaciones</Text>
 
                 <FlatList
                     data={this.state.posts}
@@ -291,6 +213,15 @@ class Profile extends Component {
     }
 }
 const styles = StyleSheet.create({
+    field: {
+        display: 'flex',
+        borderColor: 'purple',
+        borderWidth: 1,
+        borderRadius: 20,
+        padding: 10,
+        margin: 5,
+        width: 300,
+    },
     contenedor: {
         display: 'flex',
         flexWrap: 'wrap',
@@ -331,7 +262,7 @@ const styles = StyleSheet.create({
         width: 90,
         margin: 5,
     },
-    logout: {
+    cambios: {
         color: 'white',
         display: 'flex',
         flexWrap: 'wrap',
