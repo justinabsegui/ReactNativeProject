@@ -25,8 +25,6 @@ class Profile extends Component {
             borrar: false,
             alertaBorrarMensaje: '',
             passwordError: '',
-            editProfile: false,
-
         }
     }
 
@@ -163,12 +161,37 @@ class Profile extends Component {
         this.setState({ alertaBorrarMensaje: '', borrar: false })
     }
 
+    guardarCambios() {
+        const user = auth.currentUser;
+        if (this.state.newName != '') {
+            this.setState({ name: newName })
+        } if (this.state.newBio != '') {
+            this.setState({ bio: newBio })
+        } if (this.state.newPassword != '' && this.state.newPassword === this.state.checkNewPassword) {
+            user.updatePassword(this.state.newPassword).then(() => {
+            }).catch((error) => {
+                this.setState({ passwordError: error })
+            })
+        } else {
+            this.setState({ passwordError: 'ingrese su nueva contraseña dos veces.' })
+        }
+        db.collection('datosUsuario')
+            .doc(user.id)
+            .update({
+                name: this.state.name,
+                bio: this.state.bio,
+            })
+            .then(() => {
+                this.setState({ editProfile: false })
+            })
+
+    }
+
     render() {
 
         return (
             <ScrollView>
-                { //form para borrar perfil                
-                    this.props.usuario == auth.currentUser.email ?
+                    
                         <>
                             <TouchableOpacity onPress={() => this.alertaBorrarMensaje()}>
                                 <Text style={styles.comentarr}>Eliminar perfil</Text>
@@ -188,24 +211,22 @@ class Profile extends Component {
                                 <></>
                             }
                         </>
-                        :
-                        <></>
-                }
+   
+                
+
+               { this.state.editProfile = false ?
+                <TouchableOpacity onPress={() => this.setState({ editProfile: true })}>
+                    <Text style={styles.comentarr}>Editar perfil</Text>
+                </TouchableOpacity>
+                :
+                <></>}        
                 <View style={styles.contenedor}>
                 
-                { this.state.editProfile = false ?
+                
                     <Image style={styles.profilePic}
                     source={{uri: this.state.profilePic}}
                     resizeMode='contain'
                 ></Image>
-            :
-            <View>
-            <TouchableOpacity onPress={() => { this.setState({showCamera: true})}}><Text>Cambiar foto de perfil</Text></TouchableOpacity>
-            {this.state.showCamera ?
-                <Camara onImageUpload={url => this.onImageUpload(url)} />
-                : <Text style={styles.profilePic}>Foto de perfil guardada exitosamente</Text>
-             }</View>
-                }
                     { this.state.editProfile  ?
                       <TextInput
                       style={styles.field}
@@ -259,7 +280,7 @@ class Profile extends Component {
                
     
                 :
-                <></>}
+                    <></>}
                 
                     <Text style={styles.info}>Email:{this.state.email}</Text>
                    
