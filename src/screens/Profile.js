@@ -115,13 +115,11 @@ class Profile extends Component {
 
     guardarCambios() {
         const user = auth.currentUser;
-        if (this.state.newName != '') {
-            this.setState({ name: newName })
-        } if (this.state.newBio != '') {
-            this.setState({ bio: newBio })
-        } if (this.state.newProfilePic != '') {
-            this.setState({ profilePic: newProfilePic })
-        } if (this.state.newPassword != '') {
+        if (this.state.newName !== '') {
+            this.setState({ name: this.state.newName })
+        } if (this.state.newBio !== '') {
+            this.setState({ bio: this.state.newBio })
+        } if (this.state.newPassword !== '') {
             user.updatePassword(this.state.newPassword).then(() => {
             }).catch((error) => {
                 this.setState({ passwordError: error })
@@ -133,7 +131,6 @@ class Profile extends Component {
             .doc(this.props.usuario.id)
             .update({
                 name: this.state.name,
-                profilePic: this.state.profilePic,
                 bio: this.state.bio,
             })
             .then(() => {
@@ -147,6 +144,17 @@ class Profile extends Component {
         this.props.navigation.navigate('Login')
     }
 
+    alertaBorrarMensaje() {
+        this.setState({ alertaBorrarMensaje: 'Está seguro que desea eliminar su perfil?', borrar: true })
+    }
+
+    borrarPerfil() {
+        db.collection('datosUsuario').doc(auth.currentUser.getIdToken).delete()
+    }
+
+    noBorrar() {
+        this.setState({ alertaBorrarMensaje: '', borrar: false })
+    }
 
     guardarCambios() {
         const user = auth.currentUser;

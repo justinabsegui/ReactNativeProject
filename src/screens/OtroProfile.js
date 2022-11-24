@@ -70,10 +70,9 @@ class OtroProfile extends Component {
                 <View style={styles.contenedor}>
                     <Image style={styles.profilePic}
                         source={{ uri: this.state.profilePic }}
-                        resizeMode='contain'>
+                        resizeMode='cover'>
                     </Image>
                     <Text style={styles.usuario}>{this.state.name}</Text>
-                    {/* <Text>Email:{this.state.email}</Text> */}
                 </View >
                 <View style={styles.contenedor2}>
                     <Text style={styles.infoTitle}>Bio</Text>
@@ -142,14 +141,14 @@ const styles = StyleSheet.create({
         marginLeft: 10,
     },
     profilePic: {
-        height: 100,
+        height: 200,
         display: 'flex',
         justifyContent: 'center',
         alignContent: 'center',
         flexWrap: 'wrap',
         borderColor: 'purple',
         borderWidth: 1,
-        borderRadius: 20,
+        borderRadius: 200,
         width: 90,
         margin: 5,
     }
