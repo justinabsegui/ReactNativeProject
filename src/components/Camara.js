@@ -49,7 +49,7 @@ class Camara extends Component {
         });
     }
     savePhoto() {
-        fetch(this.state.profilePic) // obtener la foto desde su ubicación temporal dentro del dispositivo
+        fetch(this.state.photo) // obtener la foto desde su ubicación temporal dentro del dispositivo
             .then(res => res.blob()) //obtengo info de foto
             .then(image => {// la guardo en Firebase
                 //Crear el destino y nombre con el que se guarda la foto en Storage
