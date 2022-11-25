@@ -82,7 +82,7 @@ class OtroProfile extends Component {
                     <Text style={styles.infoTitle}>Edad</Text>
                     <Text style={styles.info}>{this.state.edad}</Text>
                 </View>
-                <Text style={styles.usuario}>Publicaciones</Text>
+                <Text style={styles.usuario}>{this.state.posts.length} publicaciones</Text>
                 <FlatList
                     data={this.state.posts}
                     keyExtractor={item => item.id.toString()}

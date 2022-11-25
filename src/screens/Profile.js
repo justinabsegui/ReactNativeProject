@@ -13,17 +13,10 @@ class Profile extends Component {
             bio: '',
             edad: '',
             id: '',
-            profilePic: '',
-            editProfile: false,
-            newName: '',
-            newBio: '',
-            newPassword: '',
-            newProfilePic: '',
-            showCamera: false,
+            profilePic: '', 
             logout: true,
             posts: [],
             passwordError: '',
-            send: false,
         }
     }
 
@@ -67,30 +60,7 @@ class Profile extends Component {
                     })
             }
         }
-
-    guardarCambios() {
-        const user = auth.currentUser;
-        if (this.state.newName !== '') {
-            this.setState({ name: this.state.newName })
-        } if (this.state.newBio !== '') {
-            this.setState({ bio: this.state.newBio })
-        } if (this.state.newPassword !== '' && this.state.send == true) {
-            user.updatePassword(this.state.newPassword).then(() => {
-            }).catch((error) => {
-                this.setState({ passwordError: error })
-            })
-        } 
-        db.collection('datosUsuario')
-            .doc(this.state.id)
-            .update({
-                name: this.state.name,
-                bio: this.state.bio,
-            })
-            .then(() => {
-                this.setState({ editProfile: false })
-            })
-
-    }
+  
 
     logOut() {
         auth.signOut();
@@ -111,80 +81,21 @@ class Profile extends Component {
                         source={{ uri: this.state.profilePic }}
                         resizeMode='cover'
                     ></Image>
-                    {this.state.editProfile ?
-                        <TextInput
-                            style={styles.field}
-                            keyboardType='default'
-                            placeholder='Nuevo nombre de usuario'
-                            onChangeText={text => this.setState({ newName: text })}
-                            value={this.state.newName}
-                        />
-                        :
-
+                   
                         <Text style={styles.usuario}>{this.state.name}</Text>
 
-                    }
-
                 </View>
-                {this.state.editProfile ?
-                    <View>
-                        {this.state.passwordError !== '' ?
-                            <Text style={styles.error}>Error: {this.state.passwordError}</Text>
-                            :
-                            <></>}
-                        <TextInput
-                            style={styles.field}
-                            keyboardType='default'
-                            placeholder='Nueva contraseña'
-                            secureTextEntry={true}
-                            onChangeText={text => {
-                                if (text.length < 6) {
-                                    this.setState({ passwordError: "la nueva contraseña es muy corta.", newPassword: text, send: false })
-                                } else {
-                                    this.setState({ passwordError: '', newPassword: text, send: true })
-                                }
-                            }
-                            }
-                            value={this.state.newPassword}
-                        />
-                    </View>
-
-
-                    :
-                    <></>}
 
                 <Text style={styles.info}>Email:   {this.state.email}</Text>
                 <Text style={styles.info}>Edad:   {this.state.edad}</Text>
-
-                {this.state.editProfile ?
-                    <TextInput
-                        style={styles.field}
-                        keyboardType='default'
-                        placeholder='Nueva Bio'
-                        onChangeText={text => this.setState({ newBio: text })}
-                        value={this.state.newBio}
-                    />
-                    :
-                    <Text style={styles.info}>Bio:   {this.state.bio}</Text>
-                }
+                 <Text style={styles.info}>Bio:   {this.state.bio}</Text>
+                
 
 
-                {this.state.editProfile ?
-                    <TouchableOpacity onPress={() => this.guardarCambios()}>
-                        <Text style={styles.cambios}>Guardar cambios</Text>
-                    </TouchableOpacity>
-                    :
-                    <></>}
 
                 {/* logout */}
-                <View style={styles.botones}>
-                    {this.state.editProfile == false ?
-                        <TouchableOpacity onPress={() => this.setState({ editProfile: true })}>
-                            <FontAwesome name="gear" size={24} color="black" />
-                        </TouchableOpacity>
-                        :
-                        <></>}
-                    <TouchableOpacity onPress={() => {
+                    
+                    <TouchableOpacity style={styles.botones} onPress={() => {
                         if (auth.currentUser.email == this.state.email) {
                             this.logOut()
                         } else {
@@ -193,10 +104,9 @@ class Profile extends Component {
                     }}>
                         <MaterialIcons name="logout" size={24} color="black" />
                     </TouchableOpacity>
-                </View>
 
                 {/* mis posteos */}
-                <Text style={styles.usuario}>Mis publicaciones</Text>
+                <Text style={styles.usuario}>Mis {this.state.posts.length} publicaciones</Text>
 
                 <FlatList
                     data={this.state.posts}
